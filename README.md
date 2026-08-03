@@ -88,7 +88,12 @@ small, without touching a single child:
 - **`motion`** — one idea on its own. An animation isn't a variant of anything.
 
 Click an element's name to open it full-width: the note, every variant, all three
-sizes, and the classes it uses.
+sizes, and the classes it uses. **Each variant carries its own markup with a copy
+button** — the page is meant to be built from, not just looked at.
+
+Copy reads straight off the rendered `<pre>`, so what you copy is identical to
+what you read by construction. That payload is also exactly what a future MCP
+`get_element` would return.
 
 ## Adding one
 

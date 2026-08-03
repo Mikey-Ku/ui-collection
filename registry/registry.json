@@ -33,14 +33,14 @@
       "note": "Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary.",
       "css": ["mk-input", "mk-select", "mk-textarea", "mk-field", "mk-label", "mk-hint"],
       "sizes": true,
-      "sizeDemo": "<input class='mk-input' value='Ground Truth' style='width:210px'>",
-      "demo": "<div class='mk-stack mk-gap-3' style='width:230px'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div>",
+      "sizeDemo": "<input class='mk-input' value='Ground Truth'>",
+      "demo": "<div class='mk-stack mk-gap-3'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div>",
       "variants": [
-        { "label": "Text", "demo": "<input class='mk-input' value='Ground Truth' style='width:210px'>" },
-        { "label": "Placeholder", "demo": "<input class='mk-input' placeholder='Project name' style='width:210px'>" },
-        { "label": "Select", "demo": "<select class='mk-select' style='width:210px'><option>Selected work</option><option>Also built</option></select>" },
-        { "label": "Textarea", "demo": "<textarea class='mk-textarea' placeholder='What should the reader know?' style='width:210px'></textarea>" },
-        { "label": "With label", "demo": "<div class='mk-field' style='width:210px'><label class='mk-label' for='v1'>Project name</label><input class='mk-input' id='v1' value='Scribblz'><span class='mk-hint'>Shown on the card and the detail page.</span></div>" }
+        { "label": "Text", "demo": "<input class='mk-input' value='Ground Truth'>" },
+        { "label": "Placeholder", "demo": "<input class='mk-input' placeholder='Project name'>" },
+        { "label": "Select", "demo": "<select class='mk-select'><option>Selected work</option><option>Also built</option></select>" },
+        { "label": "Textarea", "demo": "<textarea class='mk-textarea' placeholder='What should the reader know?'></textarea>" },
+        { "label": "With label", "demo": "<div class='mk-field'><label class='mk-label' for='v1'>Project name</label><input class='mk-input' id='v1' value='Scribblz'><span class='mk-hint'>Shown on the card and the detail page.</span></div>" }
       ]
     },
     {
@@ -90,7 +90,7 @@
       "variants": [
         { "label": "Spinner", "demo": "<span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span>" },
         { "label": "Spinner, ink", "demo": "<span class='mk-spinner'><i></i><i></i><i></i></span>" },
-        { "label": "Shimmer", "demo": "<div class='mk-stack mk-gap-2' style='width:190px'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div><div class='mk-skeleton' style='height:10px;width:76%'></div></div>" },
+        { "label": "Shimmer", "demo": "<div class='mk-stack mk-gap-2'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div><div class='mk-skeleton' style='height:10px;width:76%'></div></div>" },
         { "label": "Shimmer block", "demo": "<div class='mk-skeleton' style='height:64px;width:190px'></div>" }
       ]
     },

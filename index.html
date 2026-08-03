@@ -100,13 +100,50 @@
   .el__inner { padding: 0 var(--mk-5) var(--mk-6); border-top: 1px solid var(--mk-line); }
   .el__note { padding: var(--mk-4) 0 var(--mk-6); color: var(--mk-text-muted); font-size: var(--mk-text-sm); max-width: 62ch; }
 
-  .el-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: var(--mk-3); margin-bottom: var(--mk-6); }
+  .el-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(214px, 1fr)); gap: var(--mk-3); margin-bottom: var(--mk-6); }
   .el-cell { display: flex; flex-direction: column; overflow: hidden; }
   .el-cell__view { display: grid; place-items: center; min-height: 108px; padding: var(--mk-5) var(--mk-4); background: var(--paper-sunk); }
+  /* Fields fill their cell, so the copied markup never carries a demo-only
+     width. Layout belongs to the page, not to the element. */
+  .el-cell__view > .mk-input,
+  .el-cell__view > .mk-select,
+  .el-cell__view > .mk-textarea,
+  .el-cell__view > .mk-field,
+  .el-cell__view > .mk-stack { width: 100%; }
+
   .el-cell__tag {
-    padding: 8px var(--mk-3); border-top: 1px solid var(--mk-line);
+    display: flex; align-items: center; justify-content: space-between; gap: var(--mk-2);
+    padding: 7px var(--mk-3); border-top: 1px solid var(--mk-line);
     font-family: var(--mk-font-mono); font-size: 10px; color: var(--mk-text-faint);
   }
+
+  /* Copy uses the same stacked-crossfade the Label swap element does, so
+     the page is built out of its own collection. */
+  .el-copy {
+    padding: 0; border: 0; background: none; cursor: pointer;
+    font: inherit; color: var(--mk-text-faint);
+    transition: color var(--mk-dur-fast) var(--mk-ease);
+  }
+  .el-copy:hover { color: var(--mk-accent); }
+  .el-copy > span { display: grid; }
+  .el-copy > span > span {
+    grid-area: 1 / 1;
+    transition: opacity var(--mk-dur-fast) var(--mk-ease), transform var(--mk-dur-fast) var(--mk-ease);
+  }
+  .el-copy > span > span:last-child { opacity: 0; transform: translateY(6px); color: var(--mk-accent); }
+  .el-copy[data-copied] > span > span:first-child { opacity: 0; transform: translateY(-6px); }
+  .el-copy[data-copied] > span > span:last-child { opacity: 1; transform: none; }
+
+  .el-cell__code {
+    margin: 0; padding: 8px var(--mk-3);
+    border-top: 1px solid var(--mk-line);
+    background: var(--paper-sunk);
+    font-family: var(--mk-font-mono); font-size: 10px; line-height: 1.6;
+    color: var(--mk-text-muted);
+    white-space: pre; overflow-x: auto;
+  }
+  .el-cell__code .t { color: var(--mk-text-faint); }
+  .el-cell__code .a { color: var(--mk-accent); }
 
   .el-classes { display: flex; flex-wrap: wrap; gap: var(--mk-1); }
   .el-class {
@@ -243,11 +280,40 @@ function paintScale() {
 }
 
 /* ---------------- elements ---------------- */
-const cell = (label, html) => `
+
+const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+
+/* The registry writes markup with single quotes so it survives JSON without
+   escaping. What gets copied should be conventional HTML, so normalise the
+   attribute quotes on the way out. */
+const source = (html) => html.replace(/='([^']*)'/g, '="$1"');
+
+/* Enough highlighting to read at 10px: tag names one colour, class values
+   another. Not a parser — a regex over already-escaped text.
+
+   Order matters. Class values go first: the tag pass injects markup that
+   itself contains class="t", and a later class pass would happily match
+   its own output and eat the whole string. The tag pass is safe to run
+   second because it only matches after &lt;, and injected spans use a
+   literal <. */
+const highlight = (s) => esc(s)
+  .replace(/(class=")([^"]*)(")/g, '$1<span class="a">$2</span>$3')
+  .replace(/(&lt;\/?)([a-z][a-z0-9-]*)/g, '$1<span class="t">$2</span>');
+
+const cell = (label, html) => {
+  const code = source(html);
+  return `
   <div class="el-cell">
     <div class="el-cell__view" data-demo>${html}</div>
-    <div class="el-cell__tag">${label}</div>
+    <div class="el-cell__tag">
+      <span>${label}</span>
+      <button class="el-copy" aria-label="Copy markup">
+        <span><span>copy</span><span>copied</span></span>
+      </button>
+    </div>
+    <pre class="el-cell__code">${highlight(code)}</pre>
   </div>`;
+};
 
 function detail(it) {
   const parts = [`<div class="el__note">${it.note ?? ""}</div>`];
@@ -339,6 +405,21 @@ function render() {
 $("#q").addEventListener("input", render);
 
 document.addEventListener("click", (e) => {
+  const c = e.target.closest(".el-copy");
+  if (c) {
+    // Read straight off the rendered <pre>. Stashing the source in a data
+    // attribute meant it survived two rounds of entity decoding, so an
+    // &hellip; in the source arrived on the clipboard as a literal ….
+    // Taking textContent makes what you copy identical to what you read,
+    // by construction rather than by care.
+    const pre = c.closest(".el-cell").querySelector(".el-cell__code");
+    navigator.clipboard?.writeText(pre.textContent).catch(() => {});
+    c.dataset.copied = "";
+    clearTimeout(c._t);
+    c._t = setTimeout(() => delete c.dataset.copied, 1600);
+    return;
+  }
+
   const s = e.target.closest("[data-accent-pick]");
   if (!s) return;
   const v = s.dataset.accentPick;
