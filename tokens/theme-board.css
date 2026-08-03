@@ -1,0 +1,108 @@
+/* ============================================================
+   THEME: BOARD
+   Chalkboard. Matte slate, chalk lettering, coloured chalk accents.
+
+   The governing rule is MATTE. A chalkboard has no gloss, so this theme
+   has no glow, no blur, no glassy sheen. Depth comes from value steps and
+   hairline chalk rules only. It is the deliberate opposite of `glass`.
+
+   Two voices: the board's own chrome is condensed uppercase chalk
+   lettering; the specimens mounted on it use a clean modern UI face, so
+   they read as real product components and not as decoration.
+   ============================================================ */
+
+[data-theme="board"] {
+  /* Makes the browser render scrollbars, form controls and focus defaults
+     dark. Without it a light scrollbar sits on the board like a scar. */
+  color-scheme: dark;
+
+  --mk-font-display: "Archivo", "Helvetica Neue", system-ui, sans-serif;
+  --mk-font-body: "Geist", "Inter", system-ui, sans-serif;
+  --mk-font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --mk-display-wdth: 88;
+  --mk-display-track: 0.01em;
+
+  --mk-bg: #0c100e;
+  --mk-surface: #141a17;
+  --mk-surface-2: #1b221e;
+  --mk-surface-sunk: #080b09;
+
+  --mk-line: rgba(230, 226, 214, 0.11);
+  --mk-line-strong: rgba(230, 226, 214, 0.24);
+
+  --mk-text: #e6e2d6;
+  --mk-text-muted: #9aa39b;
+  --mk-text-faint: #626b65;
+
+  /* Coloured chalk. Yellow is the stick you actually reach for. */
+  --mk-accent: #f2d06b;
+  --mk-accent-hover: #f8de92;
+  --mk-accent-ink: #16120a;
+  --mk-accent-soft: rgba(242, 208, 107, 0.13);
+
+  --mk-data: #7fb2e0;
+  --mk-data-soft: rgba(127, 178, 224, 0.14);
+
+  --mk-ok: #8fcb9b;
+  --mk-ok-soft: rgba(143, 203, 155, 0.13);
+  --mk-warn: #e8b96b;
+  --mk-warn-soft: rgba(232, 185, 107, 0.13);
+  --mk-danger: #e8879c;
+  --mk-danger-soft: rgba(232, 135, 156, 0.14);
+
+  --mk-radius-sm: 4px;
+  --mk-radius: 7px;
+  --mk-radius-lg: 10px;
+
+  /* Matte: a hairline ring instead of a cast shadow. */
+  --mk-shadow-1: 0 0 0 1px rgba(230, 226, 214, 0.06);
+  --mk-shadow-2: 0 0 0 1px rgba(230, 226, 214, 0.1), 0 16px 40px -20px rgba(0, 0, 0, 0.9);
+  --mk-focus-ring: 0 0 0 2px var(--mk-bg), 0 0 0 4px rgba(242, 208, 107, 0.6);
+}
+
+/* SIGNATURE: chalk dust. A fine fixed grain over everything, so large flat
+   areas read as a physical matte surface rather than a #000 fill. */
+[data-theme="board"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/* Faint vignette — a real board is lit unevenly from the front. */
+[data-theme="board"] body {
+  background-image: radial-gradient(120% 90% at 50% 0%, rgba(230, 226, 214, 0.05), transparent 62%);
+  background-attachment: fixed;
+}
+
+/* Board chrome speaks in chalk lettering. Specimens do not. */
+[data-theme="board"] .mk-eyebrow,
+[data-theme="board"] .mk-table th {
+  font-family: var(--mk-font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: var(--mk-text-xs);
+  font-weight: 600;
+  color: var(--mk-text-faint);
+}
+
+[data-theme="board"] .mk-label {
+  font-size: var(--mk-text-sm);
+  font-weight: 550;
+}
+
+/* The default skeleton is built from surface tokens, which on this theme
+   are near-identical to the sunk background it usually sits on. Chalk dust
+   instead: translucent white, so it reads on any surface here. */
+[data-theme="board"] .mk-skeleton {
+  background-image: linear-gradient(
+    90deg,
+    rgba(230, 226, 214, 0.07) 25%,
+    rgba(230, 226, 214, 0.19) 50%,
+    rgba(230, 226, 214, 0.07) 75%
+  );
+}

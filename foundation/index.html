@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en" data-base="paper">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mk-ui — base</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/core.css?v=176afa90">
+<link rel="stylesheet" href="../tokens/bases.css?v=176afa90">
+<link rel="stylesheet" href="../css/base.css?v=176afa90">
+<link rel="stylesheet" href="../css/components.css?v=176afa90">
+<style>
+  .fd-top {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; gap: var(--mk-5);
+    height: 56px; padding-inline: var(--mk-6);
+    background: var(--mk-surface);
+    border-bottom: 1px solid var(--mk-line);
+  }
+  .fd-mark { font-weight: 650; letter-spacing: var(--mk-display-track); }
+
+  .fd-wrap { max-width: 880px; margin-inline: auto; padding: var(--mk-10) var(--mk-6) var(--mk-16); }
+  .fd-sec { margin-bottom: var(--mk-12); }
+  .fd-sec > header { margin-bottom: var(--mk-4); }
+  .fd-sec h2 { font-size: var(--mk-text-md); margin-bottom: 2px; }
+  .fd-sec p { color: var(--mk-text-muted); font-size: var(--mk-text-sm); max-width: 58ch; }
+
+  /* --- ramps --- */
+  .fd-ramp { display: grid; grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); gap: 2px; }
+  .fd-chip {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    height: 76px; padding: var(--mk-2);
+    font-family: var(--mk-font-mono); font-size: 9px; line-height: 1.4;
+    /* The lightest step often equals the page colour. Without an edge it
+       reads as a missing swatch rather than a matching one. */
+    box-shadow: inset 0 0 0 1px rgba(11, 22, 38, 0.08);
+  }
+  .fd-chip:first-child { border-start-start-radius: var(--mk-radius); border-end-start-radius: var(--mk-radius); }
+  .fd-chip:last-child { border-start-end-radius: var(--mk-radius); border-end-radius: var(--mk-radius); border-end-end-radius: var(--mk-radius); }
+  .fd-chip b { font-weight: 500; opacity: 0.65; }
+
+  /* --- elevation --- */
+  .fd-elev { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--mk-4); }
+  .fd-elev > div {
+    padding: var(--mk-5); border-radius: var(--mk-radius-lg);
+    background: var(--mk-surface); border: 1px solid var(--mk-line);
+    font-size: var(--mk-text-sm);
+  }
+  .fd-elev .r { box-shadow: var(--mk-shadow-1); }
+  .fd-elev .f { box-shadow: var(--mk-shadow-2); }
+
+  .fd-applied { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); }
+
+  @media (max-width: 700px) {
+    .fd-elev, .fd-applied { grid-template-columns: minmax(0, 1fr); }
+    .fd-top { height: auto; padding-block: var(--mk-3); flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<header class="fd-top">
+  <span class="fd-mark">Base</span>
+  <div class="mk-tabs" role="group" aria-label="Base candidate">
+    <button class="mk-tab" data-base-pick="paper" aria-selected="true">Paper</button>
+    <button class="mk-tab" data-base-pick="cupertino" aria-selected="false">Cupertino</button>
+    <button class="mk-tab" data-base-pick="atlas" aria-selected="false">Atlas</button>
+  </div>
+  <span class="mk-grow"></span>
+  <span class="mk-eyebrow" id="thesis">—</span>
+</header>
+
+<div class="fd-wrap">
+
+  <section class="fd-sec">
+    <header>
+      <h2>Ground</h2>
+      <p id="ground-note">—</p>
+    </header>
+    <div class="mk-row mk-gap-4 mk-wrap">
+      <div class="mk-stack mk-gap-2">
+        <span class="mk-eyebrow">Page</span>
+        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-bg);border:1px solid var(--mk-line)"></div>
+        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-bg">—</span>
+      </div>
+      <div class="mk-stack mk-gap-2">
+        <span class="mk-eyebrow">Surface</span>
+        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-surface);border:1px solid var(--mk-line)"></div>
+        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-surface">—</span>
+      </div>
+      <div class="mk-stack mk-gap-2">
+        <span class="mk-eyebrow">Ink</span>
+        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-text)"></div>
+        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-text">—</span>
+      </div>
+      <div class="mk-stack mk-gap-2">
+        <span class="mk-eyebrow">Accent</span>
+        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-accent)"></div>
+        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-accent">—</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <h2>Blue</h2>
+      <p>The one hue everything else is derived from. Named by value, not by role &mdash; roles are assigned in the semantic layer so they can change without touching a colour.</p>
+    </header>
+    <div class="fd-ramp" id="ramp-blue"></div>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <h2>Ink</h2>
+      <p>Not greys. Every step is a desaturated version of the same blue, which is what keeps text, borders and backgrounds from looking like they came from three different systems.</p>
+    </header>
+    <div class="fd-ramp" id="ramp-ink"></div>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <h2>Elevation</h2>
+      <p id="elev-note">—</p>
+    </header>
+    <div class="fd-elev">
+      <div><strong>Flat</strong><br><span class="mk-muted">Hairline only.</span></div>
+      <div class="r"><strong>Raised</strong><br><span class="mk-muted">Resting card.</span></div>
+      <div class="f"><strong>Floating</strong><br><span class="mk-muted">Menu, dialog.</span></div>
+    </div>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <h2>Applied</h2>
+      <p>The same components you already have on the board, wearing this base. Nothing here is styled per-base &mdash; it all reads from the tokens.</p>
+    </header>
+    <div class="fd-applied">
+      <div class="mk-card"><div class="mk-card__body mk-stack mk-gap-4">
+        <div class="mk-row mk-wrap mk-gap-2">
+          <button class="mk-btn mk-btn--primary mk-lift">Save changes</button>
+          <button class="mk-btn mk-btn--secondary">Cancel</button>
+          <button class="mk-btn mk-btn--ghost">Skip</button>
+        </div>
+        <div class="mk-field">
+          <label class="mk-label" for="f1">Project name</label>
+          <input class="mk-input" id="f1" value="Ground Truth">
+        </div>
+      </div></div>
+
+      <div class="mk-card"><div class="mk-card__body mk-stack mk-gap-4">
+        <label class="mk-switch"><input type="checkbox" checked><span class="mk-switch__track"></span>Notifications</label>
+        <label class="mk-tick"><input type="checkbox" checked><span class="mk-tick__box"><svg viewBox="0 0 16 16"><path d="M3.5 8.6 L6.4 11.5 L12.5 4.8"/></svg></span>Reviewed</label>
+        <div class="mk-row mk-gap-2 mk-wrap">
+          <span class="mk-badge mk-badge--accent">Active</span>
+          <span class="mk-badge mk-badge--ok">Passed</span>
+          <span class="mk-badge">v0.4.0</span>
+        </div>
+        <div class="mk-meter"><div class="mk-meter__fill" style="width:64%"></div></div>
+      </div></div>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+const root = document.documentElement;
+
+const COPY = {
+  paper: {
+    thesis: "Restrained",
+    ground: "A cool near-white, not pure white. Surfaces are true white, so a card separates from the page by value alone and barely needs a shadow. The blue is rare, which is what makes it land when it appears.",
+    elev: "Depth comes from value steps and hairlines. Shadow is present but almost subliminal — tinted with the accent rather than black, because a black shadow on a blue-cast ground reads as dirt.",
+  },
+  cupertino: {
+    thesis: "Familiar",
+    ground: "True white everywhere. The page and the card are the same colour, so every bit of separation has to be earned by shadow. Accent is the actual iOS system blue.",
+    elev: "Depth is entirely shadow — surfaces float rather than step. Larger radii. This is the language your phone already speaks, which is either the point or the problem.",
+  },
+  atlas: {
+    thesis: "Branded",
+    ground: "The page itself is visibly blue and white surfaces float on top of it. The most colour presence of the three: because the ground is doing the branding, individual components can stay quiet.",
+    elev: "Shadows are tinted hard toward the accent, so lifting something also warms it toward blue. Reads soft and friendly rather than crisp.",
+  },
+};
+
+const BLUE = [50, 100, 300, 400, 500, 600, 700];
+const INK = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
+
+// Read the resolved value rather than the var() reference, so the labels
+// always tell the truth about what is actually painted.
+const readVar = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+
+function ramp(el, prefix, steps) {
+  el.replaceChildren(...steps.map((s) => {
+    const hex = readVar(`--${prefix}-${s}`);
+    const d = document.createElement("div");
+    d.className = "fd-chip";
+    d.style.background = hex;
+    // Light chips need dark text and vice versa; the ramp's own scale
+    // is the switch.
+    d.style.color = s >= 500 ? "rgba(255,255,255,.92)" : "var(--ink-700)";
+    d.innerHTML = `<b>${prefix}-${s}</b>${hex}`;
+    return d;
+  }));
+}
+
+function apply(name) {
+  root.dataset.base = name;
+  document.querySelectorAll("[data-base-pick]").forEach((b) =>
+    b.setAttribute("aria-selected", String(b.dataset.basePick === name)));
+
+  $("#thesis").textContent = COPY[name].thesis;
+  $("#ground-note").textContent = COPY[name].ground;
+  $("#elev-note").textContent = COPY[name].elev;
+
+  ramp($("#ramp-blue"), "blue", BLUE);
+  ramp($("#ramp-ink"), "ink", INK);
+  document.querySelectorAll("[data-read]").forEach((el) => { el.textContent = readVar(el.dataset.read); });
+}
+
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-base-pick]");
+  if (b) apply(b.dataset.basePick);
+});
+
+apply("paper");
+</script>
+</body>
+</html>

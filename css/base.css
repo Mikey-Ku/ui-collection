@@ -1,0 +1,111 @@
+/* ============================================================
+   mk-ui / base.css
+   Reset + element defaults. Reads only from tokens.
+   ============================================================ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--mk-bg);
+  color: var(--mk-text);
+  font-family: var(--mk-font-body);
+  font-size: var(--mk-text-base);
+  line-height: var(--mk-leading-body);
+  font-variation-settings: "wdth" var(--mk-display-wdth, 100);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--mk-dur-slow) var(--mk-ease),
+              color var(--mk-dur-slow) var(--mk-ease);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--mk-font-display);
+  line-height: var(--mk-leading-tight);
+  letter-spacing: var(--mk-display-track);
+  font-weight: 650;
+  margin: 0;
+}
+
+h1 { font-size: var(--mk-text-2xl); }
+h2 { font-size: var(--mk-text-xl); }
+h3 { font-size: var(--mk-text-lg); }
+h4 { font-size: var(--mk-text-md); }
+
+p { margin: 0; }
+
+a {
+  color: var(--mk-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+/* Any class that sets `display` outbids the UA's [hidden] rule on specificity,
+   so `el.hidden = true` silently stops working. Settle it once, here. */
+[hidden] { display: none !important; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* One focus treatment for the entire system. Themes restyle the ring,
+   never remove it. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--mk-focus-ring);
+  border-radius: var(--mk-radius-sm);
+}
+
+::selection {
+  background: var(--mk-accent);
+  color: var(--mk-accent-ink);
+}
+
+/* --- utilities, deliberately few --- */
+.mk-stack { display: flex; flex-direction: column; }
+.mk-row { display: flex; align-items: center; }
+.mk-wrap { flex-wrap: wrap; }
+.mk-gap-1 { gap: var(--mk-1); }
+.mk-gap-2 { gap: var(--mk-2); }
+.mk-gap-3 { gap: var(--mk-3); }
+.mk-gap-4 { gap: var(--mk-4); }
+.mk-gap-5 { gap: var(--mk-5); }
+.mk-gap-6 { gap: var(--mk-6); }
+.mk-gap-8 { gap: var(--mk-8); }
+.mk-gap-10 { gap: var(--mk-10); }
+.mk-gap-12 { gap: var(--mk-12); }
+.mk-grow { flex: 1; }
+
+.mk-muted { color: var(--mk-text-muted); }
+.mk-faint { color: var(--mk-text-faint); }
+.mk-mono { font-family: var(--mk-font-mono); }
+.mk-num { font-family: var(--mk-font-mono); font-variant-numeric: tabular-nums; }
+
+.mk-eyebrow {
+  font-family: var(--mk-font-mono);
+  font-size: var(--mk-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--mk-text-faint);
+}
+
+.mk-container {
+  max-width: var(--mk-container);
+  margin-inline: auto;
+  padding-inline: var(--mk-6);
+}
+
+.mk-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}

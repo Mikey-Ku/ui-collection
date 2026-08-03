@@ -1,0 +1,60 @@
+/* ============================================================
+   mk-ui / core.css
+   Theme-independent primitives. Never contains a color.
+   Every theme file overrides only the semantic layer.
+   ============================================================ */
+
+:root {
+  /* --- spacing: 4px base, named by step not by t-shirt size --- */
+  --mk-1: 4px;
+  --mk-2: 8px;
+  --mk-3: 12px;
+  --mk-4: 16px;
+  --mk-5: 20px;
+  --mk-6: 24px;
+  --mk-8: 32px;
+  --mk-10: 40px;
+  --mk-12: 48px;
+  --mk-16: 64px;
+
+  /* --- type scale: 1.2 minor third, clamped for mobile --- */
+  --mk-text-xs: 11px;
+  --mk-text-sm: 13px;
+  --mk-text-base: 15px;
+  --mk-text-md: 17px;
+  --mk-text-lg: 21px;
+  --mk-text-xl: 27px;
+  --mk-text-2xl: clamp(30px, 4vw, 38px);
+  --mk-text-3xl: clamp(38px, 6vw, 54px);
+
+  --mk-leading-tight: 1.15;
+  --mk-leading-snug: 1.35;
+  --mk-leading-body: 1.6;
+
+  /* --- motion --- */
+  --mk-dur-fast: 90ms;
+  --mk-dur: 160ms;
+  --mk-dur-slow: 320ms;
+  --mk-ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  /* --- layout --- */
+  --mk-container: 1180px;
+  --mk-control-h: 38px;
+  --mk-control-h-sm: 30px;
+  --mk-control-h-lg: 46px;
+
+  /* --- defaults a theme is expected to override --- */
+  --mk-radius-sm: 4px;
+  --mk-radius: 8px;
+  --mk-radius-lg: 12px;
+  --mk-radius-full: 999px;
+  --mk-border-w: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mk-dur-fast: 0ms;
+    --mk-dur: 0ms;
+    --mk-dur-slow: 0ms;
+  }
+}

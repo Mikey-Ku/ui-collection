@@ -1,0 +1,24 @@
+{
+  "name": "ui-collection",
+  "version": "0.1.0",
+  "description": "A personal collection of small UI components and animations. Tokens + plain CSS classes, with an optional React layer.",
+  "type": "module",
+  "sideEffects": ["*.css"],
+  "exports": {
+    ".": "./react/index.ts",
+    "./css": "./dist/mk-ui.css",
+    "./tokens": "./tokens/core.css"
+  },
+  "files": ["dist", "react", "tokens", "css"],
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && node serve.mjs"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": { "optional": true }
+  }
+}

@@ -1,0 +1,1004 @@
+/*! mk-ui — set data-theme on <html>. Canonical theme: board. */
+/* ---- tokens/core.css ---- */
+/* ============================================================
+   mk-ui / core.css
+   Theme-independent primitives. Never contains a color.
+   Every theme file overrides only the semantic layer.
+   ============================================================ */
+
+:root {
+  /* --- spacing: 4px base, named by step not by t-shirt size --- */
+  --mk-1: 4px;
+  --mk-2: 8px;
+  --mk-3: 12px;
+  --mk-4: 16px;
+  --mk-5: 20px;
+  --mk-6: 24px;
+  --mk-8: 32px;
+  --mk-10: 40px;
+  --mk-12: 48px;
+  --mk-16: 64px;
+
+  /* --- type scale: 1.2 minor third, clamped for mobile --- */
+  --mk-text-xs: 11px;
+  --mk-text-sm: 13px;
+  --mk-text-base: 15px;
+  --mk-text-md: 17px;
+  --mk-text-lg: 21px;
+  --mk-text-xl: 27px;
+  --mk-text-2xl: clamp(30px, 4vw, 38px);
+  --mk-text-3xl: clamp(38px, 6vw, 54px);
+
+  --mk-leading-tight: 1.15;
+  --mk-leading-snug: 1.35;
+  --mk-leading-body: 1.6;
+
+  /* --- motion --- */
+  --mk-dur-fast: 90ms;
+  --mk-dur: 160ms;
+  --mk-dur-slow: 320ms;
+  --mk-ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+
+  /* --- layout --- */
+  --mk-container: 1180px;
+  --mk-control-h: 38px;
+  --mk-control-h-sm: 30px;
+  --mk-control-h-lg: 46px;
+
+  /* --- defaults a theme is expected to override --- */
+  --mk-radius-sm: 4px;
+  --mk-radius: 8px;
+  --mk-radius-lg: 12px;
+  --mk-radius-full: 999px;
+  --mk-border-w: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mk-dur-fast: 0ms;
+    --mk-dur: 0ms;
+    --mk-dur-slow: 0ms;
+  }
+}
+
+/* ---- tokens/bases.css ---- */
+/* ============================================================
+   BASE CANDIDATES — white + blue
+   Three answers to "what is my colour scheme", differing on the axes
+   that actually change how a UI feels:
+
+     1. how much blue is in the ground   (none → a little → visibly blue)
+     2. what kind of blue the accent is  (deep royal → iOS azure)
+     3. where depth comes from           (hairlines → soft shadow)
+
+   Structure is the same in all three, and it is the point:
+
+     ramp      the ONLY place a literal colour appears
+     semantic  everything else reads from the ramp, never from a hex
+
+   Shared rule: there are no neutral greys. Every "grey" is a
+   desaturated blue, so the whole interface belongs to one hue family.
+   ============================================================ */
+
+[data-base] {
+  --mk-font-display: "Geist", "Inter", system-ui, -apple-system, sans-serif;
+  --mk-font-body: "Geist", "Inter", system-ui, -apple-system, sans-serif;
+  --mk-font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --mk-display-wdth: 100;
+  --mk-display-track: -0.024em;
+  color-scheme: light;
+}
+
+/* ==========================================================
+   PAPER — cool near-white ground, deep royal blue.
+   Depth from hairlines and value steps; shadow barely there.
+   Restrained and editorial. The blue is rare, so it carries weight.
+   ========================================================== */
+[data-base="paper"] {
+  --ink-900: #0b1626;
+  --ink-800: #16243a;
+  --ink-700: #24354f;
+  --ink-600: #3a4d6b;
+  --ink-500: #5a6e8c;
+  --ink-400: #8598b3;
+  --ink-300: #b3c1d4;
+  --ink-200: #d7dfea;
+  --ink-100: #eaf0f6;
+  --ink-50:  #f5f8fb;
+
+  --blue-700: #16309b;
+  --blue-600: #1b3eb8;
+  --blue-500: #2049c9;
+  --blue-400: #4a6edb;
+  --blue-300: #8aa1ea;
+  --blue-100: #dde4fa;
+  --blue-50:  #eff3fd;
+
+  --mk-bg: var(--ink-50);
+  --mk-surface: #ffffff;
+  --mk-surface-2: var(--ink-100);
+  --mk-surface-sunk: var(--ink-100);
+
+  --mk-line: var(--ink-200);
+  --mk-line-strong: var(--ink-300);
+
+  --mk-text: var(--ink-900);
+  --mk-text-muted: var(--ink-500);
+  --mk-text-faint: var(--ink-400);
+
+  --mk-accent: var(--blue-500);
+  --mk-accent-hover: var(--blue-600);
+  --mk-accent-ink: #ffffff;
+  --mk-accent-soft: var(--blue-50);
+
+  --mk-data: var(--blue-500);
+  --mk-data-soft: var(--blue-50);
+  --mk-ok: #0d7a52;
+  --mk-ok-soft: rgba(13, 122, 82, 0.09);
+  --mk-warn: #9a6a00;
+  --mk-warn-soft: rgba(154, 106, 0, 0.1);
+  --mk-danger: #b3243c;
+  --mk-danger-soft: rgba(179, 36, 60, 0.08);
+
+  --mk-radius-sm: 4px;
+  --mk-radius: 8px;
+  --mk-radius-lg: 12px;
+
+  /* Tinted with the accent, not black. A black shadow on a blue-cast
+     ground reads as dirt. */
+  --mk-shadow-1: 0 1px 2px rgba(32, 73, 201, 0.07), 0 0 0 1px rgba(32, 73, 201, 0.05);
+  --mk-shadow-2: 0 2px 4px rgba(32, 73, 201, 0.06), 0 12px 28px -12px rgba(32, 73, 201, 0.22);
+  --mk-focus-ring: 0 0 0 2px var(--mk-bg), 0 0 0 4px rgba(32, 73, 201, 0.45);
+}
+
+/* ==========================================================
+   CUPERTINO — true white ground, iOS system blue.
+   Depth comes entirely from soft shadow, so surfaces float rather
+   than step. Larger radius. The familiar one.
+   ========================================================== */
+[data-base="cupertino"] {
+  --ink-900: #0b0f19;
+  --ink-800: #1c2333;
+  --ink-700: #2f3849;
+  --ink-600: #475467;
+  --ink-500: #667085;
+  --ink-400: #98a2b3;
+  --ink-300: #c4cbd6;
+  --ink-200: #e3e7ed;
+  --ink-100: #f2f4f7;
+  --ink-50:  #f9fafb;
+
+  --blue-700: #0048a8;
+  --blue-600: #0060df;
+  --blue-500: #007aff;
+  --blue-400: #3d97ff;
+  --blue-300: #7db6ff;
+  --blue-100: #d6e8ff;
+  --blue-50:  #eff6ff;
+
+  --mk-bg: #ffffff;
+  --mk-surface: #ffffff;
+  --mk-surface-2: var(--ink-100);
+  --mk-surface-sunk: var(--ink-100);
+
+  --mk-line: var(--ink-200);
+  --mk-line-strong: var(--ink-300);
+
+  --mk-text: var(--ink-900);
+  --mk-text-muted: var(--ink-500);
+  --mk-text-faint: var(--ink-400);
+
+  --mk-accent: var(--blue-500);
+  --mk-accent-hover: var(--blue-600);
+  --mk-accent-ink: #ffffff;
+  --mk-accent-soft: var(--blue-50);
+
+  --mk-data: var(--blue-500);
+  --mk-data-soft: var(--blue-50);
+  --mk-ok: #0e9f6e;
+  --mk-ok-soft: rgba(14, 159, 110, 0.1);
+  --mk-warn: #b45309;
+  --mk-warn-soft: rgba(180, 83, 9, 0.1);
+  --mk-danger: #e5484d;
+  --mk-danger-soft: rgba(229, 72, 77, 0.09);
+
+  --mk-radius-sm: 7px;
+  --mk-radius: 12px;
+  --mk-radius-lg: 18px;
+
+  --mk-shadow-1: 0 1px 3px rgba(16, 24, 40, 0.07), 0 0 0 1px rgba(16, 24, 40, 0.04);
+  --mk-shadow-2: 0 4px 8px rgba(16, 24, 40, 0.05), 0 16px 36px -12px rgba(16, 24, 40, 0.18);
+  --mk-focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px rgba(0, 122, 255, 0.5);
+}
+
+/* ==========================================================
+   ATLAS — visibly blue ground, white surfaces float on it.
+   Most colour presence of the three: the page itself is branded,
+   so components can stay quiet. Blue-tinted shadow.
+   ========================================================== */
+[data-base="atlas"] {
+  --ink-900: #0e1b33;
+  --ink-800: #1a2a49;
+  --ink-700: #27395b;
+  --ink-600: #3d5378;
+  --ink-500: #5b6e90;
+  --ink-400: #8394b2;
+  --ink-300: #a9b8d0;
+  --ink-200: #cfdaea;
+  --ink-100: #e9effa;
+  --ink-50:  #f3f7fd;
+
+  --blue-700: #16389c;
+  --blue-600: #1e4fbf;
+  --blue-500: #2563e0;
+  --blue-400: #5687ec;
+  --blue-300: #8fb2f4;
+  --blue-100: #d9e5fb;
+  --blue-50:  #edf3fe;
+
+  --mk-bg: var(--ink-100);
+  --mk-surface: #ffffff;
+  --mk-surface-2: var(--ink-50);
+  --mk-surface-sunk: var(--blue-50);
+
+  --mk-line: var(--ink-200);
+  --mk-line-strong: var(--ink-300);
+
+  --mk-text: var(--ink-900);
+  --mk-text-muted: var(--ink-500);
+  --mk-text-faint: var(--ink-400);
+
+  --mk-accent: var(--blue-500);
+  --mk-accent-hover: var(--blue-600);
+  --mk-accent-ink: #ffffff;
+  --mk-accent-soft: var(--blue-100);
+
+  --mk-data: var(--blue-500);
+  --mk-data-soft: var(--blue-100);
+  --mk-ok: #0f8a5f;
+  --mk-ok-soft: rgba(15, 138, 95, 0.11);
+  --mk-warn: #a86b00;
+  --mk-warn-soft: rgba(168, 107, 0, 0.11);
+  --mk-danger: #c8304a;
+  --mk-danger-soft: rgba(200, 48, 74, 0.09);
+
+  --mk-radius-sm: 6px;
+  --mk-radius: 10px;
+  --mk-radius-lg: 16px;
+
+  --mk-shadow-1: 0 1px 2px rgba(14, 27, 51, 0.06), 0 2px 6px -2px rgba(37, 99, 224, 0.12);
+  --mk-shadow-2: 0 4px 10px rgba(14, 27, 51, 0.06), 0 20px 44px -16px rgba(37, 99, 224, 0.3);
+  --mk-focus-ring: 0 0 0 2px var(--mk-bg), 0 0 0 4px rgba(37, 99, 224, 0.45);
+}
+
+/* ---- shared behaviour across all three ---- */
+
+/* Surfaces are white; the ground carries the tint. Cards get a real
+   shadow because he wants some elevation, but never more than one step
+   of it at rest. */
+[data-base] .mk-card {
+  box-shadow: var(--mk-shadow-1);
+}
+
+[data-base] .mk-btn--primary {
+  box-shadow: 0 1px 2px rgba(14, 27, 51, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+[data-base] .mk-eyebrow,
+[data-base] .mk-table th {
+  font-family: var(--mk-font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--mk-text-xs);
+  font-weight: 600;
+}
+
+[data-base] .mk-label {
+  font-size: var(--mk-text-sm);
+  font-weight: 550;
+  letter-spacing: -0.006em;
+}
+
+/* ---- tokens/theme-board.css ---- */
+/* ============================================================
+   THEME: BOARD
+   Chalkboard. Matte slate, chalk lettering, coloured chalk accents.
+
+   The governing rule is MATTE. A chalkboard has no gloss, so this theme
+   has no glow, no blur, no glassy sheen. Depth comes from value steps and
+   hairline chalk rules only. It is the deliberate opposite of `glass`.
+
+   Two voices: the board's own chrome is condensed uppercase chalk
+   lettering; the specimens mounted on it use a clean modern UI face, so
+   they read as real product components and not as decoration.
+   ============================================================ */
+
+[data-theme="board"] {
+  /* Makes the browser render scrollbars, form controls and focus defaults
+     dark. Without it a light scrollbar sits on the board like a scar. */
+  color-scheme: dark;
+
+  --mk-font-display: "Archivo", "Helvetica Neue", system-ui, sans-serif;
+  --mk-font-body: "Geist", "Inter", system-ui, sans-serif;
+  --mk-font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --mk-display-wdth: 88;
+  --mk-display-track: 0.01em;
+
+  --mk-bg: #0c100e;
+  --mk-surface: #141a17;
+  --mk-surface-2: #1b221e;
+  --mk-surface-sunk: #080b09;
+
+  --mk-line: rgba(230, 226, 214, 0.11);
+  --mk-line-strong: rgba(230, 226, 214, 0.24);
+
+  --mk-text: #e6e2d6;
+  --mk-text-muted: #9aa39b;
+  --mk-text-faint: #626b65;
+
+  /* Coloured chalk. Yellow is the stick you actually reach for. */
+  --mk-accent: #f2d06b;
+  --mk-accent-hover: #f8de92;
+  --mk-accent-ink: #16120a;
+  --mk-accent-soft: rgba(242, 208, 107, 0.13);
+
+  --mk-data: #7fb2e0;
+  --mk-data-soft: rgba(127, 178, 224, 0.14);
+
+  --mk-ok: #8fcb9b;
+  --mk-ok-soft: rgba(143, 203, 155, 0.13);
+  --mk-warn: #e8b96b;
+  --mk-warn-soft: rgba(232, 185, 107, 0.13);
+  --mk-danger: #e8879c;
+  --mk-danger-soft: rgba(232, 135, 156, 0.14);
+
+  --mk-radius-sm: 4px;
+  --mk-radius: 7px;
+  --mk-radius-lg: 10px;
+
+  /* Matte: a hairline ring instead of a cast shadow. */
+  --mk-shadow-1: 0 0 0 1px rgba(230, 226, 214, 0.06);
+  --mk-shadow-2: 0 0 0 1px rgba(230, 226, 214, 0.1), 0 16px 40px -20px rgba(0, 0, 0, 0.9);
+  --mk-focus-ring: 0 0 0 2px var(--mk-bg), 0 0 0 4px rgba(242, 208, 107, 0.6);
+}
+
+/* SIGNATURE: chalk dust. A fine fixed grain over everything, so large flat
+   areas read as a physical matte surface rather than a #000 fill. */
+[data-theme="board"] body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/* Faint vignette — a real board is lit unevenly from the front. */
+[data-theme="board"] body {
+  background-image: radial-gradient(120% 90% at 50% 0%, rgba(230, 226, 214, 0.05), transparent 62%);
+  background-attachment: fixed;
+}
+
+/* Board chrome speaks in chalk lettering. Specimens do not. */
+[data-theme="board"] .mk-eyebrow,
+[data-theme="board"] .mk-table th {
+  font-family: var(--mk-font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: var(--mk-text-xs);
+  font-weight: 600;
+  color: var(--mk-text-faint);
+}
+
+[data-theme="board"] .mk-label {
+  font-size: var(--mk-text-sm);
+  font-weight: 550;
+}
+
+/* The default skeleton is built from surface tokens, which on this theme
+   are near-identical to the sunk background it usually sits on. Chalk dust
+   instead: translucent white, so it reads on any surface here. */
+[data-theme="board"] .mk-skeleton {
+  background-image: linear-gradient(
+    90deg,
+    rgba(230, 226, 214, 0.07) 25%,
+    rgba(230, 226, 214, 0.19) 50%,
+    rgba(230, 226, 214, 0.07) 75%
+  );
+}
+
+/* ---- css/base.css ---- */
+/* ============================================================
+   mk-ui / base.css
+   Reset + element defaults. Reads only from tokens.
+   ============================================================ */
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background-color: var(--mk-bg);
+  color: var(--mk-text);
+  font-family: var(--mk-font-body);
+  font-size: var(--mk-text-base);
+  line-height: var(--mk-leading-body);
+  font-variation-settings: "wdth" var(--mk-display-wdth, 100);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color var(--mk-dur-slow) var(--mk-ease),
+              color var(--mk-dur-slow) var(--mk-ease);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--mk-font-display);
+  line-height: var(--mk-leading-tight);
+  letter-spacing: var(--mk-display-track);
+  font-weight: 650;
+  margin: 0;
+}
+
+h1 { font-size: var(--mk-text-2xl); }
+h2 { font-size: var(--mk-text-xl); }
+h3 { font-size: var(--mk-text-lg); }
+h4 { font-size: var(--mk-text-md); }
+
+p { margin: 0; }
+
+a {
+  color: var(--mk-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+/* Any class that sets `display` outbids the UA's [hidden] rule on specificity,
+   so `el.hidden = true` silently stops working. Settle it once, here. */
+[hidden] { display: none !important; }
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* One focus treatment for the entire system. Themes restyle the ring,
+   never remove it. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--mk-focus-ring);
+  border-radius: var(--mk-radius-sm);
+}
+
+::selection {
+  background: var(--mk-accent);
+  color: var(--mk-accent-ink);
+}
+
+/* --- utilities, deliberately few --- */
+.mk-stack { display: flex; flex-direction: column; }
+.mk-row { display: flex; align-items: center; }
+.mk-wrap { flex-wrap: wrap; }
+.mk-gap-1 { gap: var(--mk-1); }
+.mk-gap-2 { gap: var(--mk-2); }
+.mk-gap-3 { gap: var(--mk-3); }
+.mk-gap-4 { gap: var(--mk-4); }
+.mk-gap-5 { gap: var(--mk-5); }
+.mk-gap-6 { gap: var(--mk-6); }
+.mk-gap-8 { gap: var(--mk-8); }
+.mk-gap-10 { gap: var(--mk-10); }
+.mk-gap-12 { gap: var(--mk-12); }
+.mk-grow { flex: 1; }
+
+.mk-muted { color: var(--mk-text-muted); }
+.mk-faint { color: var(--mk-text-faint); }
+.mk-mono { font-family: var(--mk-font-mono); }
+.mk-num { font-family: var(--mk-font-mono); font-variant-numeric: tabular-nums; }
+
+.mk-eyebrow {
+  font-family: var(--mk-font-mono);
+  font-size: var(--mk-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  color: var(--mk-text-faint);
+}
+
+.mk-container {
+  max-width: var(--mk-container);
+  margin-inline: auto;
+  padding-inline: var(--mk-6);
+}
+
+.mk-sr {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ---- css/components.css ---- */
+/* ============================================================
+   mk-ui / components.css
+   Layer 1: plain classes. Works in Jinja, Streamlit, raw HTML,
+   HTMX, or React. No build step, no framework.
+   ============================================================ */
+
+/* ---------- Button ---------- */
+.mk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mk-2);
+  height: var(--mk-control-h);
+  padding-inline: var(--mk-4);
+  border: var(--mk-border-w) solid transparent;
+  border-radius: var(--mk-radius);
+  background: transparent;
+  color: var(--mk-text);
+  font-family: var(--mk-font-body);
+  font-size: var(--mk-text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--mk-dur) var(--mk-ease),
+              border-color var(--mk-dur) var(--mk-ease),
+              color var(--mk-dur) var(--mk-ease),
+              transform var(--mk-dur-fast) var(--mk-ease);
+}
+
+.mk-btn:disabled { opacity: 0.42; cursor: not-allowed; }
+
+.mk-btn--primary {
+  background: var(--mk-accent);
+  color: var(--mk-accent-ink);
+  border-color: var(--mk-accent);
+}
+.mk-btn--primary:hover:not(:disabled) { background: var(--mk-accent-hover); border-color: var(--mk-accent-hover); }
+
+.mk-btn--secondary {
+  background: var(--mk-surface);
+  border-color: var(--mk-line-strong);
+  color: var(--mk-text);
+}
+.mk-btn--secondary:hover:not(:disabled) { background: var(--mk-surface-2); border-color: var(--mk-accent); color: var(--mk-accent); }
+
+.mk-btn--ghost { color: var(--mk-text-muted); }
+.mk-btn--ghost:hover:not(:disabled) { background: var(--mk-accent-soft); color: var(--mk-accent); }
+
+.mk-btn--danger {
+  background: var(--mk-danger-soft);
+  color: var(--mk-danger);
+  border-color: color-mix(in srgb, var(--mk-danger) 45%, transparent);
+}
+.mk-btn--danger:hover:not(:disabled) { background: var(--mk-danger); color: #fff; border-color: var(--mk-danger); }
+
+.mk-btn--sm { height: var(--mk-control-h-sm); padding-inline: var(--mk-3); font-size: var(--mk-text-xs); }
+.mk-btn--lg { height: var(--mk-control-h-lg); padding-inline: var(--mk-6); font-size: var(--mk-text-base); }
+.mk-btn--icon { padding-inline: 0; width: var(--mk-control-h); }
+
+/* ---------- Form ---------- */
+.mk-field { display: flex; flex-direction: column; gap: var(--mk-2); }
+
+.mk-label { color: var(--mk-text-muted); font-weight: 600; }
+
+.mk-input,
+.mk-select,
+.mk-textarea {
+  width: 100%;
+  height: var(--mk-control-h);
+  padding: 0 var(--mk-3);
+  background: var(--mk-surface);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+  color: var(--mk-text);
+  font-size: var(--mk-text-sm);
+  transition: border-color var(--mk-dur) var(--mk-ease), background-color var(--mk-dur) var(--mk-ease);
+}
+.mk-textarea { height: auto; min-height: 88px; padding: var(--mk-3); resize: vertical; line-height: var(--mk-leading-snug); }
+.mk-input::placeholder, .mk-textarea::placeholder { color: var(--mk-text-faint); }
+.mk-input:hover, .mk-select:hover, .mk-textarea:hover { border-color: var(--mk-line-strong); }
+
+.mk-select {
+  appearance: none;
+  padding-right: var(--mk-8);
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 18px) 51%, calc(100% - 13px) 51%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.mk-hint { font-size: var(--mk-text-xs); color: var(--mk-text-faint); }
+
+.mk-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mk-2);
+  font-size: var(--mk-text-sm);
+  cursor: pointer;
+}
+.mk-check input { accent-color: var(--mk-accent); width: 15px; height: 15px; cursor: pointer; }
+
+.mk-switch { display: inline-flex; align-items: center; gap: var(--mk-3); cursor: pointer; font-size: var(--mk-text-sm); }
+.mk-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.mk-switch__track {
+  width: 38px; height: 21px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-surface-sunk);
+  border: var(--mk-border-w) solid var(--mk-line-strong);
+  position: relative;
+  transition: background-color var(--mk-dur) var(--mk-ease), border-color var(--mk-dur) var(--mk-ease);
+  flex: none;
+}
+.mk-switch__track::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  width: 15px; height: 15px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-text-muted);
+  transition: transform var(--mk-dur) var(--mk-ease), background-color var(--mk-dur) var(--mk-ease);
+}
+.mk-switch input:checked + .mk-switch__track { background: var(--mk-accent); border-color: var(--mk-accent); }
+.mk-switch input:checked + .mk-switch__track::after { transform: translateX(17px); background: var(--mk-accent-ink); }
+.mk-switch input:focus-visible + .mk-switch__track { box-shadow: var(--mk-focus-ring); }
+
+/* ---------- Card ---------- */
+.mk-card {
+  background: var(--mk-surface);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius-lg);
+  overflow: hidden;
+}
+.mk-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mk-4);
+  padding: var(--mk-4) var(--mk-5);
+  border-bottom: var(--mk-border-w) solid var(--mk-line);
+}
+.mk-card__body { padding: var(--mk-5); }
+.mk-card__foot {
+  padding: var(--mk-3) var(--mk-5);
+  border-top: var(--mk-border-w) solid var(--mk-line);
+  background: var(--mk-surface-2);
+}
+
+/* ---------- Badge ---------- */
+.mk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--mk-1);
+  padding: 3px var(--mk-2);
+  border-radius: var(--mk-radius-sm);
+  background: var(--mk-surface-sunk);
+  color: var(--mk-text-muted);
+  border: var(--mk-border-w) solid transparent;
+  font-family: var(--mk-font-mono);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.mk-badge--ok { background: var(--mk-ok-soft); color: var(--mk-ok); border-color: color-mix(in srgb, var(--mk-ok) 30%, transparent); }
+.mk-badge--warn { background: var(--mk-warn-soft); color: var(--mk-warn); border-color: color-mix(in srgb, var(--mk-warn) 30%, transparent); }
+.mk-badge--danger { background: var(--mk-danger-soft); color: var(--mk-danger); border-color: color-mix(in srgb, var(--mk-danger) 34%, transparent); }
+.mk-badge--accent { background: var(--mk-accent-soft); color: var(--mk-accent); border-color: color-mix(in srgb, var(--mk-accent) 30%, transparent); }
+
+.mk-dot { width: 6px; height: 6px; border-radius: var(--mk-radius-full); background: currentColor; flex: none; }
+
+/* ---------- Meter ---------- */
+.mk-meter {
+  height: 8px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-surface-sunk);
+  border: var(--mk-border-w) solid var(--mk-line);
+  overflow: hidden;
+}
+.mk-meter__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: currentColor;
+  color: var(--mk-data);
+  transition: width var(--mk-dur-slow) var(--mk-ease);
+}
+.mk-meter--ok .mk-meter__fill { color: var(--mk-ok); }
+.mk-meter--warn .mk-meter__fill { color: var(--mk-warn); }
+.mk-meter--danger .mk-meter__fill { color: var(--mk-danger); }
+
+/* ---------- Stat ---------- */
+.mk-stat { display: flex; flex-direction: column; gap: var(--mk-1); }
+.mk-stat__value {
+  font-family: var(--mk-font-display);
+  font-size: var(--mk-text-xl);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: var(--mk-display-track);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Table ---------- */
+.mk-table { width: 100%; border-collapse: collapse; font-size: var(--mk-text-sm); }
+.mk-table th {
+  text-align: left;
+  padding: var(--mk-2) var(--mk-4);
+  color: var(--mk-text-faint);
+  font-weight: 600;
+  border-bottom: var(--mk-border-w) solid var(--mk-line);
+  white-space: nowrap;
+}
+.mk-table td {
+  padding: var(--mk-3) var(--mk-4);
+  border-bottom: var(--mk-border-w) solid var(--mk-line);
+}
+.mk-table tbody tr:last-child td { border-bottom: none; }
+.mk-table tbody tr { transition: background-color var(--mk-dur) var(--mk-ease); }
+.mk-table tbody tr:hover { background: var(--mk-accent-soft); }
+.mk-table__num { text-align: right; font-family: var(--mk-font-mono); font-variant-numeric: tabular-nums; }
+.mk-table-wrap { overflow-x: auto; }
+
+/* ---------- Tabs ---------- */
+.mk-tabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: var(--mk-surface-sunk);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+}
+.mk-tab {
+  padding: var(--mk-1) var(--mk-4);
+  height: 28px;
+  border: none;
+  border-radius: calc(var(--mk-radius) - 3px);
+  background: transparent;
+  color: var(--mk-text-muted);
+  font-size: var(--mk-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--mk-dur) var(--mk-ease), color var(--mk-dur) var(--mk-ease);
+}
+.mk-tab:hover { color: var(--mk-text); }
+.mk-tab[aria-selected="true"] { background: var(--mk-surface); color: var(--mk-text); box-shadow: var(--mk-shadow-1); }
+
+/* ---------- Dropzone ---------- */
+.mk-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mk-2);
+  padding: var(--mk-8) var(--mk-5);
+  border: 1.5px dashed var(--mk-line-strong);
+  border-radius: var(--mk-radius-lg);
+  background: var(--mk-surface-2);
+  color: var(--mk-text-muted);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--mk-dur) var(--mk-ease), background-color var(--mk-dur) var(--mk-ease), color var(--mk-dur) var(--mk-ease);
+}
+.mk-drop:hover, .mk-drop.is-over {
+  border-color: var(--mk-accent);
+  background: var(--mk-accent-soft);
+  color: var(--mk-accent);
+}
+
+/* ---------- Alert ---------- */
+.mk-alert {
+  display: flex;
+  gap: var(--mk-3);
+  padding: var(--mk-3) var(--mk-4);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+  background: var(--mk-surface);
+  font-size: var(--mk-text-sm);
+}
+.mk-alert--ok { background: var(--mk-ok-soft); border-color: color-mix(in srgb, var(--mk-ok) 30%, transparent); border-left-color: var(--mk-ok); }
+.mk-alert--warn { background: var(--mk-warn-soft); border-color: color-mix(in srgb, var(--mk-warn) 30%, transparent); border-left-color: var(--mk-warn); }
+.mk-alert--danger { background: var(--mk-danger-soft); border-color: color-mix(in srgb, var(--mk-danger) 34%, transparent); border-left-color: var(--mk-danger); }
+
+/* ---------- Code ---------- */
+.mk-code {
+  margin: 0;
+  padding: var(--mk-4);
+  background: var(--mk-surface-sunk);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+  font-family: var(--mk-font-mono);
+  font-size: var(--mk-text-xs);
+  line-height: 1.75;
+  color: var(--mk-text-muted);
+  overflow-x: auto;
+}
+.mk-code .k { color: var(--mk-accent); }
+.mk-code .n { color: var(--mk-data); }
+.mk-code .s { color: var(--mk-ok); }
+
+.mk-kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: var(--mk-border-w) solid var(--mk-line-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--mk-radius-sm);
+  background: var(--mk-surface-2);
+  font-family: var(--mk-font-mono);
+  font-size: var(--mk-text-xs);
+  color: var(--mk-text-muted);
+}
+
+/* ---------- Skeleton ---------- */
+.mk-skeleton {
+  border-radius: var(--mk-radius-sm);
+  background: linear-gradient(90deg, var(--mk-surface-sunk) 25%, var(--mk-surface-2) 50%, var(--mk-surface-sunk) 75%);
+  background-size: 200% 100%;
+  animation: mk-shimmer 1.4s linear infinite;
+}
+@keyframes mk-shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .mk-skeleton { animation: none; } }
+
+/* ---------- Topbar ---------- */
+.mk-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--mk-5);
+  height: 56px;
+  padding-inline: var(--mk-6);
+  border-bottom: var(--mk-border-w) solid var(--mk-line);
+  background: color-mix(in srgb, var(--mk-surface) 92%, transparent);
+  backdrop-filter: blur(14px) saturate(140%);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.mk-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--mk-2);
+  font-family: var(--mk-font-display);
+  font-weight: 700;
+  letter-spacing: var(--mk-display-track);
+}
+.mk-brand__mark {
+  width: 22px; height: 22px;
+  border-radius: var(--mk-radius-sm);
+  background: var(--mk-accent);
+  color: var(--mk-accent-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--mk-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  flex: none;
+}
+
+/* ---------- Segmented control ---------- */
+/* The indicator is one element that travels, not a background that jumps
+   between options. --x and --w are written by JS from the active button. */
+.mk-seg {
+  position: relative;
+  display: inline-flex;
+  padding: 3px;
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+  background: var(--mk-surface-sunk);
+}
+.mk-seg__ind {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: var(--w, 0px);
+  transform: translateX(var(--x, 0px));
+  border-radius: calc(var(--mk-radius) - 3px);
+  background: var(--mk-surface-2);
+  border: var(--mk-border-w) solid var(--mk-line-strong);
+  transition: transform var(--mk-dur-slow) var(--mk-ease), width var(--mk-dur-slow) var(--mk-ease);
+  pointer-events: none;
+}
+.mk-seg__opt {
+  position: relative;
+  z-index: 1;
+  height: 28px;
+  padding-inline: var(--mk-4);
+  border: 0;
+  background: transparent;
+  color: var(--mk-text-muted);
+  font: inherit;
+  font-size: var(--mk-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--mk-dur) var(--mk-ease);
+}
+.mk-seg__opt:hover { color: var(--mk-text); }
+.mk-seg__opt[aria-selected="true"] { color: var(--mk-text); }
+
+/* ---------- Animated checkbox ---------- */
+.mk-tick { display: inline-flex; align-items: center; gap: var(--mk-3); cursor: pointer; font-size: var(--mk-text-sm); }
+.mk-tick input { position: absolute; opacity: 0; width: 0; height: 0; }
+.mk-tick__box {
+  width: 20px; height: 20px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--mk-line-strong);
+  border-radius: var(--mk-radius-sm);
+  background: var(--mk-surface-sunk);
+  transition: background-color var(--mk-dur) var(--mk-ease), border-color var(--mk-dur) var(--mk-ease);
+  flex: none;
+}
+.mk-tick__box svg { width: 13px; height: 13px; overflow: visible; }
+.mk-tick__box path {
+  fill: none;
+  stroke: var(--mk-accent-ink);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 20;
+  stroke-dashoffset: 20;
+  transition: stroke-dashoffset var(--mk-dur-slow) var(--mk-ease);
+}
+.mk-tick input:checked + .mk-tick__box { background: var(--mk-accent); border-color: var(--mk-accent); }
+.mk-tick input:checked + .mk-tick__box path { stroke-dashoffset: 0; }
+.mk-tick input:focus-visible + .mk-tick__box { box-shadow: var(--mk-focus-ring); }
+
+/* ---------- Spinner ---------- */
+.mk-spinner { display: inline-flex; gap: 5px; align-items: center; }
+.mk-spinner i {
+  width: 7px; height: 7px;
+  border-radius: var(--mk-radius-full);
+  background: currentColor;
+  animation: mk-bounce 1.05s var(--mk-ease) infinite;
+}
+.mk-spinner i:nth-child(2) { animation-delay: 0.13s; }
+.mk-spinner i:nth-child(3) { animation-delay: 0.26s; }
+@keyframes mk-bounce {
+  0%, 70%, 100% { transform: translateY(0); opacity: 0.35; }
+  35% { transform: translateY(-6px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .mk-spinner i { animation: none; opacity: 0.7; } }
+
+/* ---------- Toast ---------- */
+.mk-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--mk-3);
+  padding: var(--mk-3) var(--mk-4);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+  background: var(--mk-surface-2);
+  box-shadow: var(--mk-shadow-2);
+  font-size: var(--mk-text-sm);
+  animation: mk-toast-in var(--mk-dur-slow) var(--mk-ease);
+}
+.mk-toast[data-leaving] { animation: mk-toast-out var(--mk-dur) var(--mk-ease) forwards; }
+@keyframes mk-toast-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mk-toast-out {
+  to { opacity: 0; transform: translateY(6px) scale(0.98); }
+}
+
+/* ---------- Copy button ---------- */
+/* Both labels are stacked; only one is visible, so the button never
+   changes width mid-swap. */
+.mk-copy { position: relative; overflow: hidden; }
+.mk-copy__swap { display: grid; }
+.mk-copy__swap > span {
+  grid-area: 1 / 1;
+  transition: opacity var(--mk-dur) var(--mk-ease), transform var(--mk-dur) var(--mk-ease);
+}
+.mk-copy__swap > span:last-child { opacity: 0; transform: translateY(7px); color: var(--mk-ok); }
+.mk-copy[data-copied] .mk-copy__swap > span:first-child { opacity: 0; transform: translateY(-7px); }
+.mk-copy[data-copied] .mk-copy__swap > span:last-child { opacity: 1; transform: none; }
+
+/* ---------- Hover lift ---------- */
+.mk-lift { transition: transform var(--mk-dur) var(--mk-ease), box-shadow var(--mk-dur) var(--mk-ease); }
+.mk-lift:hover { transform: translateY(-2px); box-shadow: var(--mk-shadow-2); }

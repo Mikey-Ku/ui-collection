@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+*.log
+
+# dist/mk-ui.css is committed on purpose — it's the drop-in file you link
+# from a project that has no build step.

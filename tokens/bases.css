@@ -1,0 +1,236 @@
+/* ============================================================
+   BASE CANDIDATES — white + blue
+   Three answers to "what is my colour scheme", differing on the axes
+   that actually change how a UI feels:
+
+     1. how much blue is in the ground   (none → a little → visibly blue)
+     2. what kind of blue the accent is  (deep royal → iOS azure)
+     3. where depth comes from           (hairlines → soft shadow)
+
+   Structure is the same in all three, and it is the point:
+
+     ramp      the ONLY place a literal colour appears
+     semantic  everything else reads from the ramp, never from a hex
+
+   Shared rule: there are no neutral greys. Every "grey" is a
+   desaturated blue, so the whole interface belongs to one hue family.
+   ============================================================ */
+
+[data-base] {
+  --mk-font-display: "Geist", "Inter", system-ui, -apple-system, sans-serif;
+  --mk-font-body: "Geist", "Inter", system-ui, -apple-system, sans-serif;
+  --mk-font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --mk-display-wdth: 100;
+  --mk-display-track: -0.024em;
+  color-scheme: light;
+}
+
+/* ==========================================================
+   PAPER — cool near-white ground, deep royal blue.
+   Depth from hairlines and value steps; shadow barely there.
+   Restrained and editorial. The blue is rare, so it carries weight.
+   ========================================================== */
+[data-base="paper"] {
+  --ink-900: #0b1626;
+  --ink-800: #16243a;
+  --ink-700: #24354f;
+  --ink-600: #3a4d6b;
+  --ink-500: #5a6e8c;
+  --ink-400: #8598b3;
+  --ink-300: #b3c1d4;
+  --ink-200: #d7dfea;
+  --ink-100: #eaf0f6;
+  --ink-50:  #f5f8fb;
+
+  --blue-700: #16309b;
+  --blue-600: #1b3eb8;
+  --blue-500: #2049c9;
+  --blue-400: #4a6edb;
+  --blue-300: #8aa1ea;
+  --blue-100: #dde4fa;
+  --blue-50:  #eff3fd;
+
+  --mk-bg: var(--ink-50);
+  --mk-surface: #ffffff;
+  --mk-surface-2: var(--ink-100);
+  --mk-surface-sunk: var(--ink-100);
+
+  --mk-line: var(--ink-200);
+  --mk-line-strong: var(--ink-300);
+
+  --mk-text: var(--ink-900);
+  --mk-text-muted: var(--ink-500);
+  --mk-text-faint: var(--ink-400);
+
+  --mk-accent: var(--blue-500);
+  --mk-accent-hover: var(--blue-600);
+  --mk-accent-ink: #ffffff;
+  --mk-accent-soft: var(--blue-50);
+
+  --mk-data: var(--blue-500);
+  --mk-data-soft: var(--blue-50);
+  --mk-ok: #0d7a52;
+  --mk-ok-soft: rgba(13, 122, 82, 0.09);
+  --mk-warn: #9a6a00;
+  --mk-warn-soft: rgba(154, 106, 0, 0.1);
+  --mk-danger: #b3243c;
+  --mk-danger-soft: rgba(179, 36, 60, 0.08);
+
+  --mk-radius-sm: 4px;
+  --mk-radius: 8px;
+  --mk-radius-lg: 12px;
+
+  /* Tinted with the accent, not black. A black shadow on a blue-cast
+     ground reads as dirt. */
+  --mk-shadow-1: 0 1px 2px rgba(32, 73, 201, 0.07), 0 0 0 1px rgba(32, 73, 201, 0.05);
+  --mk-shadow-2: 0 2px 4px rgba(32, 73, 201, 0.06), 0 12px 28px -12px rgba(32, 73, 201, 0.22);
+  --mk-focus-ring: 0 0 0 2px var(--mk-bg), 0 0 0 4px rgba(32, 73, 201, 0.45);
+}
+
+/* ==========================================================
+   CUPERTINO — true white ground, iOS system blue.
+   Depth comes entirely from soft shadow, so surfaces float rather
+   than step. Larger radius. The familiar one.
+   ========================================================== */
+[data-base="cupertino"] {
+  --ink-900: #0b0f19;
+  --ink-800: #1c2333;
+  --ink-700: #2f3849;
+  --ink-600: #475467;
+  --ink-500: #667085;
+  --ink-400: #98a2b3;
+  --ink-300: #c4cbd6;
+  --ink-200: #e3e7ed;
+  --ink-100: #f2f4f7;
+  --ink-50:  #f9fafb;
+
+  --blue-700: #0048a8;
+  --blue-600: #0060df;
+  --blue-500: #007aff;
+  --blue-400: #3d97ff;
+  --blue-300: #7db6ff;
+  --blue-100: #d6e8ff;
+  --blue-50:  #eff6ff;
+
+  --mk-bg: #ffffff;
+  --mk-surface: #ffffff;
+  --mk-surface-2: var(--ink-100);
+  --mk-surface-sunk: var(--ink-100);
+
+  --mk-line: var(--ink-200);
+  --mk-line-strong: var(--ink-300);
+
+  --mk-text: var(--ink-900);
+  --mk-text-muted: var(--ink-500);
+  --mk-text-faint: var(--ink-400);
+
+  --mk-accent: var(--blue-500);
+  --mk-accent-hover: var(--blue-600);
+  --mk-accent-ink: #ffffff;
+  --mk-accent-soft: var(--blue-50);
+
+  --mk-data: var(--blue-500);
+  --mk-data-soft: var(--blue-50);
+  --mk-ok: #0e9f6e;
+  --mk-ok-soft: rgba(14, 159, 110, 0.1);
+  --mk-warn: #b45309;
+  --mk-warn-soft: rgba(180, 83, 9, 0.1);
+  --mk-danger: #e5484d;
+  --mk-danger-soft: rgba(229, 72, 77, 0.09);
+
+  --mk-radius-sm: 7px;
+  --mk-radius: 12px;
+  --mk-radius-lg: 18px;
+
+  --mk-shadow-1: 0 1px 3px rgba(16, 24, 40, 0.07), 0 0 0 1px rgba(16, 24, 40, 0.04);
+  --mk-shadow-2: 0 4px 8px rgba(16, 24, 40, 0.05), 0 16px 36px -12px rgba(16, 24, 40, 0.18);
+  --mk-focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px rgba(0, 122, 255, 0.5);
+}
+
+/* ==========================================================
+   ATLAS — visibly blue ground, white surfaces float on it.
+   Most colour presence of the three: the page itself is branded,
+   so components can stay quiet. Blue-tinted shadow.
+   ========================================================== */
+[data-base="atlas"] {
+  --ink-900: #0e1b33;
+  --ink-800: #1a2a49;
+  --ink-700: #27395b;
+  --ink-600: #3d5378;
+  --ink-500: #5b6e90;
+  --ink-400: #8394b2;
+  --ink-300: #a9b8d0;
+  --ink-200: #cfdaea;
+  --ink-100: #e9effa;
+  --ink-50:  #f3f7fd;
+
+  --blue-700: #16389c;
+  --blue-600: #1e4fbf;
+  --blue-500: #2563e0;
+  --blue-400: #5687ec;
+  --blue-300: #8fb2f4;
+  --blue-100: #d9e5fb;
+  --blue-50:  #edf3fe;
+
+  --mk-bg: var(--ink-100);
+  --mk-surface: #ffffff;
+  --mk-surface-2: var(--ink-50);
+  --mk-surface-sunk: var(--blue-50);
+
+  --mk-line: var(--ink-200);
+  --mk-line-strong: var(--ink-300);
+
+  --mk-text: var(--ink-900);
+  --mk-text-muted: var(--ink-500);
+  --mk-text-faint: var(--ink-400);
+
+  --mk-accent: var(--blue-500);
+  --mk-accent-hover: var(--blue-600);
+  --mk-accent-ink: #ffffff;
+  --mk-accent-soft: var(--blue-100);
+
+  --mk-data: var(--blue-500);
+  --mk-data-soft: var(--blue-100);
+  --mk-ok: #0f8a5f;
+  --mk-ok-soft: rgba(15, 138, 95, 0.11);
+  --mk-warn: #a86b00;
+  --mk-warn-soft: rgba(168, 107, 0, 0.11);
+  --mk-danger: #c8304a;
+  --mk-danger-soft: rgba(200, 48, 74, 0.09);
+
+  --mk-radius-sm: 6px;
+  --mk-radius: 10px;
+  --mk-radius-lg: 16px;
+
+  --mk-shadow-1: 0 1px 2px rgba(14, 27, 51, 0.06), 0 2px 6px -2px rgba(37, 99, 224, 0.12);
+  --mk-shadow-2: 0 4px 10px rgba(14, 27, 51, 0.06), 0 20px 44px -16px rgba(37, 99, 224, 0.3);
+  --mk-focus-ring: 0 0 0 2px var(--mk-bg), 0 0 0 4px rgba(37, 99, 224, 0.45);
+}
+
+/* ---- shared behaviour across all three ---- */
+
+/* Surfaces are white; the ground carries the tint. Cards get a real
+   shadow because he wants some elevation, but never more than one step
+   of it at rest. */
+[data-base] .mk-card {
+  box-shadow: var(--mk-shadow-1);
+}
+
+[data-base] .mk-btn--primary {
+  box-shadow: 0 1px 2px rgba(14, 27, 51, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+[data-base] .mk-eyebrow,
+[data-base] .mk-table th {
+  font-family: var(--mk-font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: var(--mk-text-xs);
+  font-weight: 600;
+}
+
+[data-base] .mk-label {
+  font-size: var(--mk-text-sm);
+  font-weight: 550;
+  letter-spacing: -0.006em;
+}
