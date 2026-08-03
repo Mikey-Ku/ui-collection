@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toast in / out — Mikey Ku Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+</head>
+<body>
+
+<header class="pg-top">
+  <a class="pg-mark" href="../../">Mikey Ku <span>Collection<b>.</b></span></a>
+  <span class="mk-grow"></span>
+  <div class="pg-accents" role="group" aria-label="Accent">
+    <button class="pg-swatch" data-accent-pick="" style="background:#0f7d54" aria-pressed="true" aria-label="Emerald"></button>
+    <button class="pg-swatch" data-accent-pick="cobalt" style="background:#2f5fe0" aria-pressed="false" aria-label="Cobalt"></button>
+    <button class="pg-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
+    <button class="pg-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
+  </div>
+  <span class="mk-eyebrow">motion</span>
+</header>
+
+<div class="pg-wrap">
+  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+
+  <div class="dt-head">
+    <h1>Toast in / out</h1>
+    <p>Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.</p>
+  </div>
+
+  <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div></div>
+
+  <div id="body"></div>
+</div>
+
+<script type="module">
+import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+
+const it = {"id":"toast-in-out","name":"Toast in / out","kind":"motion","tags":["toast","notification","slide","scale","transient","enter","exit"],"aliases":["snackbar","popup","message","alert"],"note":"Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.","css":["mk-toast"],"behavior":"toast","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>","motion":[{"label":"Enter","value":"translateY(10px) + scale(0.97) → 0 · 0.6s","note":"Rises and settles rather than sliding flat."},{"label":"Hold","value":"2.2s","note":"Long enough to read a short sentence without rushing."},{"label":"Exit","value":"translateY(6px) + scale(0.98) · 0.4s","note":"Shorter than the entrance, and removed on animationend rather than a second timer."}],"uses":[{"label":"After an action","note":"Confirms something that already happened; never asks for a response.","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--primary' data-behavior='toast'>Save changes</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>"}]};
+const out = [];
+const section = (title, html) =>
+  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+
+if (it.variants?.length) {
+  section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
+}
+
+/* The size classes cascade, so wrapping the demo is all it takes — nothing
+   per-element, and every control inside follows. The measured height is
+   filled in at runtime rather than restated here, so if a token changes the
+   page reports it instead of lying. */
+if (it.sizes) {
+  const one = it.sizeDemo ?? it.demo;
+  section("Sizes", `<div class="el-row">${["sm", "md", "lg"]
+    .map((s) => cell(`.mk-${s}`, `<div class="mk-${s}">${one}</div>`, ` <em data-measure>·</em>`))
+    .join("")}</div>`);
+}
+
+if (it.uses?.length) {
+  section("In use", `<div class="el-row el-row--wide">${it.uses.map((u) => `
+    <div class="el-cell">
+      <div class="el-cell__view" data-demo>${u.demo}</div>
+      <div class="el-cell__tag"><span>${u.label}</span></div>
+      ${u.note ? `<div class="el-cell__note" style="padding-bottom:var(--mk-3)">${u.note}</div>` : ""}
+    </div>`).join("")}</div>`);
+}
+
+if (it.motion?.length) {
+  section("Motion", `<div class="dt-motion">${it.motion.map((m) => `
+    <div><strong>${m.label}</strong><code>${m.value}</code><span>${m.note ?? ""}</span></div>`).join("")}</div>`);
+}
+
+section("Classes", `<div class="el-classes">${(it.css ?? []).map((c) => `<span class="el-class">.${c}</span>`).join("")}</div>`);
+
+const body = document.querySelector("#body");
+body.innerHTML = out.join("");
+
+// Attach first, then mount — behaviours measure layout, and a detached
+// element measures as zero.
+mount(document.body);
+measureSizes(body);
+wireCopy();
+wireAccent();
+document.addEventListener("mk:accent", () => measureSizes(body));
+</script>
+</body>
+</html>

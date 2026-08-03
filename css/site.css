@@ -1,0 +1,188 @@
+/* ============================================================
+   Page chrome for the collection itself. NOT part of the shipped
+   system — deliberately kept out of dist/mk-ui.css.
+   ============================================================ */
+
+.pg-top {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; align-items: center; gap: var(--mk-6);
+  height: 68px; padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+  background: var(--paper); border-bottom: 1px solid var(--mk-line);
+}
+.pg-mark {
+  display: inline-flex; align-items: baseline; gap: 0.55em;
+  font-family: var(--mk-font-display); font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  font-size: var(--mk-text-xs); white-space: nowrap;
+  color: var(--mk-text); text-decoration: none;
+}
+.pg-mark span { color: var(--mk-text-faint); }
+.pg-mark b { color: var(--mk-accent); font-weight: 500; }
+.pg-search { flex: 1; max-width: 300px; }
+
+.pg-accents { display: flex; gap: 6px; }
+.pg-swatch {
+  width: 16px; height: 16px; padding: 0;
+  border: 1px solid var(--mk-line-strong); border-radius: 50%; cursor: pointer;
+  transition: transform var(--mk-dur-fast) var(--mk-ease);
+}
+.pg-swatch:hover { transform: translateY(-2px); }
+.pg-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
+
+.pg-wrap { max-width: 1040px; margin-inline: auto; padding: var(--mk-10) clamp(1.25rem, 5vw, 2.5rem) var(--mk-16); }
+.pg-label { margin-bottom: var(--mk-4); }
+.pg-sec { margin-bottom: var(--mk-12); }
+.pg-empty { padding: var(--mk-16) 0; text-align: center; }
+
+/* ---- the scale ---- */
+.pg-scale { display: grid; grid-template-columns: repeat(8, 1fr); margin-bottom: var(--mk-12); }
+.pg-chip {
+  display: flex; align-items: flex-end;
+  height: 52px; padding: 6px;
+  font-family: var(--mk-font-mono); font-size: 9px;
+  box-shadow: inset 0 0 0 1px rgba(21, 23, 26, 0.08);
+}
+
+/* ---- index grid ---- */
+.el-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); align-items: start; }
+
+/* Every container on the site is identical — index tile, variant cell,
+   size cell, usage cell. One surface treatment throughout. */
+.el, .el-cell {
+  border: 1px solid var(--mk-line);
+  border-radius: var(--mk-radius-lg);
+  background: var(--paper);
+}
+
+.el {
+  display: flex; flex-direction: column; overflow: hidden;
+  color: inherit; text-decoration: none;
+  transition: transform var(--mk-dur) var(--mk-ease),
+              border-color var(--mk-dur) var(--mk-ease),
+              box-shadow var(--mk-dur) var(--mk-ease);
+}
+.el:hover { transform: translateY(-4px); border-color: var(--mk-line-strong); box-shadow: var(--mk-shadow-2); }
+.el:focus-visible { box-shadow: var(--mk-focus-ring); }
+
+.el__view {
+  display: grid; place-items: center;
+  min-height: 178px; padding: var(--mk-8) var(--mk-5);
+  background: var(--paper-sunk);
+  border-bottom: 1px solid var(--mk-line);
+}
+.el__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--mk-3);
+  padding: var(--mk-4);
+  font-family: var(--mk-font-display);
+  font-size: var(--mk-text-sm); font-weight: 500; letter-spacing: -0.015em;
+}
+.el__kind {
+  display: flex; align-items: center; gap: var(--mk-2);
+  font-size: var(--mk-text-xs); letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--mk-text-faint);
+}
+.el__kind i { font-style: normal; transition: transform var(--mk-dur-fast) var(--mk-ease); }
+.el:hover .el__kind i { transform: translateX(3px); color: var(--mk-accent); }
+
+/* ---- demo cells ---- */
+.el-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(214px, 1fr)); gap: var(--mk-3); }
+.el-row--wide { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.el-cell { display: flex; flex-direction: column; overflow: hidden; }
+.el-cell__view { display: grid; place-items: center; min-height: 108px; padding: var(--mk-5) var(--mk-4); background: var(--paper-sunk); }
+.el-row--wide .el-cell__view { min-height: 128px; place-items: center stretch; }
+
+/* Fields fill their cell, so copied markup never carries a demo-only width.
+   Layout belongs to the page, not to the element. */
+.el-cell__view > .mk-input,
+.el-cell__view > .mk-select,
+.el-cell__view > .mk-textarea,
+.el-cell__view > .mk-field,
+.el-cell__view > .mk-stack,
+.el-cell__view > .mk-row { width: 100%; }
+
+.el-cell__tag {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--mk-2);
+  padding: 7px var(--mk-3); border-top: 1px solid var(--mk-line);
+  font-family: var(--mk-font-mono); font-size: 10px; color: var(--mk-text-faint);
+}
+.el-cell__tag em { font-style: normal; color: var(--mk-accent); }
+.el-cell__note {
+  padding: var(--mk-3) var(--mk-3) 0;
+  font-size: var(--mk-text-xs); color: var(--mk-text-muted);
+}
+.el-cell__code {
+  margin: 0; padding: 8px var(--mk-3);
+  border-top: 1px solid var(--mk-line);
+  background: var(--paper-sunk);
+  font-family: var(--mk-font-mono); font-size: 10px; line-height: 1.6;
+  color: var(--mk-text-muted);
+  white-space: pre; overflow-x: auto;
+}
+.el-cell__code .t { color: var(--mk-text-faint); }
+.el-cell__code .a { color: var(--mk-accent); }
+
+/* Copy reuses the stacked crossfade from the Label swap element, so the
+   site is built out of its own collection. */
+.el-copy {
+  padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; color: var(--mk-text-faint);
+  transition: color var(--mk-dur-fast) var(--mk-ease);
+}
+.el-copy:hover { color: var(--mk-accent); }
+.el-copy > span { display: grid; }
+.el-copy > span > span {
+  grid-area: 1 / 1;
+  transition: opacity var(--mk-dur-fast) var(--mk-ease), transform var(--mk-dur-fast) var(--mk-ease);
+}
+.el-copy > span > span:last-child { opacity: 0; transform: translateY(6px); color: var(--mk-accent); }
+.el-copy[data-copied] > span > span:first-child { opacity: 0; transform: translateY(-6px); }
+.el-copy[data-copied] > span > span:last-child { opacity: 1; transform: none; }
+
+.el-classes { display: flex; flex-wrap: wrap; gap: var(--mk-1); }
+.el-class {
+  padding: 3px 7px; border-radius: var(--mk-radius-sm);
+  background: var(--paper-sunk); border: 1px solid var(--mk-line);
+  font-family: var(--mk-font-mono); font-size: 10px; color: var(--mk-text-muted);
+}
+
+/* ---- element page ---- */
+.dt-back {
+  display: inline-flex; align-items: center; gap: var(--mk-2);
+  font-size: var(--mk-text-sm); color: var(--mk-text-muted); text-decoration: none;
+  transition: color var(--mk-dur-fast) var(--mk-ease);
+}
+.dt-back:hover { color: var(--mk-accent); }
+.dt-back i { font-style: normal; transition: transform var(--mk-dur-fast) var(--mk-ease); }
+.dt-back:hover i { transform: translateX(-3px); }
+
+.dt-head { margin: var(--mk-6) 0 var(--mk-8); }
+.dt-head h1 { font-size: var(--mk-text-2xl); margin: var(--mk-3) 0 var(--mk-3); }
+.dt-head p { color: var(--mk-text-muted); max-width: 62ch; }
+
+.dt-hero {
+  display: grid; place-items: center;
+  min-height: 280px; padding: var(--mk-12) var(--mk-6);
+  background: var(--paper-sunk);
+  border: 1px solid var(--mk-line); border-radius: var(--mk-radius-lg);
+  margin-bottom: var(--mk-12);
+}
+
+/* Motion is a table because the values are the content — every row is a
+   number you could paste into a transition. */
+.dt-motion { border-top: 1px solid var(--mk-line); }
+.dt-motion > div {
+  display: grid; grid-template-columns: 150px 210px minmax(0, 1fr);
+  gap: var(--mk-4); align-items: baseline;
+  padding: var(--mk-4) 0; border-bottom: 1px solid var(--mk-line);
+}
+.dt-motion strong { font-weight: 500; font-size: var(--mk-text-sm); }
+.dt-motion code { font-family: var(--mk-font-mono); font-size: var(--mk-text-xs); color: var(--mk-accent); }
+.dt-motion span { font-size: var(--mk-text-sm); color: var(--mk-text-muted); }
+
+@media (max-width: 760px) {
+  .el-grid, .dt-motion > div { grid-template-columns: minmax(0, 1fr); }
+  .dt-motion > div { gap: var(--mk-1); }
+  .pg-scale { grid-template-columns: repeat(4, 1fr); }
+  .pg-top { height: auto; padding-block: var(--mk-3); flex-wrap: wrap; }
+  .pg-search { max-width: none; order: 4; width: 100%; }
+}

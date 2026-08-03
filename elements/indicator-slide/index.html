@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indicator slide — Mikey Ku Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+</head>
+<body>
+
+<header class="pg-top">
+  <a class="pg-mark" href="../../">Mikey Ku <span>Collection<b>.</b></span></a>
+  <span class="mk-grow"></span>
+  <div class="pg-accents" role="group" aria-label="Accent">
+    <button class="pg-swatch" data-accent-pick="" style="background:#0f7d54" aria-pressed="true" aria-label="Emerald"></button>
+    <button class="pg-swatch" data-accent-pick="cobalt" style="background:#2f5fe0" aria-pressed="false" aria-label="Cobalt"></button>
+    <button class="pg-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
+    <button class="pg-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
+  </div>
+  <span class="mk-eyebrow">motion</span>
+</header>
+
+<div class="pg-wrap">
+  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+
+  <div class="dt-head">
+    <h1>Indicator slide</h1>
+    <p>One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.</p>
+  </div>
+
+  <div class="dt-hero" data-demo><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div></div>
+
+  <div id="body"></div>
+</div>
+
+<script type="module">
+import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+
+const it = {"id":"indicator-slide","name":"Indicator slide","kind":"motion","tags":["segmented","tabs","indicator","slide","travel","switch"],"aliases":["toggle group","filter","view switch","underline"],"note":"One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.","css":["mk-seg","mk-seg__ind","mk-seg__opt"],"behavior":"seg","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div>","variants":[{"label":"Two options","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div>"},{"label":"Uneven labels","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>All</button><button class='mk-seg__opt' aria-selected='false'>In progress</button><button class='mk-seg__opt' aria-selected='false'>Shipped</button></div>"}],"motion":[{"label":"Travel","value":"translateX · 0.6s","note":"Position is written as a custom property from the active option's offsetLeft."},{"label":"Width","value":"width · 0.6s","note":"Animated alongside, so uneven labels never cause a snap at the end."},{"label":"Re-measure","value":"ResizeObserver","note":"Widths shift when fonts land or the container resizes; measuring once is not enough."}],"uses":[{"label":"View switch","note":"Sits above a list and changes how it renders.","demo":"<div class='mk-stack mk-gap-4'><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div><div class='mk-skeleton' style='height:44px'></div></div>"}]};
+const out = [];
+const section = (title, html) =>
+  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+
+if (it.variants?.length) {
+  section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
+}
+
+/* The size classes cascade, so wrapping the demo is all it takes — nothing
+   per-element, and every control inside follows. The measured height is
+   filled in at runtime rather than restated here, so if a token changes the
+   page reports it instead of lying. */
+if (it.sizes) {
+  const one = it.sizeDemo ?? it.demo;
+  section("Sizes", `<div class="el-row">${["sm", "md", "lg"]
+    .map((s) => cell(`.mk-${s}`, `<div class="mk-${s}">${one}</div>`, ` <em data-measure>·</em>`))
+    .join("")}</div>`);
+}
+
+if (it.uses?.length) {
+  section("In use", `<div class="el-row el-row--wide">${it.uses.map((u) => `
+    <div class="el-cell">
+      <div class="el-cell__view" data-demo>${u.demo}</div>
+      <div class="el-cell__tag"><span>${u.label}</span></div>
+      ${u.note ? `<div class="el-cell__note" style="padding-bottom:var(--mk-3)">${u.note}</div>` : ""}
+    </div>`).join("")}</div>`);
+}
+
+if (it.motion?.length) {
+  section("Motion", `<div class="dt-motion">${it.motion.map((m) => `
+    <div><strong>${m.label}</strong><code>${m.value}</code><span>${m.note ?? ""}</span></div>`).join("")}</div>`);
+}
+
+section("Classes", `<div class="el-classes">${(it.css ?? []).map((c) => `<span class="el-class">.${c}</span>`).join("")}</div>`);
+
+const body = document.querySelector("#body");
+body.innerHTML = out.join("");
+
+// Attach first, then mount — behaviours measure layout, and a detached
+// element measures as zero.
+mount(document.body);
+measureSizes(body);
+wireCopy();
+wireAccent();
+document.addEventListener("mk:accent", () => measureSizes(body));
+</script>
+</body>
+</html>

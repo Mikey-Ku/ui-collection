@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loading — Mikey Ku Collection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
+<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+</head>
+<body>
+
+<header class="pg-top">
+  <a class="pg-mark" href="../../">Mikey Ku <span>Collection<b>.</b></span></a>
+  <span class="mk-grow"></span>
+  <div class="pg-accents" role="group" aria-label="Accent">
+    <button class="pg-swatch" data-accent-pick="" style="background:#0f7d54" aria-pressed="true" aria-label="Emerald"></button>
+    <button class="pg-swatch" data-accent-pick="cobalt" style="background:#2f5fe0" aria-pressed="false" aria-label="Cobalt"></button>
+    <button class="pg-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
+    <button class="pg-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
+  </div>
+  <span class="mk-eyebrow">family</span>
+</header>
+
+<div class="pg-wrap">
+  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+
+  <div class="dt-head">
+    <h1>Loading</h1>
+    <p>Dots when you have no idea what is coming, shimmer when you already know its shape. Reaching for a spinner where a skeleton would do is what makes an app feel slower than it is.</p>
+  </div>
+
+  <div class="dt-hero" data-demo><div class='mk-stack mk-gap-5' style='align-items:center;width:200px'><span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span><div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div></div></div></div>
+
+  <div id="body"></div>
+</div>
+
+<script type="module">
+import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+
+const it = {"id":"loading","name":"Loading","kind":"family","tags":["spinner","skeleton","shimmer","dots","placeholder","wait"],"aliases":["busy","pending","ghost","stub","loading state"],"note":"Dots when you have no idea what is coming, shimmer when you already know its shape. Reaching for a spinner where a skeleton would do is what makes an app feel slower than it is.","css":["mk-spinner","mk-skeleton"],"demo":"<div class='mk-stack mk-gap-5' style='align-items:center;width:200px'><span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span><div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div></div></div>","variants":[{"label":"Spinner","demo":"<span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span>"},{"label":"Spinner, ink","demo":"<span class='mk-spinner'><i></i><i></i><i></i></span>"},{"label":"Shimmer","demo":"<div class='mk-stack mk-gap-2'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div><div class='mk-skeleton' style='height:10px;width:76%'></div></div>"},{"label":"Shimmer block","demo":"<div class='mk-skeleton' style='height:64px'></div>"}],"motion":[{"label":"Dot bounce","value":"translateY(-6px) · 1.05s loop, 0.13s stagger","note":"The stagger is what makes three dots read as one object rather than three."},{"label":"Shimmer sweep","value":"background-position 200% · 1.4s linear","note":"Built from the line tokens, so it stays visible on any surface."},{"label":"Reduced motion","value":"both freeze flat","note":"Not disabled — the dots hold at 0.7 opacity so the state is still legible."}],"uses":[{"label":"Busy button","note":"The spinner inherits the button's text colour, so no extra styling.","demo":"<button class='mk-btn mk-btn--primary' disabled>Analyzing <span class='mk-spinner'><i></i><i></i><i></i></span></button>"},{"label":"Card placeholder","note":"Shimmer matched to the shape that will replace it.","demo":"<div class='mk-stack mk-gap-3'><div class='mk-skeleton' style='height:64px'></div><div class='mk-skeleton' style='height:10px;width:60%'></div><div class='mk-skeleton' style='height:10px;width:40%'></div></div>"}]};
+const out = [];
+const section = (title, html) =>
+  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+
+if (it.variants?.length) {
+  section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
+}
+
+/* The size classes cascade, so wrapping the demo is all it takes — nothing
+   per-element, and every control inside follows. The measured height is
+   filled in at runtime rather than restated here, so if a token changes the
+   page reports it instead of lying. */
+if (it.sizes) {
+  const one = it.sizeDemo ?? it.demo;
+  section("Sizes", `<div class="el-row">${["sm", "md", "lg"]
+    .map((s) => cell(`.mk-${s}`, `<div class="mk-${s}">${one}</div>`, ` <em data-measure>·</em>`))
+    .join("")}</div>`);
+}
+
+if (it.uses?.length) {
+  section("In use", `<div class="el-row el-row--wide">${it.uses.map((u) => `
+    <div class="el-cell">
+      <div class="el-cell__view" data-demo>${u.demo}</div>
+      <div class="el-cell__tag"><span>${u.label}</span></div>
+      ${u.note ? `<div class="el-cell__note" style="padding-bottom:var(--mk-3)">${u.note}</div>` : ""}
+    </div>`).join("")}</div>`);
+}
+
+if (it.motion?.length) {
+  section("Motion", `<div class="dt-motion">${it.motion.map((m) => `
+    <div><strong>${m.label}</strong><code>${m.value}</code><span>${m.note ?? ""}</span></div>`).join("")}</div>`);
+}
+
+section("Classes", `<div class="el-classes">${(it.css ?? []).map((c) => `<span class="el-class">.${c}</span>`).join("")}</div>`);
+
+const body = document.querySelector("#body");
+body.innerHTML = out.join("");
+
+// Attach first, then mount — behaviours measure layout, and a detached
+// element measures as zero.
+mount(document.body);
+measureSizes(body);
+wireCopy();
+wireAccent();
+document.addEventListener("mk:accent", () => measureSizes(body));
+</script>
+</body>
+</html>

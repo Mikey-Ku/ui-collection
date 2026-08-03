@@ -1,7 +1,7 @@
 {
-  "name": "elements",
-  "version": "0.5.0",
-  "note": "demo is what the tile shows. variants and sizes are revealed when an element is opened. sizes:true wraps the demo in .mk-sm/.mk-md/.mk-lg — the size classes cascade, so nothing per-element is needed.",
+  "name": "Mikey Ku Collection",
+  "version": "0.6.0",
+  "note": "demo is the index tile. variants, sizes, uses and motion fill the element's own page. sizes:true wraps sizeDemo in .mk-sm/.mk-md/.mk-lg — the size classes cascade, so nothing per-element is needed.",
   "items": [
     {
       "id": "buttons",
@@ -9,7 +9,7 @@
       "kind": "family",
       "tags": ["button", "action", "primary", "secondary", "ghost", "danger", "hover", "press"],
       "aliases": ["click", "cta", "submit", "save", "cancel", "delete"],
-      "note": "Lifts 2px on hover; a trailing arrow walks 3px with it. That pairing is the signature — no glow, no fill flash.",
+      "note": "Four weights of one shape. Everything that gives a button its character here is motion, not decoration: it lifts 2px on hover and a trailing arrow walks 3px with it. No glow, no fill flash, no shadow at rest.",
       "css": ["mk-btn", "mk-btn--primary", "mk-btn--secondary", "mk-btn--ghost", "mk-btn--danger", "mk-btn--icon"],
       "sizes": true,
       "sizeDemo": "<button class='mk-btn mk-btn--primary'>Save changes</button>",
@@ -22,6 +22,17 @@
         { "label": "With arrow", "demo": "<button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button>" },
         { "label": "Icon only", "demo": "<button class='mk-btn mk-btn--secondary mk-btn--icon' aria-label='More'>&hellip;</button>" },
         { "label": "Disabled", "demo": "<button class='mk-btn mk-btn--primary' disabled>Save changes</button>" }
+      ],
+      "motion": [
+        { "label": "Hover lift", "value": "translateY(-2px) · 0.25s", "note": "The whole reason it reads as pressable. Nothing else changes." },
+        { "label": "Arrow walk", "value": "translateX(3px) · 0.25s", "note": "Only the trailing glyph moves. A leading icon stays put." },
+        { "label": "Press", "value": "translateY(0) · 0.25s", "note": "Returns to the resting plane rather than pushing below it." }
+      ],
+      "uses": [
+        { "label": "Form footer", "note": "Ghost for the way out, primary for the way forward.", "demo": "<div class='mk-row mk-gap-2' style='justify-content:flex-end'><button class='mk-btn mk-btn--ghost'>Cancel</button><button class='mk-btn mk-btn--primary'>Save changes</button></div>" },
+        { "label": "Page call to action", "note": "The arrow earns its place when the button leads somewhere.", "demo": "<div class='mk-row mk-wrap mk-gap-2'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div>" },
+        { "label": "Toolbar", "note": "One .mk-sm on the row sizes every control inside it.", "demo": "<div class='mk-sm mk-row mk-gap-2'><button class='mk-btn mk-btn--secondary'>Filter</button><button class='mk-btn mk-btn--secondary'>Sort</button><button class='mk-btn mk-btn--ghost'>Reset</button></div>" },
+        { "label": "Destructive row", "note": "Danger stays quiet until you are actually over it.", "demo": "<div class='mk-row mk-gap-4' style='justify-content:space-between'><span style='font-size:var(--mk-text-sm)'>Delete this project</span><button class='mk-btn mk-btn--danger mk-sm'>Delete</button></div>" }
       ]
     },
     {
@@ -30,7 +41,7 @@
       "kind": "family",
       "tags": ["input", "field", "text", "select", "textarea", "form"],
       "aliases": ["form", "entry", "type", "dropdown"],
-      "note": "Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary.",
+      "note": "Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary, so an input beside a button always lines up.",
       "css": ["mk-input", "mk-select", "mk-textarea", "mk-field", "mk-label", "mk-hint"],
       "sizes": true,
       "sizeDemo": "<input class='mk-input' value='Ground Truth'>",
@@ -41,6 +52,15 @@
         { "label": "Select", "demo": "<select class='mk-select'><option>Selected work</option><option>Also built</option></select>" },
         { "label": "Textarea", "demo": "<textarea class='mk-textarea' placeholder='What should the reader know?'></textarea>" },
         { "label": "With label", "demo": "<div class='mk-field'><label class='mk-label' for='v1'>Project name</label><input class='mk-input' id='v1' value='Scribblz'><span class='mk-hint'>Shown on the card and the detail page.</span></div>" }
+      ],
+      "motion": [
+        { "label": "Border on hover", "value": "border-color · 0.25s", "note": "Line to line-strong. The field acknowledges the cursor without moving." },
+        { "label": "Focus ring", "value": "accent, 3px offset", "note": "Same treatment as every other focusable thing in the system." }
+      ],
+      "uses": [
+        { "label": "Labelled field", "note": "Label, control and hint wired with aria-describedby.", "demo": "<div class='mk-field'><label class='mk-label' for='u1'>Claim number</label><input class='mk-input' id='u1' placeholder='CT-40921'><span class='mk-hint'>Found on the top right of the estimate.</span></div>" },
+        { "label": "Inline search", "note": "Small size, so the pair sits inside a toolbar without crowding it.", "demo": "<div class='mk-sm mk-row mk-gap-2'><input class='mk-input' placeholder='Search projects'><button class='mk-btn mk-btn--primary'>Search</button></div>" },
+        { "label": "Filter row", "note": "Select and button share a height because they share a size token.", "demo": "<div class='mk-row mk-gap-2'><select class='mk-select' style='max-width:180px'><option>All projects</option><option>In progress</option></select><button class='mk-btn mk-btn--secondary'>Apply</button></div>" }
       ]
     },
     {
@@ -49,7 +69,7 @@
       "kind": "family",
       "tags": ["switch", "toggle", "checkbox", "check", "boolean", "setting"],
       "aliases": ["on off", "enable", "tick", "opt in", "confirm"],
-      "note": "Switch for things that apply instantly, checkbox for things you submit. The check strokes itself in rather than popping.",
+      "note": "Switch for things that apply the moment you touch them, checkbox for things you submit. Getting that distinction wrong is the most common reason a settings page feels untrustworthy.",
       "css": ["mk-switch", "mk-switch__track", "mk-tick", "mk-tick__box", "mk-check"],
       "demo": "<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div>",
       "variants": [
@@ -57,6 +77,14 @@
         { "label": "Switch, off", "demo": "<label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Notifications</label>" },
         { "label": "Checkbox", "demo": "<label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label>" },
         { "label": "Native check", "demo": "<label class='mk-check'><input type='checkbox' checked> Notify me</label>" }
+      ],
+      "motion": [
+        { "label": "Knob travel", "value": "translateX(17px) · 0.4s", "note": "Track colour fills over the same duration, so the two read as one motion." },
+        { "label": "Check draw", "value": "stroke-dashoffset 20 → 0 · 0.6s", "note": "The tick strokes itself in along its own path instead of popping into place." }
+      ],
+      "uses": [
+        { "label": "Settings list", "note": "Switches, because each one takes effect immediately.", "demo": "<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Email notifications</label><label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Weekly digest</label></div>" },
+        { "label": "Review list", "note": "Checkboxes, because nothing happens until you submit.", "demo": "<div class='mk-stack mk-gap-3'><label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Photos checked</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Estimate matched</label></div>" }
       ]
     },
     {
@@ -65,17 +93,21 @@
       "kind": "family",
       "tags": ["badge", "status", "label", "pill", "tag"],
       "aliases": ["chip", "state", "flag", "version"],
-      "note": "Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion.",
+      "note": "Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion without anyone deciding a pixel value.",
       "css": ["mk-badge", "mk-badge--accent", "mk-badge--ok", "mk-badge--warn", "mk-badge--danger", "mk-dot"],
       "sizes": true,
       "sizeDemo": "<span class='mk-badge mk-badge--accent'>In progress</span>",
-      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.5.0</span></div>",
+      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.6.0</span></div>",
       "variants": [
-        { "label": "Neutral", "demo": "<span class='mk-badge'>v0.5.0</span>" },
+        { "label": "Neutral", "demo": "<span class='mk-badge'>v0.6.0</span>" },
         { "label": "Accent", "demo": "<span class='mk-badge mk-badge--accent'>In progress</span>" },
         { "label": "With dot", "demo": "<span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span>" },
         { "label": "Warn", "demo": "<span class='mk-badge mk-badge--warn'>Draft</span>" },
         { "label": "Danger", "demo": "<span class='mk-badge mk-badge--danger'>Archived</span>" }
+      ],
+      "uses": [
+        { "label": "Beside a title", "note": "Sized down so it never competes with the heading.", "demo": "<div class='mk-row mk-gap-3'><h3 style='font-size:var(--mk-text-md)'>Ground Truth</h3><span class='mk-sm'><span class='mk-badge mk-badge--accent'>In progress</span></span></div>" },
+        { "label": "Status column", "note": "Dot plus word — status is never colour alone.", "demo": "<div class='mk-stack mk-gap-2'><span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span><span class='mk-badge mk-badge--warn'><span class='mk-dot'></span> Draft</span></div>" }
       ]
     },
     {
@@ -84,14 +116,23 @@
       "kind": "family",
       "tags": ["spinner", "skeleton", "shimmer", "dots", "placeholder", "wait"],
       "aliases": ["busy", "pending", "ghost", "stub", "loading state"],
-      "note": "Dots for a moment, shimmer for a shape whose size you already know. Both freeze flat under reduced motion.",
+      "note": "Dots when you have no idea what is coming, shimmer when you already know its shape. Reaching for a spinner where a skeleton would do is what makes an app feel slower than it is.",
       "css": ["mk-spinner", "mk-skeleton"],
       "demo": "<div class='mk-stack mk-gap-5' style='align-items:center;width:200px'><span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span><div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div></div></div>",
       "variants": [
         { "label": "Spinner", "demo": "<span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span>" },
         { "label": "Spinner, ink", "demo": "<span class='mk-spinner'><i></i><i></i><i></i></span>" },
         { "label": "Shimmer", "demo": "<div class='mk-stack mk-gap-2'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div><div class='mk-skeleton' style='height:10px;width:76%'></div></div>" },
-        { "label": "Shimmer block", "demo": "<div class='mk-skeleton' style='height:64px;width:190px'></div>" }
+        { "label": "Shimmer block", "demo": "<div class='mk-skeleton' style='height:64px'></div>" }
+      ],
+      "motion": [
+        { "label": "Dot bounce", "value": "translateY(-6px) · 1.05s loop, 0.13s stagger", "note": "The stagger is what makes three dots read as one object rather than three." },
+        { "label": "Shimmer sweep", "value": "background-position 200% · 1.4s linear", "note": "Built from the line tokens, so it stays visible on any surface." },
+        { "label": "Reduced motion", "value": "both freeze flat", "note": "Not disabled — the dots hold at 0.7 opacity so the state is still legible." }
+      ],
+      "uses": [
+        { "label": "Busy button", "note": "The spinner inherits the button's text colour, so no extra styling.", "demo": "<button class='mk-btn mk-btn--primary' disabled>Analyzing <span class='mk-spinner'><i></i><i></i><i></i></span></button>" },
+        { "label": "Card placeholder", "note": "Shimmer matched to the shape that will replace it.", "demo": "<div class='mk-stack mk-gap-3'><div class='mk-skeleton' style='height:64px'></div><div class='mk-skeleton' style='height:10px;width:60%'></div><div class='mk-skeleton' style='height:10px;width:40%'></div></div>" }
       ]
     },
     {
@@ -100,13 +141,21 @@
       "kind": "motion",
       "tags": ["segmented", "tabs", "indicator", "slide", "travel", "switch"],
       "aliases": ["toggle group", "filter", "view switch", "underline"],
-      "note": "One element travels between options instead of a background jumping. Width animates too, so uneven labels still land clean.",
+      "note": "One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.",
       "css": ["mk-seg", "mk-seg__ind", "mk-seg__opt"],
       "behavior": "seg",
       "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div>",
       "variants": [
         { "label": "Two options", "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div>" },
         { "label": "Uneven labels", "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>All</button><button class='mk-seg__opt' aria-selected='false'>In progress</button><button class='mk-seg__opt' aria-selected='false'>Shipped</button></div>" }
+      ],
+      "motion": [
+        { "label": "Travel", "value": "translateX · 0.6s", "note": "Position is written as a custom property from the active option's offsetLeft." },
+        { "label": "Width", "value": "width · 0.6s", "note": "Animated alongside, so uneven labels never cause a snap at the end." },
+        { "label": "Re-measure", "value": "ResizeObserver", "note": "Widths shift when fonts land or the container resizes; measuring once is not enough." }
+      ],
+      "uses": [
+        { "label": "View switch", "note": "Sits above a list and changes how it renders.", "demo": "<div class='mk-stack mk-gap-4'><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div><div class='mk-skeleton' style='height:44px'></div></div>" }
       ]
     },
     {
@@ -115,12 +164,20 @@
       "kind": "motion",
       "tags": ["copy", "clipboard", "swap", "crossfade", "confirm"],
       "aliases": ["duplicate", "copied", "success", "morph"],
-      "note": "Both labels sit in one grid cell and crossfade past each other, so the button never changes width mid-swap.",
+      "note": "Both labels sit in one grid cell and crossfade past each other, so the button never changes width mid-swap. That width twitch is the tell that separates a considered copy button from a thrown-together one.",
       "css": ["mk-copy", "mk-copy__swap"],
       "behavior": "copy",
       "demo": "<button class='mk-btn mk-btn--secondary mk-copy' data-behavior='copy'><span class='mk-copy__swap'><span>Copy token</span><span>Copied</span></span></button>",
       "variants": [
         { "label": "On primary", "demo": "<button class='mk-btn mk-btn--primary mk-copy' data-behavior='copy'><span class='mk-copy__swap'><span>Copy token</span><span>Copied</span></span></button>" }
+      ],
+      "motion": [
+        { "label": "Out", "value": "translateY(-7px) + fade · 0.25s", "note": "The old label leaves upward." },
+        { "label": "In", "value": "translateY(7px) → 0 + fade · 0.25s", "note": "The new one arrives from below, in the accent." },
+        { "label": "Reset", "value": "after 1.6s", "note": "Long enough to register, short enough that you can copy twice." }
+      ],
+      "uses": [
+        { "label": "Beside a token", "note": "Small size so it sits inside a code row without dominating it.", "demo": "<div class='mk-sm mk-row mk-gap-3'><code class='mk-mono' style='font-size:var(--mk-text-sm)'>--accent</code><button class='mk-btn mk-btn--ghost mk-copy' data-behavior='copy'><span class='mk-copy__swap'><span>Copy</span><span>Copied</span></span></button></div>" }
       ]
     },
     {
@@ -129,10 +186,18 @@
       "kind": "motion",
       "tags": ["toast", "notification", "slide", "scale", "transient", "enter", "exit"],
       "aliases": ["snackbar", "popup", "message", "alert"],
-      "note": "Rises and scales in, holds, then falls away. The exit is shorter than the entrance — leaving should feel quicker than arriving.",
+      "note": "Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.",
       "css": ["mk-toast"],
       "behavior": "toast",
-      "demo": "<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>"
+      "demo": "<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>",
+      "motion": [
+        { "label": "Enter", "value": "translateY(10px) + scale(0.97) → 0 · 0.6s", "note": "Rises and settles rather than sliding flat." },
+        { "label": "Hold", "value": "2.2s", "note": "Long enough to read a short sentence without rushing." },
+        { "label": "Exit", "value": "translateY(6px) + scale(0.98) · 0.4s", "note": "Shorter than the entrance, and removed on animationend rather than a second timer." }
+      ],
+      "uses": [
+        { "label": "After an action", "note": "Confirms something that already happened; never asks for a response.", "demo": "<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--primary' data-behavior='toast'>Save changes</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>" }
+      ]
     },
     {
       "id": "meter-fill",
@@ -140,10 +205,16 @@
       "kind": "motion",
       "tags": ["progress", "meter", "bar", "grow", "confidence", "score"],
       "aliases": ["percent", "gauge", "loading bar", "level"],
-      "note": "Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted.",
+      "note": "Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted — which matters a lot when the number is a model's confidence.",
       "css": ["mk-meter", "mk-meter__fill"],
       "behavior": "meter",
-      "demo": "<div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div>"
+      "demo": "<div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div>",
+      "motion": [
+        { "label": "Fill", "value": "width 0 → value · 0.6s", "note": "Two nested requestAnimationFrame calls before setting the width, or the browser collapses both styles into one paint and nothing animates." }
+      ],
+      "uses": [
+        { "label": "Confidence readout", "note": "Label, value and bar — the bar is the fastest read, the number is the precise one.", "demo": "<div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-row' style='justify-content:space-between'><span class='mk-eyebrow'>Confidence</span><span class='mk-num' style='font-size:var(--mk-text-xs)'>0.942</span></div><div class='mk-meter'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run</button></div>" }
+      ]
     }
   ]
 }
