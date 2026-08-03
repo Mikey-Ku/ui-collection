@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -30,7 +30,10 @@
   <span class="mk-eyebrow" id="count">—</span>
 </header>
 
-<div class="pg-wrap">
+<div class="pg-shell">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
+
+  <main>
   <div class="pg-masthead">
     <span class="mk-eyebrow">Collection</span>
     <h1>Here's what I build with</h1>
@@ -50,15 +53,15 @@
     </div>
   </div>
 
-  <div class="pg-label"><span class="mk-eyebrow">Elements</span></div>
-  <div class="el-grid" id="grid"></div>
+  <div id="grid"></div>
   <div class="pg-empty" id="empty" hidden>
     <p class="mk-muted">Nothing here matches that yet.</p>
   </div>
+  </main>
 </div>
 
 <script type="module">
-import { mount, wireAccent } from "./js/demo.js";
+import { mount, wireAccent, sidebar } from "./js/demo.js";
 
 const $ = (s) => document.querySelector(s);
 const root = document.documentElement;
@@ -126,10 +129,27 @@ function render() {
   const terms = raw ? [raw, ...(SYNONYMS[raw] ?? [])] : [];
   const shown = items.filter((it) => !terms.length || terms.some((t) => hay.get(it.id).includes(t)));
 
+  // Group headings come from the registry's own order, and a group with no
+  // surviving matches is dropped rather than left as an empty heading.
+  const grid = $("#grid");
+  grid.replaceChildren();
+  for (const g of reg.groups ?? []) {
+    const inGroup = shown.filter((it) => it.group === g);
+    if (!inGroup.length) continue;
+
+    const section = document.createElement("section");
+    section.className = "el-group";
+    section.innerHTML = `<div class="pg-label"><span class="mk-eyebrow">${g}</span></div>`;
+    const row = document.createElement("div");
+    row.className = "el-grid";
+    row.append(...inGroup.map(tile));
+    section.append(row);
+    grid.append(section);
+  }
+
   // Attach first, then mount — behaviours measure layout, and a detached
   // element measures as zero.
-  $("#grid").replaceChildren(...shown.map(tile));
-  mount($("#grid"));
+  mount(grid);
 
   $("#empty").hidden = shown.length > 0;
   $("#count").textContent = raw ? `${shown.length} / ${items.length}` : `${items.length} elements`;
@@ -141,6 +161,8 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; render(); }
 });
 document.addEventListener("mk:accent", paintScale);
+
+$("#nav").innerHTML = sidebar(reg, null);
 
 wireAccent();
 paintScale();

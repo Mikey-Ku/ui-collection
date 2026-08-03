@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -27,26 +27,34 @@
   <span class="mk-eyebrow">motion</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>Meter fill</h1>
-    <p>Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted — which matters a lot when the number is a model's confidence.</p>
-  </div>
+  <main>
+    <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div></div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">Feedback</span>
+      <h1>Meter fill</h1>
+      <p>Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted — which matters a lot when the number is a model's confidence.</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div></div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"meter-fill","name":"Meter fill","kind":"motion","tags":["progress","meter","bar","grow","confidence","score"],"aliases":["percent","gauge","loading bar","level"],"note":"Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted — which matters a lot when the number is a model's confidence.","css":["mk-meter","mk-meter__fill"],"behavior":"meter","demo":"<div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div>","motion":[{"label":"Fill","value":"width 0 → value · 0.6s","note":"Two nested requestAnimationFrame calls before setting the width, or the browser collapses both styles into one paint and nothing animates."}],"uses":[{"label":"Confidence readout","note":"Label, value and bar — the bar is the fastest read, the number is the precise one.","demo":"<div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-row' style='justify-content:space-between'><span class='mk-eyebrow'>Confidence</span><span class='mk-num' style='font-size:var(--mk-text-xs)'>0.942</span></div><div class='mk-meter'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run</button></div>"}]};
+const it = {"id":"meter-fill","name":"Meter fill","kind":"motion","group":"Feedback","tags":["progress","meter","bar","grow","confidence","score"],"aliases":["percent","gauge","loading bar","level"],"note":"Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted — which matters a lot when the number is a model's confidence.","css":["mk-meter","mk-meter__fill"],"behavior":"meter","demo":"<div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div>","motion":[{"label":"Fill","value":"width 0 → value · 0.6s","note":"Two nested requestAnimationFrame calls before setting the width, or the browser collapses both styles into one paint and nothing animates."}],"uses":[{"label":"Confidence readout","note":"Label, value and bar — the bar is the fastest read, the number is the precise one.","demo":"<div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-row' style='justify-content:space-between'><span class='mk-eyebrow'>Confidence</span><span class='mk-num' style='font-size:var(--mk-text-xs)'>0.942</span></div><div class='mk-meter'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run</button></div>"}]};
 const out = [];
 const section = (title, html) =>
-  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+  out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +
+    `<div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
 
 if (it.variants?.length) {
   section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
@@ -86,9 +94,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("../../registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "../../");
 </script>
 </body>
 </html>

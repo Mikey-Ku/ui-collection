@@ -36,9 +36,16 @@ const bundle = banner + parts.join("\n");
 await mkdir(join(root, "dist"), { recursive: true });
 await writeFile(join(root, "dist", "mk-ui.css"), bundle, "utf8");
 
-// Short hash of every layer's contents. Changes only when the CSS changes, so
-// the browser refetches exactly when it should and caches the rest of the time.
-const stamp = createHash("sha256").update(bundle).digest("hex").slice(0, 8);
+// The stamp has to cover every stylesheet the pages LINK, not just the ones
+// that go into the bundle. site.css is stamped in the HTML but is deliberately
+// not a layer, so hashing the bundle alone meant editing it never busted the
+// cache — the page kept rendering the previous layout and looked like the CSS
+// was wrong rather than stale.
+const STAMPED = [...LAYERS, "css/site.css"];
+const stampSource = (await Promise.all(
+  STAMPED.map((rel) => readFile(join(root, rel), "utf8"))
+)).join("");
+const stamp = createHash("sha256").update(stampSource).digest("hex").slice(0, 8);
 
 /* ------------------------ 2. element pages ------------------------ */
 
@@ -81,26 +88,34 @@ ${ACCENTS.map(([v, hex, label]) =>
   <span class="mk-eyebrow">${esc(it.kind)}</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="${up}"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>${esc(it.name)}</h1>
-    <p>${esc(it.note ?? "")}</p>
-  </div>
+  <main>
+    <a class="dt-back" href="${up}"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo>${it.demo ?? ""}</div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">${esc(it.group ?? "")}</span>
+      <h1>${esc(it.name)}</h1>
+      <p>${esc(it.note ?? "")}</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo>${it.demo ?? ""}</div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "${up}js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "${up}js/demo.js";
 
 const it = ${JSON.stringify(it)};
 const out = [];
 const section = (title, html) =>
-  out.push(\`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">\${title}</span></div>\${html}</div>\`);
+  out.push(\`<div class="pg-sec" data-section="\${title.toLowerCase().replace(/\\W+/g, "-")}" data-title="\${title}">\` +
+    \`<div class="pg-label"><span class="mk-eyebrow">\${title}</span></div>\${html}</div>\`);
 
 if (it.variants?.length) {
   section("Variants", \`<div class="el-row">\${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>\`);
@@ -140,9 +155,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("${up}registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "${up}");
 </script>
 </body>
 </html>

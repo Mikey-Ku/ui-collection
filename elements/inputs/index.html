@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -27,26 +27,34 @@
   <span class="mk-eyebrow">family</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>Inputs</h1>
-    <p>Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary, so an input beside a button always lines up.</p>
-  </div>
+  <main>
+    <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div></div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">Forms</span>
+      <h1>Inputs</h1>
+      <p>Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary, so an input beside a button always lines up.</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div></div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"inputs","name":"Inputs","kind":"family","tags":["input","field","text","select","textarea","form"],"aliases":["form","entry","type","dropdown"],"note":"Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary, so an input beside a button always lines up.","css":["mk-input","mk-select","mk-textarea","mk-field","mk-label","mk-hint"],"sizes":true,"sizeDemo":"<input class='mk-input' value='Ground Truth'>","demo":"<div class='mk-stack mk-gap-3'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div>","variants":[{"label":"Text","demo":"<input class='mk-input' value='Ground Truth'>"},{"label":"Placeholder","demo":"<input class='mk-input' placeholder='Project name'>"},{"label":"Select","demo":"<select class='mk-select'><option>Selected work</option><option>Also built</option></select>"},{"label":"Textarea","demo":"<textarea class='mk-textarea' placeholder='What should the reader know?'></textarea>"},{"label":"With label","demo":"<div class='mk-field'><label class='mk-label' for='v1'>Project name</label><input class='mk-input' id='v1' value='Scribblz'><span class='mk-hint'>Shown on the card and the detail page.</span></div>"}],"motion":[{"label":"Border on hover","value":"border-color · 0.25s","note":"Line to line-strong. The field acknowledges the cursor without moving."},{"label":"Focus ring","value":"accent, 3px offset","note":"Same treatment as every other focusable thing in the system."}],"uses":[{"label":"Labelled field","note":"Label, control and hint wired with aria-describedby.","demo":"<div class='mk-field'><label class='mk-label' for='u1'>Claim number</label><input class='mk-input' id='u1' placeholder='CT-40921'><span class='mk-hint'>Found on the top right of the estimate.</span></div>"},{"label":"Inline search","note":"Small size, so the pair sits inside a toolbar without crowding it.","demo":"<div class='mk-sm mk-row mk-gap-2'><input class='mk-input' placeholder='Search projects'><button class='mk-btn mk-btn--primary'>Search</button></div>"},{"label":"Filter row","note":"Select and button share a height because they share a size token.","demo":"<div class='mk-row mk-gap-2'><select class='mk-select' style='max-width:180px'><option>All projects</option><option>In progress</option></select><button class='mk-btn mk-btn--secondary'>Apply</button></div>"}]};
+const it = {"id":"inputs","name":"Inputs","kind":"family","group":"Forms","tags":["input","field","text","select","textarea","form"],"aliases":["form","entry","type","dropdown"],"note":"Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary, so an input beside a button always lines up.","css":["mk-input","mk-select","mk-textarea","mk-field","mk-label","mk-hint"],"sizes":true,"sizeDemo":"<input class='mk-input' value='Ground Truth'>","demo":"<div class='mk-stack mk-gap-3'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div>","variants":[{"label":"Text","demo":"<input class='mk-input' value='Ground Truth'>"},{"label":"Placeholder","demo":"<input class='mk-input' placeholder='Project name'>"},{"label":"Select","demo":"<select class='mk-select'><option>Selected work</option><option>Also built</option></select>"},{"label":"Textarea","demo":"<textarea class='mk-textarea' placeholder='What should the reader know?'></textarea>"},{"label":"With label","demo":"<div class='mk-field'><label class='mk-label' for='v1'>Project name</label><input class='mk-input' id='v1' value='Scribblz'><span class='mk-hint'>Shown on the card and the detail page.</span></div>"}],"motion":[{"label":"Border on hover","value":"border-color · 0.25s","note":"Line to line-strong. The field acknowledges the cursor without moving."},{"label":"Focus ring","value":"accent, 3px offset","note":"Same treatment as every other focusable thing in the system."}],"uses":[{"label":"Labelled field","note":"Label, control and hint wired with aria-describedby.","demo":"<div class='mk-field'><label class='mk-label' for='u1'>Claim number</label><input class='mk-input' id='u1' placeholder='CT-40921'><span class='mk-hint'>Found on the top right of the estimate.</span></div>"},{"label":"Inline search","note":"Small size, so the pair sits inside a toolbar without crowding it.","demo":"<div class='mk-sm mk-row mk-gap-2'><input class='mk-input' placeholder='Search projects'><button class='mk-btn mk-btn--primary'>Search</button></div>"},{"label":"Filter row","note":"Select and button share a height because they share a size token.","demo":"<div class='mk-row mk-gap-2'><select class='mk-select' style='max-width:180px'><option>All projects</option><option>In progress</option></select><button class='mk-btn mk-btn--secondary'>Apply</button></div>"}]};
 const out = [];
 const section = (title, html) =>
-  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+  out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +
+    `<div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
 
 if (it.variants?.length) {
   section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
@@ -86,9 +94,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("../../registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "../../");
 </script>
 </body>
 </html>

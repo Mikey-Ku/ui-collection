@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -27,26 +27,34 @@
   <span class="mk-eyebrow">family</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>Buttons</h1>
-    <p>Four weights of one shape. Everything that gives a button its character here is motion, not decoration: it lifts 2px on hover and a trailing arrow walks 3px with it. No glow, no fill flash, no shadow at rest.</p>
-  </div>
+  <main>
+    <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo><div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div></div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">Actions</span>
+      <h1>Buttons</h1>
+      <p>Four weights of one shape. Everything that gives a button its character here is motion, not decoration: it lifts 2px on hover and a trailing arrow walks 3px with it. No glow, no fill flash, no shadow at rest.</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo><div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div></div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"buttons","name":"Buttons","kind":"family","tags":["button","action","primary","secondary","ghost","danger","hover","press"],"aliases":["click","cta","submit","save","cancel","delete"],"note":"Four weights of one shape. Everything that gives a button its character here is motion, not decoration: it lifts 2px on hover and a trailing arrow walks 3px with it. No glow, no fill flash, no shadow at rest.","css":["mk-btn","mk-btn--primary","mk-btn--secondary","mk-btn--ghost","mk-btn--danger","mk-btn--icon"],"sizes":true,"sizeDemo":"<button class='mk-btn mk-btn--primary'>Save changes</button>","demo":"<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div>","variants":[{"label":"Primary","demo":"<button class='mk-btn mk-btn--primary'>Save changes</button>"},{"label":"Secondary","demo":"<button class='mk-btn mk-btn--secondary'>Cancel</button>"},{"label":"Ghost","demo":"<button class='mk-btn mk-btn--ghost'>Skip</button>"},{"label":"Danger","demo":"<button class='mk-btn mk-btn--danger'>Delete</button>"},{"label":"With arrow","demo":"<button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button>"},{"label":"Icon only","demo":"<button class='mk-btn mk-btn--secondary mk-btn--icon' aria-label='More'>&hellip;</button>"},{"label":"Disabled","demo":"<button class='mk-btn mk-btn--primary' disabled>Save changes</button>"}],"motion":[{"label":"Hover lift","value":"translateY(-2px) · 0.25s","note":"The whole reason it reads as pressable. Nothing else changes."},{"label":"Arrow walk","value":"translateX(3px) · 0.25s","note":"Only the trailing glyph moves. A leading icon stays put."},{"label":"Press","value":"translateY(0) · 0.25s","note":"Returns to the resting plane rather than pushing below it."}],"uses":[{"label":"Form footer","note":"Ghost for the way out, primary for the way forward.","demo":"<div class='mk-row mk-gap-2' style='justify-content:flex-end'><button class='mk-btn mk-btn--ghost'>Cancel</button><button class='mk-btn mk-btn--primary'>Save changes</button></div>"},{"label":"Page call to action","note":"The arrow earns its place when the button leads somewhere.","demo":"<div class='mk-row mk-wrap mk-gap-2'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div>"},{"label":"Toolbar","note":"One .mk-sm on the row sizes every control inside it.","demo":"<div class='mk-sm mk-row mk-gap-2'><button class='mk-btn mk-btn--secondary'>Filter</button><button class='mk-btn mk-btn--secondary'>Sort</button><button class='mk-btn mk-btn--ghost'>Reset</button></div>"},{"label":"Destructive row","note":"Danger stays quiet until you are actually over it.","demo":"<div class='mk-row mk-gap-4' style='justify-content:space-between'><span style='font-size:var(--mk-text-sm)'>Delete this project</span><button class='mk-btn mk-btn--danger mk-sm'>Delete</button></div>"}]};
+const it = {"id":"buttons","name":"Buttons","kind":"family","group":"Actions","tags":["button","action","primary","secondary","ghost","danger","hover","press"],"aliases":["click","cta","submit","save","cancel","delete"],"note":"Four weights of one shape. Everything that gives a button its character here is motion, not decoration: it lifts 2px on hover and a trailing arrow walks 3px with it. No glow, no fill flash, no shadow at rest.","css":["mk-btn","mk-btn--primary","mk-btn--secondary","mk-btn--ghost","mk-btn--danger","mk-btn--icon"],"sizes":true,"sizeDemo":"<button class='mk-btn mk-btn--primary'>Save changes</button>","demo":"<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div>","variants":[{"label":"Primary","demo":"<button class='mk-btn mk-btn--primary'>Save changes</button>"},{"label":"Secondary","demo":"<button class='mk-btn mk-btn--secondary'>Cancel</button>"},{"label":"Ghost","demo":"<button class='mk-btn mk-btn--ghost'>Skip</button>"},{"label":"Danger","demo":"<button class='mk-btn mk-btn--danger'>Delete</button>"},{"label":"With arrow","demo":"<button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button>"},{"label":"Icon only","demo":"<button class='mk-btn mk-btn--secondary mk-btn--icon' aria-label='More'>&hellip;</button>"},{"label":"Disabled","demo":"<button class='mk-btn mk-btn--primary' disabled>Save changes</button>"}],"motion":[{"label":"Hover lift","value":"translateY(-2px) · 0.25s","note":"The whole reason it reads as pressable. Nothing else changes."},{"label":"Arrow walk","value":"translateX(3px) · 0.25s","note":"Only the trailing glyph moves. A leading icon stays put."},{"label":"Press","value":"translateY(0) · 0.25s","note":"Returns to the resting plane rather than pushing below it."}],"uses":[{"label":"Form footer","note":"Ghost for the way out, primary for the way forward.","demo":"<div class='mk-row mk-gap-2' style='justify-content:flex-end'><button class='mk-btn mk-btn--ghost'>Cancel</button><button class='mk-btn mk-btn--primary'>Save changes</button></div>"},{"label":"Page call to action","note":"The arrow earns its place when the button leads somewhere.","demo":"<div class='mk-row mk-wrap mk-gap-2'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div>"},{"label":"Toolbar","note":"One .mk-sm on the row sizes every control inside it.","demo":"<div class='mk-sm mk-row mk-gap-2'><button class='mk-btn mk-btn--secondary'>Filter</button><button class='mk-btn mk-btn--secondary'>Sort</button><button class='mk-btn mk-btn--ghost'>Reset</button></div>"},{"label":"Destructive row","note":"Danger stays quiet until you are actually over it.","demo":"<div class='mk-row mk-gap-4' style='justify-content:space-between'><span style='font-size:var(--mk-text-sm)'>Delete this project</span><button class='mk-btn mk-btn--danger mk-sm'>Delete</button></div>"}]};
 const out = [];
 const section = (title, html) =>
-  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+  out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +
+    `<div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
 
 if (it.variants?.length) {
   section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
@@ -86,9 +94,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("../../registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "../../");
 </script>
 </body>
 </html>

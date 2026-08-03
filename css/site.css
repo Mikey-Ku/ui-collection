@@ -29,9 +29,48 @@
 .pg-swatch:hover { transform: translateY(-2px); }
 .pg-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
 
-.pg-wrap { max-width: 1040px; margin-inline: auto; padding: var(--mk-10) clamp(1.25rem, 5vw, 2.5rem) var(--mk-16); }
-.pg-label { margin-bottom: var(--mk-4); }
-.pg-sec { margin-bottom: var(--mk-12); }
+/* ---- shell: rail, content, and (on element pages) an anchor rail ---- */
+.pg-shell {
+  max-width: 1340px; margin-inline: auto;
+  display: grid; grid-template-columns: 208px minmax(0, 1fr);
+  gap: var(--mk-10);
+  padding: var(--mk-10) clamp(1.25rem, 4vw, 2.5rem) var(--mk-16);
+  align-items: start;
+}
+.pg-shell--rail { grid-template-columns: 208px minmax(0, 1fr) 168px; }
+
+.pg-nav { position: sticky; top: 92px; }
+.nav-group + .nav-group { margin-top: var(--mk-6); }
+/* Scoped rather than a global ul reset — base.css ships to other projects,
+   and stripping every list there would surprise anyone using it for prose. */
+.nav-group ul, .pg-anchors ul { list-style: none; margin: 0; padding: 0; }
+.nav-group ul { margin-top: var(--mk-2); }
+.nav-group a {
+  display: block; padding: 5px 0;
+  color: var(--mk-text-muted); text-decoration: none;
+  font-size: var(--mk-text-sm);
+  transition: color var(--mk-dur-fast) var(--mk-ease);
+}
+.nav-group a:hover { color: var(--mk-text); }
+/* The marker is a rule in the margin, not a filled pill — the same
+   restraint the rest of the system uses. */
+.nav-group a[aria-current="page"] {
+  color: var(--mk-accent); font-weight: 500;
+  box-shadow: -0.75rem 0 0 -0.5rem var(--mk-accent);
+}
+
+.pg-anchors { position: sticky; top: 92px; }
+.pg-anchors ul { margin-top: var(--mk-2); }
+.pg-anchors a {
+  display: block; padding: 4px 0;
+  color: var(--mk-text-faint); text-decoration: none;
+  font-size: var(--mk-text-xs);
+  transition: color var(--mk-dur-fast) var(--mk-ease);
+}
+.pg-anchors a:hover { color: var(--mk-accent); }
+
+.pg-label { margin-bottom: var(--mk-3); }
+.pg-sec { margin-bottom: var(--mk-10); scroll-margin-top: 92px; }
 .pg-empty { padding: var(--mk-16) 0; text-align: center; }
 
 /* ---- masthead ---- */
@@ -60,7 +99,8 @@
 .pg-scale-note b { font-weight: 400; color: var(--mk-text-muted); }
 
 /* ---- index grid ---- */
-.el-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); align-items: start; }
+.el-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(252px, 1fr)); gap: var(--mk-3); align-items: start; }
+.el-group + .el-group { margin-top: var(--mk-10); }
 
 /* Every container on the site is identical — index tile, variant cell,
    size cell, usage cell. One surface treatment throughout. */
@@ -82,13 +122,13 @@
 
 .el__view {
   display: grid; place-items: center;
-  min-height: 178px; padding: var(--mk-8) var(--mk-5);
+  min-height: 144px; padding: var(--mk-6) var(--mk-4);
   background: var(--paper-sunk);
   border-bottom: 1px solid var(--mk-line);
 }
 .el__bar {
   display: flex; align-items: center; justify-content: space-between; gap: var(--mk-3);
-  padding: var(--mk-4);
+  padding: var(--mk-3) var(--mk-4);
   font-family: var(--mk-font-display);
   font-size: var(--mk-text-sm); font-weight: 500; letter-spacing: -0.015em;
 }
@@ -171,16 +211,16 @@
 .dt-back i { font-style: normal; transition: transform var(--mk-dur-fast) var(--mk-ease); }
 .dt-back:hover i { transform: translateX(-3px); }
 
-.dt-head { margin: var(--mk-6) 0 var(--mk-8); }
-.dt-head h1 { font-size: var(--mk-text-2xl); margin: var(--mk-3) 0 var(--mk-3); }
+.dt-head { margin: var(--mk-5) 0 var(--mk-6); }
+.dt-head h1 { font-size: var(--mk-text-xl); margin: var(--mk-2) 0 var(--mk-3); }
 .dt-head p { color: var(--mk-text-muted); max-width: 62ch; }
 
 .dt-hero {
   display: grid; place-items: center;
-  min-height: 280px; padding: var(--mk-12) var(--mk-6);
+  min-height: 200px; padding: var(--mk-8) var(--mk-6);
   background: var(--paper-sunk);
   border: 1px solid var(--mk-line); border-radius: var(--mk-radius-lg);
-  margin-bottom: var(--mk-12);
+  margin-bottom: var(--mk-10);
 }
 
 /* Motion is a table because the values are the content — every row is a
@@ -195,9 +235,25 @@
 .dt-motion code { font-family: var(--mk-font-mono); font-size: var(--mk-text-xs); color: var(--mk-accent); }
 .dt-motion span { font-size: var(--mk-text-sm); color: var(--mk-text-muted); }
 
+/* The anchor rail is the first thing to go — it is a convenience, and the
+   sections are still reachable by scrolling. */
+@media (max-width: 1180px) {
+  .pg-shell--rail { grid-template-columns: 208px minmax(0, 1fr); }
+  .pg-anchors { display: none; }
+}
+
+/* Below this the left rail stops being a rail and becomes a strip above the
+   content, so the grid keeps the full width. */
+@media (max-width: 860px) {
+  .pg-shell, .pg-shell--rail { grid-template-columns: minmax(0, 1fr); gap: var(--mk-8); }
+  .pg-nav { position: static; display: flex; flex-wrap: wrap; gap: var(--mk-4) var(--mk-6); }
+  .nav-group + .nav-group { margin-top: 0; }
+  .nav-group ul { display: flex; flex-wrap: wrap; gap: var(--mk-3); }
+  .nav-group a[aria-current="page"] { box-shadow: 0 2px 0 -1px var(--mk-accent); }
+}
+
 @media (max-width: 760px) {
-  .el-grid, .dt-motion > div { grid-template-columns: minmax(0, 1fr); }
-  .dt-motion > div { gap: var(--mk-1); }
+  .dt-motion > div { grid-template-columns: minmax(0, 1fr); gap: var(--mk-1); }
   .pg-scale { grid-template-columns: repeat(4, 1fr); }
   .pg-top { height: auto; padding-block: var(--mk-3); flex-wrap: wrap; }
   .pg-search { max-width: none; order: 4; width: 100%; }

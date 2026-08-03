@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -27,26 +27,34 @@
   <span class="mk-eyebrow">family</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>Badges</h1>
-    <p>Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion without anyone deciding a pixel value.</p>
-  </div>
+  <main>
+    <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo><div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.6.0</span></div></div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">Display</span>
+      <h1>Badges</h1>
+      <p>Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion without anyone deciding a pixel value.</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo><div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.6.0</span></div></div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"badges","name":"Badges","kind":"family","tags":["badge","status","label","pill","tag"],"aliases":["chip","state","flag","version"],"note":"Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion without anyone deciding a pixel value.","css":["mk-badge","mk-badge--accent","mk-badge--ok","mk-badge--warn","mk-badge--danger","mk-dot"],"sizes":true,"sizeDemo":"<span class='mk-badge mk-badge--accent'>In progress</span>","demo":"<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.6.0</span></div>","variants":[{"label":"Neutral","demo":"<span class='mk-badge'>v0.6.0</span>"},{"label":"Accent","demo":"<span class='mk-badge mk-badge--accent'>In progress</span>"},{"label":"With dot","demo":"<span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span>"},{"label":"Warn","demo":"<span class='mk-badge mk-badge--warn'>Draft</span>"},{"label":"Danger","demo":"<span class='mk-badge mk-badge--danger'>Archived</span>"}],"uses":[{"label":"Beside a title","note":"Sized down so it never competes with the heading.","demo":"<div class='mk-row mk-gap-3'><h3 style='font-size:var(--mk-text-md)'>Ground Truth</h3><span class='mk-sm'><span class='mk-badge mk-badge--accent'>In progress</span></span></div>"},{"label":"Status column","note":"Dot plus word — status is never colour alone.","demo":"<div class='mk-stack mk-gap-2'><span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span><span class='mk-badge mk-badge--warn'><span class='mk-dot'></span> Draft</span></div>"}]};
+const it = {"id":"badges","name":"Badges","kind":"family","group":"Display","tags":["badge","status","label","pill","tag"],"aliases":["chip","state","flag","version"],"note":"Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion without anyone deciding a pixel value.","css":["mk-badge","mk-badge--accent","mk-badge--ok","mk-badge--warn","mk-badge--danger","mk-dot"],"sizes":true,"sizeDemo":"<span class='mk-badge mk-badge--accent'>In progress</span>","demo":"<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.6.0</span></div>","variants":[{"label":"Neutral","demo":"<span class='mk-badge'>v0.6.0</span>"},{"label":"Accent","demo":"<span class='mk-badge mk-badge--accent'>In progress</span>"},{"label":"With dot","demo":"<span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span>"},{"label":"Warn","demo":"<span class='mk-badge mk-badge--warn'>Draft</span>"},{"label":"Danger","demo":"<span class='mk-badge mk-badge--danger'>Archived</span>"}],"uses":[{"label":"Beside a title","note":"Sized down so it never competes with the heading.","demo":"<div class='mk-row mk-gap-3'><h3 style='font-size:var(--mk-text-md)'>Ground Truth</h3><span class='mk-sm'><span class='mk-badge mk-badge--accent'>In progress</span></span></div>"},{"label":"Status column","note":"Dot plus word — status is never colour alone.","demo":"<div class='mk-stack mk-gap-2'><span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span><span class='mk-badge mk-badge--warn'><span class='mk-dot'></span> Draft</span></div>"}]};
 const out = [];
 const section = (title, html) =>
-  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+  out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +
+    `<div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
 
 if (it.variants?.length) {
   section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
@@ -86,9 +94,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("../../registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "../../");
 </script>
 </body>
 </html>

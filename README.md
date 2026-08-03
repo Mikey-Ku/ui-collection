@@ -82,7 +82,14 @@ small, without touching a single child:
 </div>
 ```
 
-## Two kinds of element
+## Structure
+
+Elements carry a `group` (Actions, Forms, Display, Feedback, Navigation) which
+drives both the section headings on the index and the left rail. The rail is
+built from the registry on every page, so adding an entry puts it in the
+navigation everywhere without a second list to maintain.
+
+They also carry a `kind`:
 
 - **`family`** — variants of one thing in a single tile: Buttons, Inputs,
   Selection, Badges, Loading.
@@ -151,7 +158,10 @@ Both exist because a stale stylesheet looks exactly like a broken component:
   `Cache-Control`, so browsers heuristically cache CSS and JSON. Everything here
   is `no-store`.
 - **`build.mjs` stamps a content hash** onto the stylesheet URLs, so the URL
-  changes exactly when the CSS does and never otherwise.
+  changes exactly when the CSS does and never otherwise. The hash covers every
+  stylesheet the pages *link*, not just the ones in the bundle — `site.css` is
+  stamped but is deliberately not a layer, and hashing the bundle alone meant
+  editing it never busted the cache.
 
 ## Accessibility floor
 

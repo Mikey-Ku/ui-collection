@@ -123,6 +123,40 @@ export function measureSizes(root) {
   }
 }
 
+/* ---------- sidebar, shared by the index and every element page ----------
+   Built from the same registry both use, so a new entry appears in the rail
+   everywhere without anyone maintaining a second list. */
+export function sidebar(reg, currentId, up = "") {
+  const order = reg.groups ?? [];
+  const items = reg.items ?? [];
+  const groups = order.length
+    ? order
+    : [...new Set(items.map((i) => i.group).filter(Boolean))];
+
+  return groups.map((g) => {
+    const inGroup = items.filter((i) => i.group === g);
+    if (!inGroup.length) return "";
+    return `<div class="nav-group">
+      <span class="mk-eyebrow">${g}</span>
+      <ul>${inGroup.map((i) => `<li><a href="${up}elements/${i.id}/"${
+        i.id === currentId ? ' aria-current="page"' : ""
+      }>${i.name}</a></li>`).join("")}</ul>
+    </div>`;
+  }).join("");
+}
+
+/* On this page. Reads the sections that were actually rendered rather than
+   a hardcoded list, so an element with no Sizes section gets no dead link. */
+export function pageNav(scope, into) {
+  const links = [...scope.querySelectorAll("[data-section]")].map((s) => {
+    const id = s.dataset.section;
+    s.id = id;
+    return `<li><a href="#${id}">${s.dataset.title}</a></li>`;
+  });
+  if (!links.length) return;
+  into.innerHTML = `<span class="mk-eyebrow">On this page</span><ul>${links.join("")}</ul>`;
+}
+
 /* ---------- accent swatches, shared by every page ---------- */
 export function wireAccent() {
   const root = document.documentElement;

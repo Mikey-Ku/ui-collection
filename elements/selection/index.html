@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -27,26 +27,34 @@
   <span class="mk-eyebrow">family</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>Selection</h1>
-    <p>Switch for things that apply the moment you touch them, checkbox for things you submit. Getting that distinction wrong is the most common reason a settings page feels untrustworthy.</p>
-  </div>
+  <main>
+    <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo><div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div></div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">Forms</span>
+      <h1>Selection</h1>
+      <p>Switch for things that apply the moment you touch them, checkbox for things you submit. Getting that distinction wrong is the most common reason a settings page feels untrustworthy.</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo><div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div></div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"selection","name":"Selection","kind":"family","tags":["switch","toggle","checkbox","check","boolean","setting"],"aliases":["on off","enable","tick","opt in","confirm"],"note":"Switch for things that apply the moment you touch them, checkbox for things you submit. Getting that distinction wrong is the most common reason a settings page feels untrustworthy.","css":["mk-switch","mk-switch__track","mk-tick","mk-tick__box","mk-check"],"demo":"<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div>","variants":[{"label":"Switch","demo":"<label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label>"},{"label":"Switch, off","demo":"<label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Notifications</label>"},{"label":"Checkbox","demo":"<label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label>"},{"label":"Native check","demo":"<label class='mk-check'><input type='checkbox' checked> Notify me</label>"}],"motion":[{"label":"Knob travel","value":"translateX(17px) · 0.4s","note":"Track colour fills over the same duration, so the two read as one motion."},{"label":"Check draw","value":"stroke-dashoffset 20 → 0 · 0.6s","note":"The tick strokes itself in along its own path instead of popping into place."}],"uses":[{"label":"Settings list","note":"Switches, because each one takes effect immediately.","demo":"<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Email notifications</label><label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Weekly digest</label></div>"},{"label":"Review list","note":"Checkboxes, because nothing happens until you submit.","demo":"<div class='mk-stack mk-gap-3'><label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Photos checked</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Estimate matched</label></div>"}]};
+const it = {"id":"selection","name":"Selection","kind":"family","group":"Forms","tags":["switch","toggle","checkbox","check","boolean","setting"],"aliases":["on off","enable","tick","opt in","confirm"],"note":"Switch for things that apply the moment you touch them, checkbox for things you submit. Getting that distinction wrong is the most common reason a settings page feels untrustworthy.","css":["mk-switch","mk-switch__track","mk-tick","mk-tick__box","mk-check"],"demo":"<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div>","variants":[{"label":"Switch","demo":"<label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label>"},{"label":"Switch, off","demo":"<label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Notifications</label>"},{"label":"Checkbox","demo":"<label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label>"},{"label":"Native check","demo":"<label class='mk-check'><input type='checkbox' checked> Notify me</label>"}],"motion":[{"label":"Knob travel","value":"translateX(17px) · 0.4s","note":"Track colour fills over the same duration, so the two read as one motion."},{"label":"Check draw","value":"stroke-dashoffset 20 → 0 · 0.6s","note":"The tick strokes itself in along its own path instead of popping into place."}],"uses":[{"label":"Settings list","note":"Switches, because each one takes effect immediately.","demo":"<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Email notifications</label><label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Weekly digest</label></div>"},{"label":"Review list","note":"Checkboxes, because nothing happens until you submit.","demo":"<div class='mk-stack mk-gap-3'><label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Photos checked</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Estimate matched</label></div>"}]};
 const out = [];
 const section = (title, html) =>
-  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+  out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +
+    `<div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
 
 if (it.variants?.length) {
   section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
@@ -86,9 +94,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("../../registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "../../");
 </script>
 </body>
 </html>

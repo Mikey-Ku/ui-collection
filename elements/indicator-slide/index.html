@@ -7,11 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../tokens/core.css?v=2e3ad856">
-<link rel="stylesheet" href="../../tokens/theme-mk.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/base.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/components.css?v=2e3ad856">
-<link rel="stylesheet" href="../../css/site.css?v=2e3ad856">
+<link rel="stylesheet" href="../../tokens/core.css?v=fcd575f8">
+<link rel="stylesheet" href="../../tokens/theme-mk.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/base.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/components.css?v=fcd575f8">
+<link rel="stylesheet" href="../../css/site.css?v=fcd575f8">
 </head>
 <body>
 
@@ -27,26 +27,34 @@
   <span class="mk-eyebrow">motion</span>
 </header>
 
-<div class="pg-wrap">
-  <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
+<div class="pg-shell pg-shell--rail">
+  <nav class="pg-nav" id="nav" aria-label="Elements"></nav>
 
-  <div class="dt-head">
-    <h1>Indicator slide</h1>
-    <p>One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.</p>
-  </div>
+  <main>
+    <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
-  <div class="dt-hero" data-demo><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div></div>
+    <div class="dt-head">
+      <span class="mk-eyebrow">Navigation</span>
+      <h1>Indicator slide</h1>
+      <p>One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.</p>
+    </div>
 
-  <div id="body"></div>
+    <div class="dt-hero" data-demo><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div></div>
+
+    <div id="body"></div>
+  </main>
+
+  <aside class="pg-anchors" id="anchors"></aside>
 </div>
 
 <script type="module">
-import { mount, cell, wireCopy, wireAccent, measureSizes } from "../../js/demo.js";
+import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"indicator-slide","name":"Indicator slide","kind":"motion","tags":["segmented","tabs","indicator","slide","travel","switch"],"aliases":["toggle group","filter","view switch","underline"],"note":"One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.","css":["mk-seg","mk-seg__ind","mk-seg__opt"],"behavior":"seg","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div>","variants":[{"label":"Two options","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div>"},{"label":"Uneven labels","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>All</button><button class='mk-seg__opt' aria-selected='false'>In progress</button><button class='mk-seg__opt' aria-selected='false'>Shipped</button></div>"}],"motion":[{"label":"Travel","value":"translateX · 0.6s","note":"Position is written as a custom property from the active option's offsetLeft."},{"label":"Width","value":"width · 0.6s","note":"Animated alongside, so uneven labels never cause a snap at the end."},{"label":"Re-measure","value":"ResizeObserver","note":"Widths shift when fonts land or the container resizes; measuring once is not enough."}],"uses":[{"label":"View switch","note":"Sits above a list and changes how it renders.","demo":"<div class='mk-stack mk-gap-4'><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div><div class='mk-skeleton' style='height:44px'></div></div>"}]};
+const it = {"id":"indicator-slide","name":"Indicator slide","kind":"motion","group":"Navigation","tags":["segmented","tabs","indicator","slide","travel","switch"],"aliases":["toggle group","filter","view switch","underline"],"note":"One element travels between options instead of a background jumping between them. Width animates too, so uneven labels still land clean — which is the part most implementations get wrong.","css":["mk-seg","mk-seg__ind","mk-seg__opt"],"behavior":"seg","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div>","variants":[{"label":"Two options","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div>"},{"label":"Uneven labels","demo":"<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>All</button><button class='mk-seg__opt' aria-selected='false'>In progress</button><button class='mk-seg__opt' aria-selected='false'>Shipped</button></div>"}],"motion":[{"label":"Travel","value":"translateX · 0.6s","note":"Position is written as a custom property from the active option's offsetLeft."},{"label":"Width","value":"width · 0.6s","note":"Animated alongside, so uneven labels never cause a snap at the end."},{"label":"Re-measure","value":"ResizeObserver","note":"Widths shift when fonts land or the container resizes; measuring once is not enough."}],"uses":[{"label":"View switch","note":"Sits above a list and changes how it renders.","demo":"<div class='mk-stack mk-gap-4'><div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div><div class='mk-skeleton' style='height:44px'></div></div>"}]};
 const out = [];
 const section = (title, html) =>
-  out.push(`<div class="pg-sec"><div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
+  out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +
+    `<div class="pg-label"><span class="mk-eyebrow">${title}</span></div>${html}</div>`);
 
 if (it.variants?.length) {
   section("Variants", `<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
@@ -86,9 +94,15 @@ body.innerHTML = out.join("");
 // element measures as zero.
 mount(document.body);
 measureSizes(body);
+pageNav(body, document.querySelector("#anchors"));
 wireCopy();
 wireAccent();
 document.addEventListener("mk:accent", () => measureSizes(body));
+
+// The rail is built from the same registry the index uses, so adding an
+// element puts it in every page's navigation without a second list.
+const reg = await (await fetch("../../registry/registry.json", { cache: "no-store" })).json();
+document.querySelector("#nav").innerHTML = sidebar(reg, it.id, "../../");
 </script>
 </body>
 </html>
