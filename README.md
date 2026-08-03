@@ -12,7 +12,7 @@ node build.mjs && node serve.mjs
 ```
 
 - **`/board/`** — the collection. A 2-wide grid of live specimens you can poke.
-- **`/foundation/`** — the base: colour ramps, elevation, and how it all fits together.
+- **`/foundation/`** — the base: colour, type, depth and motion, documented.
 
 ---
 
@@ -28,22 +28,28 @@ pulling in when the project is already React.
 The rule that keeps this honest: **a component exists in Layer 1 first.** One
 that lives only as JSX silently disappears from every non-React project.
 
-## Colour
+## The base
 
-Two levels, and the separation is the whole point:
+Lifted from [michaelkujr.me](https://michaelkujr.me) — not invented here. Every
+value in `tokens/theme-mk.css` is either taken from that site's `tokens.css` or
+derived from a rule its components already follow.
 
 ```
-ramp      --blue-50 … --blue-700, --ink-50 … --ink-900   the ONLY place a hex appears
-semantic  --mk-bg: var(--ink-50)   --mk-accent: var(--blue-500)   everything else
+ramp      --paper #ffffff  --paper-sunk #f6f7f6  --ink #15171a  --accent #0f7d54
+semantic  --mk-bg: var(--paper)   --mk-accent: var(--accent)   everything else
 ```
 
-**There are no neutral greys.** Every "grey" is a desaturated version of the same
-blue, so text, borders, backgrounds and shadows all belong to one hue family.
-Shadows are tinted with the accent rather than black — a black shadow on a
-blue-cast ground reads as dirt.
+White paper, cool near-black ink, **one** restrained accent, 4px radius, and
+things that lift rather than glow. There is no second hue — which is what makes
+the accent mean something when it appears.
 
-Candidate bases live in `tokens/bases.css` and are switched with `data-base` on
-`<html>`. Compare them at `/foundation/`.
+The accent is swappable via `data-accent` on `<html>`: `cobalt`, `indigo`,
+`slate`. Those three come straight from a comment in the site's own token file.
+Compare them live at `/foundation/`.
+
+Three details worth not losing: buttons lift 2px on hover and a trailing arrow
+walks 3px with them; cards rest flat and only earn a shadow on hover; section
+labels carry a leading hairline.
 
 ## Two kinds of specimen
 
@@ -79,9 +85,9 @@ The registry is also shaped to be served over MCP later: `list`, `search`, and a
 
 ```
 board/       the collection
-foundation/  base candidates: ramps, elevation, applied
+foundation/  the base, documented
 registry/    registry.json (what exists) + ideas.json (backlog)
-tokens/      core.css (no colours) + bases.css + themes
+tokens/      core.css (no colours) + theme-mk.css (the base)
 css/         base.css (reset, focus, utilities) + components.css
 react/       Layer 2
 dist/        built bundle — committed so it can be linked directly

@@ -1,0 +1,128 @@
+/* ============================================================
+   THE BASE — lifted from michaelkujr.me
+   Not invented here. Every value below is either taken directly from
+   src/styles/tokens.css on the personal site, or derived from a rule
+   the site's components already follow.
+
+   The character, in three lines:
+     white paper, cool near-black ink, ONE restrained accent
+     small radius (4px) — crisp, not soft
+     slow expo-out easing, and things lift rather than glow
+   ============================================================ */
+
+:root {
+  /* ---- ramp: the only place a literal colour appears ---- */
+  --paper: #ffffff;
+  --paper-sunk: #f6f7f6;
+  --ink: #15171a;
+  --ink-soft: #52565c;
+  --ink-faint: #888d8f;
+  --line: #e7e8ea;
+  --line-strong: #d5d7da;
+
+  /* Emerald is the site's current accent. The site's own token file
+     documents these swaps; they are wired to [data-accent] below. */
+  --accent: #0f7d54;
+  --accent-deep: #0b5c3d;
+
+  /* ---- type: Space Grotesk display, Inter body ---- */
+  --mk-font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+  --mk-font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mk-font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --mk-display-wdth: 100;
+  --mk-display-track: -0.025em;
+
+  /* ---- semantic: everything else reads from the ramp ---- */
+  --mk-bg: var(--paper);
+  --mk-surface: var(--paper);
+  --mk-surface-2: var(--paper-sunk);
+  --mk-surface-sunk: var(--paper-sunk);
+
+  --mk-line: var(--line);
+  --mk-line-strong: var(--line-strong);
+
+  --mk-text: var(--ink);
+  --mk-text-muted: var(--ink-soft);
+  --mk-text-faint: var(--ink-faint);
+
+  --mk-accent: var(--accent);
+  --mk-accent-hover: var(--accent-deep);
+  --mk-accent-ink: var(--paper);
+  --mk-accent-soft: color-mix(in srgb, var(--accent) 8%, transparent);
+
+  --mk-data: var(--accent);
+  --mk-data-soft: var(--mk-accent-soft);
+  --mk-ok: var(--accent);
+  --mk-ok-soft: var(--mk-accent-soft);
+  --mk-warn: #9a6a00;
+  --mk-warn-soft: rgba(154, 106, 0, 0.09);
+  --mk-danger: #b3243c;
+  --mk-danger-soft: rgba(179, 36, 60, 0.08);
+
+  /* Small radius is a large part of the character. Do not round these up. */
+  --mk-radius-sm: 2px;
+  --mk-radius: 4px;
+  --mk-radius-lg: 10px;
+
+  /* The site never uses a resting shadow — depth appears only on hover,
+     and it is long and soft rather than tight and dark. */
+  --mk-shadow-1: none;
+  --mk-shadow-2: 0 18px 40px -24px rgba(23, 21, 15, 0.35);
+
+  /* Focus is the accent, outset. Matches the site exactly. */
+  --mk-focus-ring: 0 0 0 3px var(--mk-bg), 0 0 0 5px var(--mk-accent);
+
+  /* ---- motion: expo-out, unhurried ---- */
+  --mk-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mk-dur-fast: 0.25s;
+  --mk-dur: 0.4s;
+  --mk-dur-slow: 0.6s;
+
+  --mk-control-h: 44px;
+  --mk-control-h-sm: 34px;
+  --mk-control-h-lg: 52px;
+}
+
+/* ---- accent swaps, straight off the site's own token comments ---- */
+[data-accent="cobalt"] { --accent: #2f5fe0; --accent-deep: #1d44b8; }
+[data-accent="indigo"] { --accent: #5b4bd6; --accent-deep: #4334b0; }
+[data-accent="slate"]  { --accent: #3f5366; --accent-deep: #2c3b49; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --mk-dur-fast: 0s; --mk-dur: 0s; --mk-dur-slow: 0s; }
+}
+
+/* ---------- the site's signature devices ---------- */
+
+/* Section labels carry a leading hairline. It is the one piece of
+   ornament the site allows itself, and it is what makes a heading read
+   as a section rather than as a sentence. */
+.mk-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--mk-font-display);
+  font-size: var(--mk-text-xs);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mk-text-faint);
+}
+.mk-eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: var(--mk-line-strong);
+  flex: none;
+}
+
+body {
+  line-height: 1.65;
+  letter-spacing: -0.011em;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 500;
+  line-height: 1.08;
+  text-wrap: balance;
+}

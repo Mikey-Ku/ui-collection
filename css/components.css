@@ -5,29 +5,39 @@
    ============================================================ */
 
 /* ---------- Button ---------- */
+/* Geometry and motion here are taken from the buttons on michaelkujr.me:
+   display face at 500, 1.4rem side padding, 4px radius, and a 2px lift on
+   hover. The lift is the whole personality — no glow, no fill flash. */
 .mk-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--mk-2);
+  gap: 0.5rem;
   height: var(--mk-control-h);
-  padding-inline: var(--mk-4);
+  padding-inline: 1.4rem;
   border: var(--mk-border-w) solid transparent;
   border-radius: var(--mk-radius);
   background: transparent;
   color: var(--mk-text);
-  font-family: var(--mk-font-body);
+  font-family: var(--mk-font-display);
   font-size: var(--mk-text-sm);
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--mk-dur) var(--mk-ease),
-              border-color var(--mk-dur) var(--mk-ease),
-              color var(--mk-dur) var(--mk-ease),
+  transition: background-color var(--mk-dur-fast) var(--mk-ease),
+              border-color var(--mk-dur-fast) var(--mk-ease),
+              color var(--mk-dur-fast) var(--mk-ease),
               transform var(--mk-dur-fast) var(--mk-ease);
 }
 
+.mk-btn:hover:not(:disabled) { transform: translateY(-2px); }
+.mk-btn:active:not(:disabled) { transform: translateY(0); }
 .mk-btn:disabled { opacity: 0.42; cursor: not-allowed; }
+
+/* A trailing glyph walks forward with the hover. Leading icons are left
+   alone, which is why this targets the last child rather than every svg. */
+.mk-btn > svg:last-child { transition: transform var(--mk-dur-fast) var(--mk-ease); }
+.mk-btn:hover:not(:disabled) > svg:last-child { transform: translateX(3px); }
 
 .mk-btn--primary {
   background: var(--mk-accent);
@@ -41,10 +51,10 @@
   border-color: var(--mk-line-strong);
   color: var(--mk-text);
 }
-.mk-btn--secondary:hover:not(:disabled) { background: var(--mk-surface-2); border-color: var(--mk-accent); color: var(--mk-accent); }
+.mk-btn--secondary:hover:not(:disabled) { border-color: var(--mk-accent); color: var(--mk-accent); }
 
 .mk-btn--ghost { color: var(--mk-text-muted); }
-.mk-btn--ghost:hover:not(:disabled) { background: var(--mk-accent-soft); color: var(--mk-accent); }
+.mk-btn--ghost:hover:not(:disabled) { background: var(--mk-surface-2); color: var(--mk-text); }
 
 .mk-btn--danger {
   background: var(--mk-danger-soft);
@@ -53,9 +63,9 @@
 }
 .mk-btn--danger:hover:not(:disabled) { background: var(--mk-danger); color: #fff; border-color: var(--mk-danger); }
 
-.mk-btn--sm { height: var(--mk-control-h-sm); padding-inline: var(--mk-3); font-size: var(--mk-text-xs); }
-.mk-btn--lg { height: var(--mk-control-h-lg); padding-inline: var(--mk-6); font-size: var(--mk-text-base); }
-.mk-btn--icon { padding-inline: 0; width: var(--mk-control-h); }
+.mk-btn--sm { height: var(--mk-control-h-sm); padding-inline: 0.9rem; font-size: var(--mk-text-xs); }
+.mk-btn--lg { height: var(--mk-control-h-lg); padding-inline: 1.9rem; font-size: var(--mk-text-base); }
+.mk-btn--icon { padding-inline: 0; width: var(--mk-control-h); gap: 0; }
 
 /* ---------- Form ---------- */
 .mk-field { display: flex; flex-direction: column; gap: var(--mk-2); }
@@ -131,6 +141,20 @@
   border: var(--mk-border-w) solid var(--mk-line);
   border-radius: var(--mk-radius-lg);
   overflow: hidden;
+}
+
+/* Cards rest flat and earn their shadow on hover — the site never shows a
+   resting elevation. Opt in with .mk-card--interactive; a card that isn't
+   clickable shouldn't pretend to be. */
+.mk-card--interactive {
+  transition: transform var(--mk-dur) var(--mk-ease),
+              border-color var(--mk-dur) var(--mk-ease),
+              box-shadow var(--mk-dur) var(--mk-ease);
+}
+.mk-card--interactive:hover {
+  transform: translateY(-4px);
+  border-color: var(--mk-line-strong);
+  box-shadow: var(--mk-shadow-2);
 }
 .mk-card__head {
   display: flex;
@@ -310,9 +334,12 @@
 }
 
 /* ---------- Skeleton ---------- */
+/* Built from the line tokens, not the surface tokens. A theme is free to
+   make surface and surface-sunk identical — several do — and a skeleton
+   built from those would vanish onto its own background. */
 .mk-skeleton {
   border-radius: var(--mk-radius-sm);
-  background: linear-gradient(90deg, var(--mk-surface-sunk) 25%, var(--mk-surface-2) 50%, var(--mk-surface-sunk) 75%);
+  background: linear-gradient(90deg, var(--mk-line) 25%, var(--mk-line-strong) 50%, var(--mk-line) 75%);
   background-size: 200% 100%;
   animation: mk-shimmer 1.4s linear infinite;
 }

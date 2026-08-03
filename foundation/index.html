@@ -1,60 +1,70 @@
 <!doctype html>
-<html lang="en" data-base="paper">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mk-ui — base</title>
+<title>ui-collection — base</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../tokens/core.css?v=176afa90">
-<link rel="stylesheet" href="../tokens/bases.css?v=176afa90">
-<link rel="stylesheet" href="../css/base.css?v=176afa90">
-<link rel="stylesheet" href="../css/components.css?v=176afa90">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/core.css?v=96af677d">
+<link rel="stylesheet" href="../tokens/theme-mk.css?v=96af677d">
+<link rel="stylesheet" href="../css/base.css?v=96af677d">
+<link rel="stylesheet" href="../css/components.css?v=96af677d">
 <style>
   .fd-top {
     position: sticky; top: 0; z-index: 5;
-    display: flex; align-items: center; gap: var(--mk-5);
-    height: 56px; padding-inline: var(--mk-6);
-    background: var(--mk-surface);
-    border-bottom: 1px solid var(--mk-line);
+    display: flex; align-items: center; gap: var(--mk-6);
+    height: 68px; padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+    background: var(--paper); border-bottom: 1px solid var(--mk-line);
   }
-  .fd-mark { font-weight: 650; letter-spacing: var(--mk-display-track); }
+  .fd-mark {
+    font-family: var(--mk-font-display); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.18em; font-size: var(--mk-text-xs);
+  }
+  .fd-mark b { color: var(--mk-accent); font-weight: 500; }
 
-  .fd-wrap { max-width: 880px; margin-inline: auto; padding: var(--mk-10) var(--mk-6) var(--mk-16); }
-  .fd-sec { margin-bottom: var(--mk-12); }
-  .fd-sec > header { margin-bottom: var(--mk-4); }
-  .fd-sec h2 { font-size: var(--mk-text-md); margin-bottom: 2px; }
-  .fd-sec p { color: var(--mk-text-muted); font-size: var(--mk-text-sm); max-width: 58ch; }
+  .fd-accents { display: flex; gap: 6px; }
+  .fd-swatch {
+    width: 18px; height: 18px; padding: 0;
+    border: 1px solid var(--mk-line-strong); border-radius: 50%; cursor: pointer;
+    transition: transform var(--mk-dur-fast) var(--mk-ease);
+  }
+  .fd-swatch:hover { transform: translateY(-2px); }
+  .fd-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
 
-  /* --- ramps --- */
-  .fd-ramp { display: grid; grid-template-columns: repeat(auto-fit, minmax(76px, 1fr)); gap: 2px; }
+  .fd-wrap { max-width: 900px; margin-inline: auto; padding: var(--mk-12) clamp(1.25rem, 5vw, 2.5rem) var(--mk-16); }
+  .fd-sec { margin-bottom: var(--mk-16); }
+  .fd-sec > header { margin-bottom: var(--mk-5); }
+  .fd-sec h2 { font-size: var(--mk-text-lg); margin: var(--mk-3) 0 var(--mk-2); }
+  .fd-sec p { color: var(--mk-text-muted); max-width: 60ch; }
+
+  .fd-ramp { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 1px; }
   .fd-chip {
     display: flex; flex-direction: column; justify-content: flex-end;
-    height: 76px; padding: var(--mk-2);
-    font-family: var(--mk-font-mono); font-size: 9px; line-height: 1.4;
-    /* The lightest step often equals the page colour. Without an edge it
-       reads as a missing swatch rather than a matching one. */
-    box-shadow: inset 0 0 0 1px rgba(11, 22, 38, 0.08);
+    height: 88px; padding: var(--mk-2);
+    font-family: var(--mk-font-mono); font-size: 9px; line-height: 1.5;
+    box-shadow: inset 0 0 0 1px rgba(21, 23, 26, 0.09);
   }
-  .fd-chip:first-child { border-start-start-radius: var(--mk-radius); border-end-start-radius: var(--mk-radius); }
-  .fd-chip:last-child { border-start-end-radius: var(--mk-radius); border-end-radius: var(--mk-radius); border-end-end-radius: var(--mk-radius); }
-  .fd-chip b { font-weight: 500; opacity: 0.65; }
+  .fd-chip b { font-weight: 400; opacity: 0.6; }
 
-  /* --- elevation --- */
-  .fd-elev { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--mk-4); }
-  .fd-elev > div {
-    padding: var(--mk-5); border-radius: var(--mk-radius-lg);
-    background: var(--mk-surface); border: 1px solid var(--mk-line);
-    font-size: var(--mk-text-sm);
+  .fd-rows { border-top: 1px solid var(--mk-line); }
+  .fd-row {
+    display: grid; grid-template-columns: 168px minmax(0, 1fr);
+    gap: var(--mk-5); align-items: baseline;
+    padding: var(--mk-4) 0; border-bottom: 1px solid var(--mk-line);
   }
-  .fd-elev .r { box-shadow: var(--mk-shadow-1); }
-  .fd-elev .f { box-shadow: var(--mk-shadow-2); }
+  .fd-row > dt { font-family: var(--mk-font-mono); font-size: var(--mk-text-xs); color: var(--mk-text-faint); }
 
-  .fd-applied { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); }
+  .fd-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); }
+  .fd-demo {
+    display: grid; place-items: center; min-height: 150px; padding: var(--mk-8);
+    background: var(--paper-sunk); border: 1px solid var(--mk-line); border-radius: var(--mk-radius-lg);
+  }
 
   @media (max-width: 700px) {
-    .fd-elev, .fd-applied { grid-template-columns: minmax(0, 1fr); }
+    .fd-grid2 { grid-template-columns: minmax(0, 1fr); }
+    .fd-row { grid-template-columns: minmax(0, 1fr); gap: var(--mk-1); }
     .fd-top { height: auto; padding-block: var(--mk-3); flex-wrap: wrap; }
   }
 </style>
@@ -62,84 +72,124 @@
 <body>
 
 <header class="fd-top">
-  <span class="fd-mark">Base</span>
-  <div class="mk-tabs" role="group" aria-label="Base candidate">
-    <button class="mk-tab" data-base-pick="paper" aria-selected="true">Paper</button>
-    <button class="mk-tab" data-base-pick="cupertino" aria-selected="false">Cupertino</button>
-    <button class="mk-tab" data-base-pick="atlas" aria-selected="false">Atlas</button>
-  </div>
+  <span class="fd-mark">mk<b>/</b>base</span>
   <span class="mk-grow"></span>
-  <span class="mk-eyebrow" id="thesis">—</span>
+  <span class="mk-eyebrow">Accent</span>
+  <div class="fd-accents" role="group" aria-label="Accent">
+    <button class="fd-swatch" data-accent-pick="" style="background:#0f7d54" aria-pressed="true" aria-label="Emerald"></button>
+    <button class="fd-swatch" data-accent-pick="cobalt" style="background:#2f5fe0" aria-pressed="false" aria-label="Cobalt"></button>
+    <button class="fd-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
+    <button class="fd-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
+  </div>
 </header>
 
 <div class="fd-wrap">
 
   <section class="fd-sec">
     <header>
-      <h2>Ground</h2>
-      <p id="ground-note">—</p>
+      <span class="mk-eyebrow">Source</span>
+      <h2>Lifted from michaelkujr.me</h2>
+      <p>Nothing on this page was invented. Every value is either taken directly from the site's
+         <code class="mk-mono">tokens.css</code> or derived from a rule its components already follow.
+         White paper, cool near-black ink, one restrained accent, 4px radius, and things that lift
+         rather than glow.</p>
     </header>
-    <div class="mk-row mk-gap-4 mk-wrap">
-      <div class="mk-stack mk-gap-2">
-        <span class="mk-eyebrow">Page</span>
-        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-bg);border:1px solid var(--mk-line)"></div>
-        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-bg">—</span>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <span class="mk-eyebrow">Colour</span>
+      <h2>Paper and ink</h2>
+      <p>Seven values carry the whole interface. There is no second hue &mdash; the accent is the only
+         colour in the system, which is what makes it mean something when it appears.</p>
+    </header>
+    <div class="fd-ramp" id="ramp"></div>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <span class="mk-eyebrow">Accent</span>
+      <h2>One, swappable</h2>
+      <p>Emerald is what the site ships. The site's own token file documents three alternates in a
+         comment &mdash; they are wired to the swatches above, so the swap is something you can look at
+         rather than imagine. Cobalt is the blue you were reaching for.</p>
+    </header>
+    <div class="fd-grid2">
+      <div class="fd-demo">
+        <button class="mk-btn mk-btn--primary">View projects
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
       </div>
-      <div class="mk-stack mk-gap-2">
-        <span class="mk-eyebrow">Surface</span>
-        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-surface);border:1px solid var(--mk-line)"></div>
-        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-surface">—</span>
-      </div>
-      <div class="mk-stack mk-gap-2">
-        <span class="mk-eyebrow">Ink</span>
-        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-text)"></div>
-        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-text">—</span>
-      </div>
-      <div class="mk-stack mk-gap-2">
-        <span class="mk-eyebrow">Accent</span>
-        <div style="width:120px;height:56px;border-radius:var(--mk-radius);background:var(--mk-accent)"></div>
-        <span class="mk-mono mk-faint" style="font-size:10px" data-read="--mk-accent">—</span>
+      <div class="fd-demo mk-stack mk-gap-3" style="place-items:stretch">
+        <span class="mk-eyebrow">Section label</span>
+        <p style="font-size:var(--mk-text-sm)">Body copy with <a href="#accent">a link</a> in it, and
+          <span style="color:var(--mk-accent)">the accent used as text</span>.</p>
       </div>
     </div>
   </section>
 
   <section class="fd-sec">
     <header>
-      <h2>Blue</h2>
-      <p>The one hue everything else is derived from. Named by value, not by role &mdash; roles are assigned in the semantic layer so they can change without touching a colour.</p>
+      <span class="mk-eyebrow">Type</span>
+      <h2>Space Grotesk &amp; Inter</h2>
+      <p>Display face at weight 500 with tight tracking; body at 400 with a generous 1.65 line height.
+         The display face also runs the buttons and the section labels, which is what ties the chrome
+         together.</p>
     </header>
-    <div class="fd-ramp" id="ramp-blue"></div>
+    <dl class="fd-rows">
+      <div class="fd-row"><dt>display / 500</dt><dd><span style="font-family:var(--mk-font-display);font-size:var(--mk-text-xl);letter-spacing:-0.025em">Components &amp; motion</span></dd></div>
+      <div class="fd-row"><dt>body / 400</dt><dd>Small pieces, live and interactive, built on the same base as the site.</dd></div>
+      <div class="fd-row"><dt>eyebrow</dt><dd><span class="mk-eyebrow">Selected work</span></dd></div>
+      <div class="fd-row"><dt>mono</dt><dd><span class="mk-mono" style="font-size:var(--mk-text-sm)">--accent: #0f7d54</span></dd></div>
+    </dl>
   </section>
 
   <section class="fd-sec">
     <header>
-      <h2>Ink</h2>
-      <p>Not greys. Every step is a desaturated version of the same blue, which is what keeps text, borders and backgrounds from looking like they came from three different systems.</p>
+      <span class="mk-eyebrow">Depth</span>
+      <h2>Nothing rests raised</h2>
+      <p>The site has no resting shadow anywhere. Surfaces sit flat inside a hairline and earn their
+         elevation on hover &mdash; a long, soft, far-offset shadow rather than a tight dark one. Hover
+         the right-hand card.</p>
     </header>
-    <div class="fd-ramp" id="ramp-ink"></div>
-  </section>
-
-  <section class="fd-sec">
-    <header>
-      <h2>Elevation</h2>
-      <p id="elev-note">—</p>
-    </header>
-    <div class="fd-elev">
-      <div><strong>Flat</strong><br><span class="mk-muted">Hairline only.</span></div>
-      <div class="r"><strong>Raised</strong><br><span class="mk-muted">Resting card.</span></div>
-      <div class="f"><strong>Floating</strong><br><span class="mk-muted">Menu, dialog.</span></div>
+    <div class="fd-grid2">
+      <div class="mk-card"><div class="mk-card__body">
+        <strong>At rest</strong>
+        <p class="mk-muted" style="font-size:var(--mk-text-sm)">Hairline only. No shadow.</p>
+      </div></div>
+      <div class="mk-card mk-card--interactive"><div class="mk-card__body">
+        <strong>On hover</strong>
+        <p class="mk-muted" style="font-size:var(--mk-text-sm)">Lifts 4px, border darkens, shadow appears.</p>
+      </div></div>
     </div>
   </section>
 
   <section class="fd-sec">
     <header>
-      <h2>Applied</h2>
-      <p>The same components you already have on the board, wearing this base. Nothing here is styled per-base &mdash; it all reads from the tokens.</p>
+      <span class="mk-eyebrow">Motion</span>
+      <h2>Expo-out, unhurried</h2>
+      <p>One easing curve for everything, taken from the site. It starts fast and settles slowly, which
+         is why the hover lift reads as physical rather than snappy. Durations step by role.</p>
     </header>
-    <div class="fd-applied">
-      <div class="mk-card"><div class="mk-card__body mk-stack mk-gap-4">
+    <dl class="fd-rows">
+      <div class="fd-row"><dt>--mk-ease</dt><dd class="mk-mono" style="font-size:var(--mk-text-sm)">cubic-bezier(0.22, 1, 0.36, 1)</dd></div>
+      <div class="fd-row"><dt>--mk-dur-fast</dt><dd>0.25s &mdash; buttons, swatches, anything under the cursor</dd></div>
+      <div class="fd-row"><dt>--mk-dur</dt><dd>0.4s &mdash; cards, panels, accordions</dd></div>
+      <div class="fd-row"><dt>--mk-dur-slow</dt><dd>0.6s &mdash; images, reveals, anything large</dd></div>
+    </dl>
+  </section>
+
+  <section class="fd-sec">
+    <header>
+      <span class="mk-eyebrow">Applied</span>
+      <h2>The controls</h2>
+      <p>Everything reads from the tokens above. Change one value there and every piece in the
+         collection follows.</p>
+    </header>
+    <div class="fd-grid2">
+      <div class="mk-card"><div class="mk-card__body mk-stack mk-gap-5">
         <div class="mk-row mk-wrap mk-gap-2">
-          <button class="mk-btn mk-btn--primary mk-lift">Save changes</button>
+          <button class="mk-btn mk-btn--primary">Save</button>
           <button class="mk-btn mk-btn--secondary">Cancel</button>
           <button class="mk-btn mk-btn--ghost">Skip</button>
         </div>
@@ -149,14 +199,9 @@
         </div>
       </div></div>
 
-      <div class="mk-card"><div class="mk-card__body mk-stack mk-gap-4">
+      <div class="mk-card"><div class="mk-card__body mk-stack mk-gap-5">
         <label class="mk-switch"><input type="checkbox" checked><span class="mk-switch__track"></span>Notifications</label>
         <label class="mk-tick"><input type="checkbox" checked><span class="mk-tick__box"><svg viewBox="0 0 16 16"><path d="M3.5 8.6 L6.4 11.5 L12.5 4.8"/></svg></span>Reviewed</label>
-        <div class="mk-row mk-gap-2 mk-wrap">
-          <span class="mk-badge mk-badge--accent">Active</span>
-          <span class="mk-badge mk-badge--ok">Passed</span>
-          <span class="mk-badge">v0.4.0</span>
-        </div>
         <div class="mk-meter"><div class="mk-meter__fill" style="width:64%"></div></div>
       </div></div>
     </div>
@@ -164,68 +209,45 @@
 </div>
 
 <script type="module">
-const $ = (s) => document.querySelector(s);
+const RAMP = [
+  ["--paper", "paper"],
+  ["--paper-sunk", "paper-sunk"],
+  ["--line", "line"],
+  ["--line-strong", "line-strong"],
+  ["--ink-faint", "ink-faint"],
+  ["--ink-soft", "ink-soft"],
+  ["--ink", "ink"],
+  ["--accent", "accent"],
+];
+
 const root = document.documentElement;
+// Read the resolved value, not the var() reference, so a label can never
+// disagree with what is actually painted.
+const read = (n) => getComputedStyle(root).getPropertyValue(n).trim();
 
-const COPY = {
-  paper: {
-    thesis: "Restrained",
-    ground: "A cool near-white, not pure white. Surfaces are true white, so a card separates from the page by value alone and barely needs a shadow. The blue is rare, which is what makes it land when it appears.",
-    elev: "Depth comes from value steps and hairlines. Shadow is present but almost subliminal — tinted with the accent rather than black, because a black shadow on a blue-cast ground reads as dirt.",
-  },
-  cupertino: {
-    thesis: "Familiar",
-    ground: "True white everywhere. The page and the card are the same colour, so every bit of separation has to be earned by shadow. Accent is the actual iOS system blue.",
-    elev: "Depth is entirely shadow — surfaces float rather than step. Larger radii. This is the language your phone already speaks, which is either the point or the problem.",
-  },
-  atlas: {
-    thesis: "Branded",
-    ground: "The page itself is visibly blue and white surfaces float on top of it. The most colour presence of the three: because the ground is doing the branding, individual components can stay quiet.",
-    elev: "Shadows are tinted hard toward the accent, so lifting something also warms it toward blue. Reads soft and friendly rather than crisp.",
-  },
-};
-
-const BLUE = [50, 100, 300, 400, 500, 600, 700];
-const INK = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900];
-
-// Read the resolved value rather than the var() reference, so the labels
-// always tell the truth about what is actually painted.
-const readVar = (name) => getComputedStyle(root).getPropertyValue(name).trim();
-
-function ramp(el, prefix, steps) {
-  el.replaceChildren(...steps.map((s) => {
-    const hex = readVar(`--${prefix}-${s}`);
+function paint() {
+  document.querySelector("#ramp").replaceChildren(...RAMP.map(([v, label]) => {
+    const hex = read(v);
     const d = document.createElement("div");
     d.className = "fd-chip";
     d.style.background = hex;
-    // Light chips need dark text and vice versa; the ramp's own scale
-    // is the switch.
-    d.style.color = s >= 500 ? "rgba(255,255,255,.92)" : "var(--ink-700)";
-    d.innerHTML = `<b>${prefix}-${s}</b>${hex}`;
+    d.style.color = ["--ink", "--ink-soft", "--accent"].includes(v) ? "rgba(255,255,255,.9)" : "var(--ink-soft)";
+    d.innerHTML = `<b>${label}</b>${hex}`;
     return d;
   }));
 }
 
-function apply(name) {
-  root.dataset.base = name;
-  document.querySelectorAll("[data-base-pick]").forEach((b) =>
-    b.setAttribute("aria-selected", String(b.dataset.basePick === name)));
-
-  $("#thesis").textContent = COPY[name].thesis;
-  $("#ground-note").textContent = COPY[name].ground;
-  $("#elev-note").textContent = COPY[name].elev;
-
-  ramp($("#ramp-blue"), "blue", BLUE);
-  ramp($("#ramp-ink"), "ink", INK);
-  document.querySelectorAll("[data-read]").forEach((el) => { el.textContent = readVar(el.dataset.read); });
-}
-
 document.addEventListener("click", (e) => {
-  const b = e.target.closest("[data-base-pick]");
-  if (b) apply(b.dataset.basePick);
+  const s = e.target.closest("[data-accent-pick]");
+  if (!s) return;
+  const v = s.dataset.accentPick;
+  if (v) root.dataset.accent = v; else delete root.dataset.accent;
+  document.querySelectorAll("[data-accent-pick]").forEach((b) =>
+    b.setAttribute("aria-pressed", String(b === s)));
+  paint();
 });
 
-apply("paper");
+paint();
 </script>
 </body>
 </html>

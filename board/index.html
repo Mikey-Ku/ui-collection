@@ -1,93 +1,103 @@
 <!doctype html>
-<html lang="en" data-theme="board">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>mk-ui — board</title>
+<title>ui-collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../tokens/core.css?v=176afa90">
-<link rel="stylesheet" href="../tokens/theme-board.css?v=176afa90">
-<link rel="stylesheet" href="../css/base.css?v=176afa90">
-<link rel="stylesheet" href="../css/components.css?v=176afa90">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/core.css?v=96af677d">
+<link rel="stylesheet" href="../tokens/theme-mk.css?v=96af677d">
+<link rel="stylesheet" href="../css/base.css?v=96af677d">
+<link rel="stylesheet" href="../css/components.css?v=96af677d">
 <style>
-  /* Board chrome. Matte throughout — no shadow, no blur, hairlines only. */
+  /* Board chrome. Hairlines and whitespace only — the site's own habit. */
   .bd-top {
-    display: flex; align-items: center; gap: var(--mk-5);
-    height: 54px; padding-inline: var(--mk-6);
-    border-bottom: 1px solid var(--mk-line);
     position: sticky; top: 0; z-index: 5;
-    background: var(--mk-bg);
+    display: flex; align-items: center; gap: var(--mk-6);
+    height: 68px; padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+    background: var(--paper);
+    border-bottom: 1px solid var(--mk-line);
   }
   .bd-mark {
-    font-family: var(--mk-font-display); font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.18em; font-size: var(--mk-text-sm);
-    white-space: nowrap;
+    font-family: var(--mk-font-display); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    font-size: var(--mk-text-xs); white-space: nowrap;
   }
-  .bd-mark b { color: var(--mk-accent); font-weight: 700; }
-  .bd-search { flex: 1; max-width: 360px; }
-  .bd-search .mk-input { background: var(--mk-surface-sunk); }
+  .bd-mark b { color: var(--mk-accent); font-weight: 500; }
+  .bd-search { flex: 1; max-width: 320px; }
 
-  .bd-wrap { max-width: 1000px; margin-inline: auto; padding: var(--mk-8) var(--mk-6) var(--mk-16); }
+  /* Accent swatches. The site ships one accent and documents the swaps;
+     this makes the swap something you can see rather than imagine. */
+  .bd-accents { display: flex; gap: 6px; }
+  .bd-swatch {
+    width: 18px; height: 18px; padding: 0;
+    border: 1px solid var(--mk-line-strong); border-radius: 50%;
+    cursor: pointer;
+    transition: transform var(--mk-dur-fast) var(--mk-ease), box-shadow var(--mk-dur-fast) var(--mk-ease);
+  }
+  .bd-swatch:hover { transform: translateY(-2px); }
+  .bd-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
+
+  .bd-wrap { max-width: var(--mk-container); margin-inline: auto; padding: var(--mk-12) clamp(1.25rem, 5vw, 2.5rem) var(--mk-16); }
+  .bd-head { margin-bottom: var(--mk-8); }
+  .bd-head h1 { font-size: var(--mk-text-2xl); margin: var(--mk-3) 0 var(--mk-2); }
+  .bd-head p { color: var(--mk-text-muted); max-width: 52ch; }
 
   .bd-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-5); }
 
   .bd-tile {
     display: flex; flex-direction: column;
     border: 1px solid var(--mk-line); border-radius: var(--mk-radius-lg);
-    background: var(--mk-surface); overflow: hidden;
-    transition: border-color var(--mk-dur) var(--mk-ease);
+    background: var(--paper); overflow: hidden;
+    transition: transform var(--mk-dur) var(--mk-ease),
+                border-color var(--mk-dur) var(--mk-ease),
+                box-shadow var(--mk-dur) var(--mk-ease);
   }
-  .bd-tile:hover { border-color: var(--mk-line-strong); }
-  .bd-tile[data-open] { border-color: var(--mk-accent); }
+  .bd-tile:hover { transform: translateY(-4px); border-color: var(--mk-line-strong); box-shadow: var(--mk-shadow-2); }
 
-  /* The specimen sits on graph paper so its real edges are readable
-     against the board. */
   .bd-tile__view {
     display: grid; place-items: center;
-    min-height: 190px; padding: var(--mk-8) var(--mk-5);
-    background:
-      linear-gradient(var(--mk-line) 1px, transparent 1px) 0 0 / 100% 24px,
-      linear-gradient(90deg, var(--mk-line) 1px, transparent 1px) 0 0 / 24px 100%;
-    background-color: var(--mk-surface-sunk);
+    min-height: 200px; padding: var(--mk-10) var(--mk-5);
+    background: var(--paper-sunk);
+    border-bottom: 1px solid var(--mk-line);
   }
 
   .bd-tile__bar {
     display: flex; align-items: center; justify-content: space-between; gap: var(--mk-3);
-    width: 100%; padding: var(--mk-3) var(--mk-4);
-    border: 0; border-top: 1px solid var(--mk-line);
-    background: transparent; color: var(--mk-text);
+    width: 100%; padding: var(--mk-4);
+    border: 0; background: transparent; color: var(--mk-text);
     font-family: var(--mk-font-display);
-    text-transform: uppercase; letter-spacing: 0.14em;
-    font-size: var(--mk-text-xs); font-weight: 600;
+    font-size: var(--mk-text-sm); font-weight: 500; letter-spacing: -0.015em;
     cursor: pointer; text-align: left;
-    transition: background-color var(--mk-dur) var(--mk-ease), color var(--mk-dur) var(--mk-ease);
+    transition: color var(--mk-dur-fast) var(--mk-ease);
   }
-  .bd-tile__bar:hover { background: var(--mk-surface-2); color: var(--mk-accent); }
-  .bd-tile__kind { display: flex; align-items: center; gap: var(--mk-2); color: var(--mk-text-faint); }
-  .bd-tile__kind i { font-style: normal; transition: transform var(--mk-dur) var(--mk-ease); }
+  .bd-tile__bar:hover { color: var(--mk-accent); }
+  .bd-tile__kind {
+    display: flex; align-items: center; gap: var(--mk-2);
+    font-size: var(--mk-text-xs); letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--mk-text-faint);
+  }
+  .bd-tile__kind i { font-style: normal; transition: transform var(--mk-dur-fast) var(--mk-ease); }
   .bd-tile[data-open] .bd-tile__kind i { transform: rotate(90deg); }
 
-  /* Accordion via grid-template-rows, so it animates to natural height
-     without anyone measuring a pixel. */
+  /* grid-template-rows animates to natural height without measuring. */
   .bd-tile__detail {
     display: grid; grid-template-rows: 0fr;
-    transition: grid-template-rows var(--mk-dur-slow) var(--mk-ease);
+    transition: grid-template-rows var(--mk-dur) var(--mk-ease);
   }
   .bd-tile[data-open] .bd-tile__detail { grid-template-rows: 1fr; }
   .bd-tile__detail > div { overflow: hidden; }
   .bd-tile__detail p {
-    padding: var(--mk-4) var(--mk-4) var(--mk-3);
-    border-top: 1px solid var(--mk-line);
+    padding: 0 var(--mk-4) var(--mk-3);
     color: var(--mk-text-muted); font-size: var(--mk-text-sm);
   }
   .bd-classes { display: flex; flex-wrap: wrap; gap: var(--mk-1); padding: 0 var(--mk-4) var(--mk-4); }
   .bd-class {
     padding: 2px 7px; border-radius: var(--mk-radius-sm);
-    background: var(--mk-surface-sunk); border: 1px solid var(--mk-line);
-    font-family: var(--mk-font-mono); font-size: 10px; letter-spacing: 0;
-    text-transform: none; color: var(--mk-text-muted);
+    background: var(--paper-sunk); border: 1px solid var(--mk-line);
+    font-family: var(--mk-font-mono); font-size: 10px; color: var(--mk-text-muted);
   }
 
   .bd-empty { padding: var(--mk-16) 0; text-align: center; }
@@ -95,25 +105,37 @@
   @media (max-width: 720px) {
     .bd-grid { grid-template-columns: minmax(0, 1fr); }
     .bd-top { height: auto; padding-block: var(--mk-3); flex-wrap: wrap; }
-    .bd-search { max-width: none; order: 3; width: 100%; }
+    .bd-search { max-width: none; order: 4; width: 100%; }
   }
 </style>
 </head>
 <body>
 
 <header class="bd-top">
-  <span class="bd-mark">mk<b>/</b>board</span>
+  <span class="bd-mark">mk<b>/</b>collection</span>
   <div class="bd-search">
-    <input class="mk-input" id="q" type="search" placeholder="Search the board…   /" aria-label="Search the board" autocomplete="off">
+    <input class="mk-input" id="q" type="search" placeholder="Search…   /" aria-label="Search the collection" autocomplete="off">
   </div>
   <span class="mk-grow"></span>
+  <div class="bd-accents" role="group" aria-label="Accent">
+    <button class="bd-swatch" data-accent-pick="" style="background:#0f7d54" aria-pressed="true" aria-label="Emerald"></button>
+    <button class="bd-swatch" data-accent-pick="cobalt" style="background:#2f5fe0" aria-pressed="false" aria-label="Cobalt"></button>
+    <button class="bd-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
+    <button class="bd-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
+  </div>
   <span class="mk-eyebrow" id="count">—</span>
 </header>
 
 <div class="bd-wrap">
+  <div class="bd-head">
+    <span class="mk-eyebrow">Collection</span>
+    <h1>Components &amp; motion</h1>
+    <p>Small pieces, live and interactive, built on the same base as the site. Click a name for the note and the classes it uses.</p>
+  </div>
+
   <div class="bd-grid" id="grid"></div>
   <div class="bd-empty" id="empty" hidden>
-    <p class="mk-muted">Nothing on the board matches that. Worth building?</p>
+    <p class="mk-muted">Nothing here matches that yet. Worth building?</p>
   </div>
 </div>
 
@@ -126,8 +148,8 @@ const items = reg.items ?? [];
 
 /* ---------------------------------------------------------------
    Behaviours. Every demo takes a root and wires only what is inside
-   it, so the same specimen can be mounted more than once without any
-   shared state or ids.
+   it, so a specimen can be mounted more than once without shared
+   state or ids.
    --------------------------------------------------------------- */
 const behaviors = {
   seg(root) {
@@ -142,8 +164,7 @@ const behaviors = {
       opts.forEach((x) => x.setAttribute("aria-selected", String(x === o)));
       move(o);
     }));
-    // Widths shift when fonts land or the container resizes. Re-measure
-    // on any of it rather than guessing once.
+    // Widths shift when fonts land or the container resizes.
     const sync = () => move(root.querySelector('[aria-selected="true"]'));
     new ResizeObserver(sync).observe(root);
     sync();
@@ -151,7 +172,7 @@ const behaviors = {
 
   copy(btn) {
     btn.addEventListener("click", () => {
-      navigator.clipboard?.writeText("--mk-accent").catch(() => {});
+      navigator.clipboard?.writeText("--accent").catch(() => {});
       btn.dataset.copied = "";
       clearTimeout(btn._t);
       btn._t = setTimeout(() => delete btn.dataset.copied, 1600);
@@ -164,7 +185,7 @@ const behaviors = {
       slot.replaceChildren();
       const t = document.createElement("div");
       t.className = "mk-toast";
-      t.innerHTML = `<span class="mk-dot" style="color: var(--mk-ok)"></span> Pinned to the board`;
+      t.innerHTML = `<span class="mk-dot" style="color: var(--mk-accent)"></span> Added to the collection`;
       slot.append(t);
       setTimeout(() => {
         t.dataset.leaving = "";
@@ -198,7 +219,7 @@ function tile(it) {
     <div class="bd-tile__view" data-demo>${it.demo ?? ""}</div>
     <button class="bd-tile__bar" aria-expanded="false">
       <span>${it.name ?? it.id}</span>
-      <span class="bd-tile__kind">${it.kind ?? ""} <i>›</i></span>
+      <span class="bd-tile__kind">${it.kind ?? ""} <i>&rsaquo;</i></span>
     </button>
     <div class="bd-tile__detail"><div>
       <p>${it.note ?? ""}</p>
@@ -214,9 +235,8 @@ function tile(it) {
   return el;
 }
 
-/* Search is keyword, widened by each item's aliases and a small synonym
-   map. Not embeddings — see the README for what real semantic search
-   would take. */
+/* Keyword search over each item's own fields, widened by aliases and a
+   small synonym map. Not embeddings — see the README. */
 const SYNONYMS = {
   click: ["button", "press", "action"],
   loading: ["spinner", "skeleton", "shimmer", "wait"],
@@ -244,10 +264,21 @@ function render() {
   mount($("#grid"));
 
   $("#empty").hidden = shown.length > 0;
-  $("#count").textContent = raw ? `${shown.length} / ${items.length}` : `${items.length} on the board`;
+  $("#count").textContent = raw ? `${shown.length} / ${items.length}` : `${items.length} pieces`;
 }
 
 $("#q").addEventListener("input", render);
+
+document.addEventListener("click", (e) => {
+  const s = e.target.closest("[data-accent-pick]");
+  if (!s) return;
+  const v = s.dataset.accentPick;
+  if (v) document.documentElement.dataset.accent = v;
+  else delete document.documentElement.dataset.accent;
+  document.querySelectorAll("[data-accent-pick]").forEach((b) =>
+    b.setAttribute("aria-pressed", String(b === s)));
+});
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); }
   if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; render(); }

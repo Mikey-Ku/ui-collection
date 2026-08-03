@@ -15,8 +15,7 @@ const root = dirname(fileURLToPath(import.meta.url));
 
 const LAYERS = [
   "tokens/core.css",
-  "tokens/bases.css",
-  "tokens/theme-board.css",
+  "tokens/theme-mk.css",
   "css/base.css",
   "css/components.css",
 ];

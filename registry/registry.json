@@ -9,9 +9,9 @@
       "kind": "family",
       "tags": ["button", "action", "primary", "secondary", "ghost", "danger", "hover", "press"],
       "aliases": ["click", "cta", "submit", "save", "cancel", "delete"],
-      "note": "Four weights of the same shape. The solid one lifts 2px on hover — that lift is what makes it read as pressable.",
-      "css": ["mk-btn", "mk-btn--primary", "mk-btn--secondary", "mk-btn--ghost", "mk-btn--danger", "mk-lift"],
-      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary mk-lift'>Save changes</button><button class='mk-btn mk-btn--secondary'>Cancel</button><button class='mk-btn mk-btn--ghost'>Skip</button><button class='mk-btn mk-btn--danger'>Delete</button></div>"
+      "note": "Straight off michaelkujr.me: display face at 500, 4px radius, and a 2px lift on hover. A trailing arrow walks forward 3px with it — that pairing is the signature.",
+      "css": ["mk-btn", "mk-btn--primary", "mk-btn--secondary", "mk-btn--ghost", "mk-btn--danger"],
+      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button><button class='mk-btn mk-btn--ghost'>Get in touch</button></div>"
     },
     {
       "id": "selection",
