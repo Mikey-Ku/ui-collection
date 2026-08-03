@@ -31,7 +31,24 @@
 </header>
 
 <div class="pg-wrap">
-  <div class="pg-scale" id="scale"></div>
+  <div class="pg-masthead">
+    <span class="mk-eyebrow">Collection</span>
+    <h1>Elements &amp; motion</h1>
+    <p>Small UI pieces, live and interactive, built on the design language from
+       michaelkujr.me. Open any element for its variants, its sizes, and the
+       motion behind it.</p>
+  </div>
+
+  <div class="pg-sec">
+    <div class="pg-label"><span class="mk-eyebrow">Base</span></div>
+    <div class="pg-scale" id="scale"></div>
+    <div class="pg-scale-note">
+      <span>Eight values and <b>one accent</b> carry every element here.</span>
+      <span><b>Space&nbsp;Grotesk</b> display · <b>Inter</b> body</span>
+      <span><b>4px</b> radius</span>
+      <span>Only the accent changes &mdash; try the dots above.</span>
+    </div>
+  </div>
 
   <div class="pg-label"><span class="mk-eyebrow">Elements</span></div>
   <div class="el-grid" id="grid"></div>
@@ -65,7 +82,7 @@ function paintScale() {
     // own swatch on the mid-greys.
     d.style.color = ["--ink-faint", "--ink-soft", "--ink", "--accent"].includes(v)
       ? "rgba(255,255,255,.88)" : "var(--ink-faint)";
-    d.textContent = hex;
+    d.innerHTML = `<b>${v.slice(2)}</b>${hex}`;
     return d;
   }));
 }

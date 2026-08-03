@@ -34,14 +34,30 @@
 .pg-sec { margin-bottom: var(--mk-12); }
 .pg-empty { padding: var(--mk-16) 0; text-align: center; }
 
+/* ---- masthead ---- */
+.pg-masthead { margin-bottom: var(--mk-12); }
+.pg-masthead h1 { font-size: var(--mk-text-2xl); margin: var(--mk-3) 0 var(--mk-3); }
+.pg-masthead p { color: var(--mk-text-muted); max-width: 60ch; }
+
 /* ---- the scale ---- */
-.pg-scale { display: grid; grid-template-columns: repeat(8, 1fr); margin-bottom: var(--mk-12); }
+.pg-scale { display: grid; grid-template-columns: repeat(8, 1fr); }
 .pg-chip {
-  display: flex; align-items: flex-end;
-  height: 52px; padding: 6px;
-  font-family: var(--mk-font-mono); font-size: 9px;
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 1px;
+  height: 66px; padding: 7px;
+  font-family: var(--mk-font-mono); font-size: 9px; line-height: 1.4;
   box-shadow: inset 0 0 0 1px rgba(21, 23, 26, 0.08);
 }
+/* The token name is the point — a column of bare hex codes tells you
+   nothing about what any of them is for. */
+.pg-chip b { font-weight: 400; opacity: 0.62; }
+
+.pg-scale-note {
+  display: flex; flex-wrap: wrap; gap: var(--mk-2) var(--mk-4);
+  margin-top: var(--mk-3);
+  font-size: var(--mk-text-xs); color: var(--mk-text-faint);
+}
+.pg-scale-note span { display: inline-flex; align-items: center; gap: 0.5em; }
+.pg-scale-note b { font-weight: 400; color: var(--mk-text-muted); }
 
 /* ---- index grid ---- */
 .el-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); align-items: start; }
