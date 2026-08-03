@@ -39,9 +39,19 @@
 
   /* --- layout --- */
   --mk-container: 1180px;
-  --mk-control-h: 38px;
-  --mk-control-h-sm: 30px;
-  --mk-control-h-lg: 46px;
+
+  /* --- control size: one vocabulary for every component ---
+     `md` is the default and lives on :root, so a bare .mk-btn is already
+     medium. Adding .mk-sm / .mk-md / .mk-lg rewrites these four values,
+     and every control reads them — so "small" means the same thing on a
+     button, an input and a badge, on any page.
+
+     They cascade on purpose: put .mk-sm on a toolbar and everything
+     inside it is small, without touching a single child. */
+  --mk-ctl-h: 44px;
+  --mk-ctl-px: 1.4rem;
+  --mk-ctl-fs: var(--mk-text-sm);
+  --mk-ctl-gap: 0.5rem;
 
   /* --- defaults a theme is expected to override --- */
   --mk-radius-sm: 4px;
@@ -50,6 +60,10 @@
   --mk-radius-full: 999px;
   --mk-border-w: 1px;
 }
+
+.mk-sm { --mk-ctl-h: 34px; --mk-ctl-px: 0.9rem; --mk-ctl-fs: var(--mk-text-xs); --mk-ctl-gap: 0.375rem; }
+.mk-md { --mk-ctl-h: 44px; --mk-ctl-px: 1.4rem; --mk-ctl-fs: var(--mk-text-sm); --mk-ctl-gap: 0.5rem; }
+.mk-lg { --mk-ctl-h: 52px; --mk-ctl-px: 1.9rem; --mk-ctl-fs: var(--mk-text-base); --mk-ctl-gap: 0.625rem; }
 
 @media (prefers-reduced-motion: reduce) {
   :root {

@@ -1,7 +1,7 @@
 {
-  "name": "mk-ui board",
-  "version": "0.4.0",
-  "note": "Families group variants of one component. Motion tiles are a single idea each, because an animation is not a variant of anything.",
+  "name": "elements",
+  "version": "0.5.0",
+  "note": "demo is what the tile shows. variants and sizes are revealed when an element is opened. sizes:true wraps the demo in .mk-sm/.mk-md/.mk-lg — the size classes cascade, so nothing per-element is needed.",
   "items": [
     {
       "id": "buttons",
@@ -9,9 +9,39 @@
       "kind": "family",
       "tags": ["button", "action", "primary", "secondary", "ghost", "danger", "hover", "press"],
       "aliases": ["click", "cta", "submit", "save", "cancel", "delete"],
-      "note": "Straight off michaelkujr.me: display face at 500, 4px radius, and a 2px lift on hover. A trailing arrow walks forward 3px with it — that pairing is the signature.",
-      "css": ["mk-btn", "mk-btn--primary", "mk-btn--secondary", "mk-btn--ghost", "mk-btn--danger"],
-      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button><button class='mk-btn mk-btn--ghost'>Get in touch</button></div>"
+      "note": "Lifts 2px on hover; a trailing arrow walks 3px with it. That pairing is the signature — no glow, no fill flash.",
+      "css": ["mk-btn", "mk-btn--primary", "mk-btn--secondary", "mk-btn--ghost", "mk-btn--danger", "mk-btn--icon"],
+      "sizes": true,
+      "sizeDemo": "<button class='mk-btn mk-btn--primary'>Save changes</button>",
+      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button><button class='mk-btn mk-btn--secondary'>Resume</button></div>",
+      "variants": [
+        { "label": "Primary", "demo": "<button class='mk-btn mk-btn--primary'>Save changes</button>" },
+        { "label": "Secondary", "demo": "<button class='mk-btn mk-btn--secondary'>Cancel</button>" },
+        { "label": "Ghost", "demo": "<button class='mk-btn mk-btn--ghost'>Skip</button>" },
+        { "label": "Danger", "demo": "<button class='mk-btn mk-btn--danger'>Delete</button>" },
+        { "label": "With arrow", "demo": "<button class='mk-btn mk-btn--primary'>View projects <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M12 5l7 7-7 7'/></svg></button>" },
+        { "label": "Icon only", "demo": "<button class='mk-btn mk-btn--secondary mk-btn--icon' aria-label='More'>&hellip;</button>" },
+        { "label": "Disabled", "demo": "<button class='mk-btn mk-btn--primary' disabled>Save changes</button>" }
+      ]
+    },
+    {
+      "id": "inputs",
+      "name": "Inputs",
+      "kind": "family",
+      "tags": ["input", "field", "text", "select", "textarea", "form"],
+      "aliases": ["form", "entry", "type", "dropdown"],
+      "note": "Field padding is 60% of the button's, because a field needs less inset than a label does. All three heights come from the same size vocabulary.",
+      "css": ["mk-input", "mk-select", "mk-textarea", "mk-field", "mk-label", "mk-hint"],
+      "sizes": true,
+      "sizeDemo": "<input class='mk-input' value='Ground Truth' style='width:210px'>",
+      "demo": "<div class='mk-stack mk-gap-3' style='width:230px'><input class='mk-input' value='Ground Truth'><select class='mk-select'><option>Selected work</option></select></div>",
+      "variants": [
+        { "label": "Text", "demo": "<input class='mk-input' value='Ground Truth' style='width:210px'>" },
+        { "label": "Placeholder", "demo": "<input class='mk-input' placeholder='Project name' style='width:210px'>" },
+        { "label": "Select", "demo": "<select class='mk-select' style='width:210px'><option>Selected work</option><option>Also built</option></select>" },
+        { "label": "Textarea", "demo": "<textarea class='mk-textarea' placeholder='What should the reader know?' style='width:210px'></textarea>" },
+        { "label": "With label", "demo": "<div class='mk-field' style='width:210px'><label class='mk-label' for='v1'>Project name</label><input class='mk-input' id='v1' value='Scribblz'><span class='mk-hint'>Shown on the card and the detail page.</span></div>" }
+      ]
     },
     {
       "id": "selection",
@@ -20,8 +50,33 @@
       "tags": ["switch", "toggle", "checkbox", "check", "boolean", "setting"],
       "aliases": ["on off", "enable", "tick", "opt in", "confirm"],
       "note": "Switch for things that apply instantly, checkbox for things you submit. The check strokes itself in rather than popping.",
-      "css": ["mk-switch", "mk-switch__track", "mk-tick", "mk-tick__box"],
-      "demo": "<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div>"
+      "css": ["mk-switch", "mk-switch__track", "mk-tick", "mk-tick__box", "mk-check"],
+      "demo": "<div class='mk-stack mk-gap-4'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label><label class='mk-tick'><input type='checkbox'><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label></div>",
+      "variants": [
+        { "label": "Switch", "demo": "<label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Notifications</label>" },
+        { "label": "Switch, off", "demo": "<label class='mk-switch'><input type='checkbox'><span class='mk-switch__track'></span>Notifications</label>" },
+        { "label": "Checkbox", "demo": "<label class='mk-tick'><input type='checkbox' checked><span class='mk-tick__box'><svg viewBox='0 0 16 16'><path d='M3.5 8.6 L6.4 11.5 L12.5 4.8'/></svg></span>Reviewed</label>" },
+        { "label": "Native check", "demo": "<label class='mk-check'><input type='checkbox' checked> Notify me</label>" }
+      ]
+    },
+    {
+      "id": "badges",
+      "name": "Badges",
+      "kind": "family",
+      "tags": ["badge", "status", "label", "pill", "tag"],
+      "aliases": ["chip", "state", "flag", "version"],
+      "note": "Half a control's height and 85% of its text size, so a badge beside a small button and one beside a large button stay in proportion.",
+      "css": ["mk-badge", "mk-badge--accent", "mk-badge--ok", "mk-badge--warn", "mk-badge--danger", "mk-dot"],
+      "sizes": true,
+      "sizeDemo": "<span class='mk-badge mk-badge--accent'>In progress</span>",
+      "demo": "<div class='mk-row mk-wrap mk-gap-2' style='justify-content:center'><span class='mk-badge mk-badge--accent'>In progress</span><span class='mk-badge'>v0.5.0</span></div>",
+      "variants": [
+        { "label": "Neutral", "demo": "<span class='mk-badge'>v0.5.0</span>" },
+        { "label": "Accent", "demo": "<span class='mk-badge mk-badge--accent'>In progress</span>" },
+        { "label": "With dot", "demo": "<span class='mk-badge mk-badge--ok'><span class='mk-dot'></span> Shipped</span>" },
+        { "label": "Warn", "demo": "<span class='mk-badge mk-badge--warn'>Draft</span>" },
+        { "label": "Danger", "demo": "<span class='mk-badge mk-badge--danger'>Archived</span>" }
+      ]
     },
     {
       "id": "loading",
@@ -29,9 +84,15 @@
       "kind": "family",
       "tags": ["spinner", "skeleton", "shimmer", "dots", "placeholder", "wait"],
       "aliases": ["busy", "pending", "ghost", "stub", "loading state"],
-      "note": "Dots for a moment, shimmer for a shape you already know the size of. Both freeze flat under reduced motion.",
+      "note": "Dots for a moment, shimmer for a shape whose size you already know. Both freeze flat under reduced motion.",
       "css": ["mk-spinner", "mk-skeleton"],
-      "demo": "<div class='mk-stack mk-gap-5' style='align-items:center;width:200px'><span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span><div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div><div class='mk-skeleton' style='height:10px;width:76%'></div></div></div>"
+      "demo": "<div class='mk-stack mk-gap-5' style='align-items:center;width:200px'><span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span><div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div></div></div>",
+      "variants": [
+        { "label": "Spinner", "demo": "<span class='mk-spinner' style='color:var(--mk-accent)'><i></i><i></i><i></i></span>" },
+        { "label": "Spinner, ink", "demo": "<span class='mk-spinner'><i></i><i></i><i></i></span>" },
+        { "label": "Shimmer", "demo": "<div class='mk-stack mk-gap-2' style='width:190px'><div class='mk-skeleton' style='height:10px;width:54%'></div><div class='mk-skeleton' style='height:10px'></div><div class='mk-skeleton' style='height:10px;width:76%'></div></div>" },
+        { "label": "Shimmer block", "demo": "<div class='mk-skeleton' style='height:64px;width:190px'></div>" }
+      ]
     },
     {
       "id": "indicator-slide",
@@ -42,7 +103,11 @@
       "note": "One element travels between options instead of a background jumping. Width animates too, so uneven labels still land clean.",
       "css": ["mk-seg", "mk-seg__ind", "mk-seg__opt"],
       "behavior": "seg",
-      "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div>"
+      "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Day</button><button class='mk-seg__opt' aria-selected='false'>Week</button><button class='mk-seg__opt' aria-selected='false'>Month</button></div>",
+      "variants": [
+        { "label": "Two options", "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>Grid</button><button class='mk-seg__opt' aria-selected='false'>List</button></div>" },
+        { "label": "Uneven labels", "demo": "<div class='mk-seg' data-behavior='seg'><span class='mk-seg__ind'></span><button class='mk-seg__opt' aria-selected='true'>All</button><button class='mk-seg__opt' aria-selected='false'>In progress</button><button class='mk-seg__opt' aria-selected='false'>Shipped</button></div>" }
+      ]
     },
     {
       "id": "label-swap",
@@ -53,7 +118,10 @@
       "note": "Both labels sit in one grid cell and crossfade past each other, so the button never changes width mid-swap.",
       "css": ["mk-copy", "mk-copy__swap"],
       "behavior": "copy",
-      "demo": "<button class='mk-btn mk-btn--secondary mk-copy' data-behavior='copy'><span class='mk-copy__swap'><span>Copy token</span><span>Copied</span></span></button>"
+      "demo": "<button class='mk-btn mk-btn--secondary mk-copy' data-behavior='copy'><span class='mk-copy__swap'><span>Copy token</span><span>Copied</span></span></button>",
+      "variants": [
+        { "label": "On primary", "demo": "<button class='mk-btn mk-btn--primary mk-copy' data-behavior='copy'><span class='mk-copy__swap'><span>Copy token</span><span>Copied</span></span></button>" }
+      ]
     },
     {
       "id": "toast-in-out",
@@ -64,7 +132,7 @@
       "note": "Rises and scales in, holds, then falls away. The exit is shorter than the entrance — leaving should feel quicker than arriving.",
       "css": ["mk-toast"],
       "behavior": "toast",
-      "demo": "<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:44px;display:grid;place-items:center'></div></div>"
+      "demo": "<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>"
     },
     {
       "id": "meter-fill",
@@ -75,7 +143,7 @@
       "note": "Grows to its value rather than appearing at it. Costs one frame and makes the number feel measured instead of asserted.",
       "css": ["mk-meter", "mk-meter__fill"],
       "behavior": "meter",
-      "demo": "<div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-btn--sm' data-behavior='meter'>Run again</button></div>"
+      "demo": "<div class='mk-stack mk-gap-3' style='width:210px;align-items:center'><div class='mk-meter' style='width:100%'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run again</button></div>"
     }
   ]
 }

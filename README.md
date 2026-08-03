@@ -1,18 +1,17 @@
 # ui-collection
 
-A personal collection of small UI components and animations — live, interactive,
-and grown one at a time.
+A personal collection of UI elements and motion — live, interactive, and grown
+one at a time.
 
-The idea is simple: see an interaction somewhere that works, rebuild it here,
-pin it up. Then pull from the collection when building anything real, instead of
-reaching for a component library that makes every project look the same.
+See an interaction somewhere that works, rebuild it here, pin it up. Then pull
+from the collection when building anything real, instead of reaching for a
+component library that makes every project look the same.
 
 ```bash
 node build.mjs && node serve.mjs
 ```
 
-- **`/board/`** — the collection. A 2-wide grid of live specimens you can poke.
-- **`/foundation/`** — the base: colour, type, depth and motion, documented.
+Then `http://localhost:4173`. One page: the scale, then the elements.
 
 ---
 
@@ -25,8 +24,8 @@ HTML: a Jinja template, a Streamlit page, a static report, Next.js.
 **Layer 2 — React wrappers** over those same classes, in `react/`. Only worth
 pulling in when the project is already React.
 
-The rule that keeps this honest: **a component exists in Layer 1 first.** One
-that lives only as JSX silently disappears from every non-React project.
+The rule that keeps this honest: **an element exists in Layer 1 first.** One that
+lives only as JSX silently disappears from every non-React project.
 
 ## The base
 
@@ -35,48 +34,83 @@ value in `tokens/theme-mk.css` is either taken from that site's `tokens.css` or
 derived from a rule its components already follow.
 
 ```
-ramp      --paper #ffffff  --paper-sunk #f6f7f6  --ink #15171a  --accent #0f7d54
-semantic  --mk-bg: var(--paper)   --mk-accent: var(--accent)   everything else
+--paper #ffffff   --paper-sunk #f6f7f6   --line #e7e8ea   --line-strong #d5d7da
+--ink-faint #888d8f   --ink-soft #52565c   --ink #15171a   --accent #0f7d54
 ```
 
 White paper, cool near-black ink, **one** restrained accent, 4px radius, and
-things that lift rather than glow. There is no second hue — which is what makes
+things that lift rather than glow. There is no second hue, which is what makes
 the accent mean something when it appears.
 
-The accent is swappable via `data-accent` on `<html>`: `cobalt`, `indigo`,
-`slate`. Those three come straight from a comment in the site's own token file.
-Compare them live at `/foundation/`.
+**Only the accent moves.** Paper, ink and the lines are fixed — the greys are the
+system, the accent is the signal. Swap it with `data-accent` on `<html>`:
+`cobalt`, `indigo`, `slate`. Those three come straight from a comment in the
+site's own token file.
 
 Three details worth not losing: buttons lift 2px on hover and a trailing arrow
-walks 3px with them; cards rest flat and only earn a shadow on hover; section
+walks 3px with them; surfaces rest flat and only earn a shadow on hover; section
 labels carry a leading hairline.
 
-## Two kinds of specimen
+## Sizes
 
-- **`family`** — variants of one component in a single tile: Buttons, Selection,
-  Loading. Keeps the collection scannable as it grows.
-- **`motion`** — one idea on its own. An animation isn't a variant of anything,
-  so it gets its own square.
+One vocabulary, shared by every control:
+
+```html
+<button class="mk-btn mk-btn--primary mk-sm">Small</button>
+<input class="mk-input mk-lg">
+```
+
+| | height | side padding | text |
+|---|---|---|---|
+| `.mk-sm` | 34px | 0.9rem | 11px |
+| `.mk-md` *(default)* | 44px | 1.4rem | 13px |
+| `.mk-lg` | 52px | 1.9rem | 15px |
+
+`md` lives on `:root`, so a bare `.mk-btn` is already medium. The four values
+behind a size are `--mk-ctl-h`, `--mk-ctl-px`, `--mk-ctl-fs` and `--mk-ctl-gap`,
+and **every control reads them** — so "small" means the same thing on a button,
+an input and a badge, on any page or platform.
+
+They cascade on purpose. Put `.mk-sm` on a toolbar and everything inside it is
+small, without touching a single child:
+
+```html
+<div class="mk-sm mk-row mk-gap-2">
+  <button class="mk-btn mk-btn--secondary">Filter</button>
+  <input class="mk-input">
+</div>
+```
+
+## Two kinds of element
+
+- **`family`** — variants of one thing in a single tile: Buttons, Inputs,
+  Selection, Badges, Loading.
+- **`motion`** — one idea on its own. An animation isn't a variant of anything.
+
+Click an element's name to open it full-width: the note, every variant, all three
+sizes, and the classes it uses.
 
 ## Adding one
 
 1. **Class in `css/components.css`.** Tokens only — no hex, no pixel values
-   outside the `--mk-*` scale. `.mk-thing`, `.mk-thing--variant`, `.mk-thing__part`.
-2. **Entry in `registry/registry.json`** with its `demo` markup. That file is the
-   source of truth for what exists; the board just renders it.
-3. **Needs JS?** Add a function to `behaviors` in `board/index.html`. It takes a
-   root element and wires only what's inside it — a specimen can be mounted more
-   than once, so no ids and no shared state.
+   outside the `--mk-*` scale. Read `--mk-ctl-*` for anything with a height.
+2. **Entry in `registry/registry.json`.** `demo` is the tile; `variants` and
+   `sizes: true` fill the opened detail. Because the size classes cascade,
+   `sizes: true` is all it takes — the page wraps the demo and every control
+   inside follows.
+3. **Needs JS?** Add a function to `behaviors` in `index.html`. It takes a root
+   element and wires only what's inside it — one element gets mounted many times
+   over (tile, each variant, each size), so no ids and no shared state.
 4. **`node build.mjs`.**
 
-`registry/ideas.json` is a backlog of things not built yet. Nothing in it exists.
+`registry/ideas.json` is a backlog. Nothing in it exists.
 
 ## Search
 
-Keyword over id, name, tags, aliases, classes and notes, widened by a small
-synonym map. **Not embeddings.** Real semantic search means embedding each note
-and running cosine similarity at query time — the registry is shaped for it, but
-calling what's there "semantic" would be a lie.
+Keyword over id, name, kind, tags, aliases, classes, variant labels and the note,
+widened by a small synonym map. **Not embeddings.** Real semantic search means
+embedding each note and running cosine similarity at query time — the registry is
+shaped for it, but calling what's there "semantic" would be a lie.
 
 The registry is also shaped to be served over MCP later: `list`, `search`, and a
 `get` that returns real code rather than a description of it.
@@ -84,10 +118,9 @@ The registry is also shaped to be served over MCP later: `list`, `search`, and a
 ## Layout
 
 ```
-board/       the collection
-foundation/  the base, documented
+index.html   the page — scale, then elements
 registry/    registry.json (what exists) + ideas.json (backlog)
-tokens/      core.css (no colours) + theme-mk.css (the base)
+tokens/      core.css (no colours, owns the size scale) + theme-mk.css (the base)
 css/         base.css (reset, focus, utilities) + components.css
 react/       Layer 2
 dist/        built bundle — committed so it can be linked directly
@@ -97,21 +130,20 @@ build.mjs    bundle + cache-bust stamp
 
 ## Two infrastructure notes
 
-Both exist because a stale stylesheet looks exactly like a broken component, and
-that cost an afternoon:
+Both exist because a stale stylesheet looks exactly like a broken component:
 
 - **`serve.mjs` instead of `python -m http.server`** — the latter sends no
   `Cache-Control`, so browsers heuristically cache CSS and JSON. Everything here
   is `no-store`.
-- **`build.mjs` stamps a content hash** onto the stylesheet URLs in the dev
-  pages, so the URL changes exactly when the CSS does and never otherwise.
+- **`build.mjs` stamps a content hash** onto the stylesheet URLs, so the URL
+  changes exactly when the CSS does and never otherwise.
 
 ## Accessibility floor
 
 - One focus treatment system-wide via `--mk-focus-ring`. Themes restyle it,
   never remove it.
-- `prefers-reduced-motion` zeroes every duration in `core.css`; the spinner and
-  shimmer freeze flat.
+- `prefers-reduced-motion` zeroes every duration; the spinner and shimmer freeze
+  flat.
 - Status is never colour alone — badges carry text, meters carry `aria-valuenow`.
 - The grid collapses to one column at 720px.
 

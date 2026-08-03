@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elements</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens/core.css?v=432b9f71">
+<link rel="stylesheet" href="tokens/theme-mk.css?v=432b9f71">
+<link rel="stylesheet" href="css/base.css?v=432b9f71">
+<link rel="stylesheet" href="css/components.css?v=432b9f71">
+<style>
+  /* Page chrome. Hairlines and whitespace only. */
+  .pg-top {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; align-items: center; gap: var(--mk-6);
+    height: 68px; padding-inline: clamp(1.25rem, 5vw, 2.5rem);
+    background: var(--paper); border-bottom: 1px solid var(--mk-line);
+  }
+  .pg-mark {
+    font-family: var(--mk-font-display); font-weight: 500;
+    text-transform: uppercase; letter-spacing: 0.2em;
+    font-size: var(--mk-text-xs); white-space: nowrap;
+  }
+  .pg-mark b { color: var(--mk-accent); font-weight: 500; }
+  .pg-search { flex: 1; max-width: 300px; }
+
+  .pg-accents { display: flex; gap: 6px; }
+  .pg-swatch {
+    width: 16px; height: 16px; padding: 0;
+    border: 1px solid var(--mk-line-strong); border-radius: 50%; cursor: pointer;
+    transition: transform var(--mk-dur-fast) var(--mk-ease);
+  }
+  .pg-swatch:hover { transform: translateY(-2px); }
+  .pg-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px var(--ink); }
+
+  .pg-wrap { max-width: 1040px; margin-inline: auto; padding: var(--mk-10) clamp(1.25rem, 5vw, 2.5rem) var(--mk-16); }
+
+  /* ---- the scale, kept because it is the one thing worth stating ---- */
+  .pg-scale { display: grid; grid-template-columns: repeat(8, 1fr); margin-bottom: var(--mk-12); }
+  .pg-chip {
+    display: flex; align-items: flex-end;
+    height: 52px; padding: 6px;
+    font-family: var(--mk-font-mono); font-size: 9px;
+    box-shadow: inset 0 0 0 1px rgba(21, 23, 26, 0.08);
+  }
+
+  .pg-label { margin-bottom: var(--mk-4); }
+
+  /* ---- elements ---- */
+  .el-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--mk-4); align-items: start; }
+
+  /* Every container is identical — tile, variant cell, size cell. One
+     surface treatment across the whole page. */
+  .el, .el-cell {
+    border: 1px solid var(--mk-line);
+    border-radius: var(--mk-radius-lg);
+    background: var(--paper);
+  }
+
+  .el { overflow: hidden; transition: border-color var(--mk-dur-fast) var(--mk-ease); }
+  .el:hover { border-color: var(--mk-line-strong); }
+  .el[data-open] { grid-column: 1 / -1; border-color: var(--ink); }
+
+  .el__view {
+    display: grid; place-items: center;
+    min-height: 178px; padding: var(--mk-8) var(--mk-5);
+    background: var(--paper-sunk);
+    border-bottom: 1px solid var(--mk-line);
+  }
+  .el[data-open] .el__view { min-height: 210px; }
+
+  .el__bar {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--mk-3);
+    width: 100%; padding: var(--mk-4);
+    border: 0; background: transparent; color: var(--mk-text);
+    font-family: var(--mk-font-display);
+    font-size: var(--mk-text-sm); font-weight: 500; letter-spacing: -0.015em;
+    cursor: pointer; text-align: left;
+    transition: color var(--mk-dur-fast) var(--mk-ease);
+  }
+  .el__bar:hover { color: var(--mk-accent); }
+  .el__kind {
+    display: flex; align-items: center; gap: var(--mk-2);
+    font-family: var(--mk-font-display);
+    font-size: var(--mk-text-xs); letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--mk-text-faint);
+  }
+  .el__kind i { font-style: normal; transition: transform var(--mk-dur-fast) var(--mk-ease); }
+  .el[data-open] .el__kind i { transform: rotate(90deg); }
+
+  .el__detail {
+    display: grid; grid-template-rows: 0fr;
+    transition: grid-template-rows var(--mk-dur) var(--mk-ease);
+  }
+  .el[data-open] .el__detail { grid-template-rows: 1fr; }
+  .el__detail > div { overflow: hidden; }
+  .el__inner { padding: 0 var(--mk-5) var(--mk-6); border-top: 1px solid var(--mk-line); }
+  .el__note { padding: var(--mk-4) 0 var(--mk-6); color: var(--mk-text-muted); font-size: var(--mk-text-sm); max-width: 62ch; }
+
+  .el-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: var(--mk-3); margin-bottom: var(--mk-6); }
+  .el-cell { display: flex; flex-direction: column; overflow: hidden; }
+  .el-cell__view { display: grid; place-items: center; min-height: 108px; padding: var(--mk-5) var(--mk-4); background: var(--paper-sunk); }
+  .el-cell__tag {
+    padding: 8px var(--mk-3); border-top: 1px solid var(--mk-line);
+    font-family: var(--mk-font-mono); font-size: 10px; color: var(--mk-text-faint);
+  }
+
+  .el-classes { display: flex; flex-wrap: wrap; gap: var(--mk-1); }
+  .el-class {
+    padding: 3px 7px; border-radius: var(--mk-radius-sm);
+    background: var(--paper-sunk); border: 1px solid var(--mk-line);
+    font-family: var(--mk-font-mono); font-size: 10px; color: var(--mk-text-muted);
+  }
+
+  .pg-empty { padding: var(--mk-16) 0; text-align: center; }
+
+  @media (max-width: 720px) {
+    .el-grid { grid-template-columns: minmax(0, 1fr); }
+    .pg-scale { grid-template-columns: repeat(4, 1fr); }
+    .pg-top { height: auto; padding-block: var(--mk-3); flex-wrap: wrap; }
+    .pg-search { max-width: none; order: 4; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="pg-top">
+  <span class="pg-mark">Elements<b>.</b></span>
+  <div class="pg-search">
+    <input class="mk-input mk-sm" id="q" type="search" placeholder="Search…   /" aria-label="Search elements" autocomplete="off">
+  </div>
+  <span class="mk-grow"></span>
+  <div class="pg-accents" role="group" aria-label="Accent">
+    <button class="pg-swatch" data-accent-pick="" style="background:#0f7d54" aria-pressed="true" aria-label="Emerald"></button>
+    <button class="pg-swatch" data-accent-pick="cobalt" style="background:#2f5fe0" aria-pressed="false" aria-label="Cobalt"></button>
+    <button class="pg-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
+    <button class="pg-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
+  </div>
+  <span class="mk-eyebrow" id="count">—</span>
+</header>
+
+<div class="pg-wrap">
+  <div class="pg-scale" id="scale"></div>
+
+  <div class="pg-label"><span class="mk-eyebrow">Elements</span></div>
+  <div class="el-grid" id="grid"></div>
+  <div class="pg-empty" id="empty" hidden>
+    <p class="mk-muted">Nothing here matches that yet.</p>
+  </div>
+</div>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+const root = document.documentElement;
+
+// no-store: the registry is hand-edited constantly, and a cached copy
+// silently renders yesterday's page.
+const reg = await (await fetch("registry/registry.json", { cache: "no-store" })).json();
+const items = reg.items ?? [];
+
+/* ---------------------------------------------------------------
+   Behaviours. Each takes a root and wires only what is inside it, so
+   one element can be mounted many times over — tile, every variant,
+   every size — with no shared state and no ids.
+   --------------------------------------------------------------- */
+const behaviors = {
+  seg(el) {
+    const ind = el.querySelector(".mk-seg__ind");
+    const opts = [...el.querySelectorAll(".mk-seg__opt")];
+    const move = (o) => {
+      if (!o || !o.offsetWidth) return; // detached or not laid out yet
+      ind.style.setProperty("--w", `${o.offsetWidth}px`);
+      ind.style.setProperty("--x", `${o.offsetLeft - 3}px`);
+    };
+    opts.forEach((o) => o.addEventListener("click", () => {
+      opts.forEach((x) => x.setAttribute("aria-selected", String(x === o)));
+      move(o);
+    }));
+    const sync = () => move(el.querySelector('[aria-selected="true"]'));
+    new ResizeObserver(sync).observe(el); // fonts landing, container resizing
+    sync();
+  },
+
+  copy(btn) {
+    btn.addEventListener("click", () => {
+      navigator.clipboard?.writeText("--accent").catch(() => {});
+      btn.dataset.copied = "";
+      clearTimeout(btn._t);
+      btn._t = setTimeout(() => delete btn.dataset.copied, 1600);
+    });
+  },
+
+  toast(btn) {
+    const slot = btn.closest("[data-demo]").querySelector("[data-toast-slot]");
+    btn.addEventListener("click", () => {
+      slot.replaceChildren();
+      const t = document.createElement("div");
+      t.className = "mk-toast";
+      t.innerHTML = `<span class="mk-dot" style="color: var(--mk-accent)"></span> Added`;
+      slot.append(t);
+      setTimeout(() => {
+        t.dataset.leaving = "";
+        t.addEventListener("animationend", () => t.remove(), { once: true });
+      }, 2200);
+    });
+  },
+
+  meter(btn) {
+    const fill = btn.closest("[data-demo]").querySelector("[data-meter]");
+    const run = () => {
+      fill.style.width = "0%";
+      requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = "72%"; }));
+    };
+    btn.addEventListener("click", run);
+    run();
+  },
+};
+
+const mount = (el) => {
+  for (const n of el.querySelectorAll("[data-behavior]")) behaviors[n.dataset.behavior]?.(n);
+};
+
+/* ---------------- the scale strip ---------------- */
+const SCALE = ["--paper", "--paper-sunk", "--line", "--line-strong", "--ink-faint", "--ink-soft", "--ink", "--accent"];
+const read = (n) => getComputedStyle(root).getPropertyValue(n).trim();
+
+function paintScale() {
+  $("#scale").replaceChildren(...SCALE.map((v) => {
+    const hex = read(v);
+    const d = document.createElement("div");
+    d.className = "pg-chip";
+    d.style.background = hex;
+    // Flip to white from ink-faint down, or the label vanishes into its
+    // own swatch on the mid-greys.
+    d.style.color = ["--ink-faint", "--ink-soft", "--ink", "--accent"].includes(v)
+      ? "rgba(255,255,255,.88)" : "var(--ink-faint)";
+    d.textContent = hex;
+    return d;
+  }));
+}
+
+/* ---------------- elements ---------------- */
+const cell = (label, html) => `
+  <div class="el-cell">
+    <div class="el-cell__view" data-demo>${html}</div>
+    <div class="el-cell__tag">${label}</div>
+  </div>`;
+
+function detail(it) {
+  const parts = [`<div class="el__note">${it.note ?? ""}</div>`];
+
+  if (it.variants?.length) {
+    parts.push(`<div class="pg-label"><span class="mk-eyebrow">Variants</span></div>`);
+    parts.push(`<div class="el-row">${it.variants.map((v) => cell(v.label, v.demo)).join("")}</div>`);
+  }
+
+  // The size classes cascade, so wrapping the demo is all it takes —
+  // nothing per-element, and every control inside follows.
+  if (it.sizes) {
+    const one = it.sizeDemo ?? it.demo;
+    parts.push(`<div class="pg-label"><span class="mk-eyebrow">Sizes</span></div>`);
+    parts.push(`<div class="el-row">${["sm", "md", "lg"]
+      .map((s) => cell(`.mk-${s}`, `<div class="mk-${s}">${one}</div>`)).join("")}</div>`);
+  }
+
+  parts.push(`<div class="pg-label"><span class="mk-eyebrow">Classes</span></div>`);
+  parts.push(`<div class="el-classes">${(it.css ?? []).map((c) => `<span class="el-class">.${c}</span>`).join("")}</div>`);
+  return parts.join("");
+}
+
+function tile(it) {
+  const el = document.createElement("article");
+  el.className = "el";
+  el.dataset.id = it.id;
+  el.innerHTML = `
+    <div class="el__view" data-demo>${it.demo ?? ""}</div>
+    <button class="el__bar" aria-expanded="false">
+      <span>${it.name ?? it.id}</span>
+      <span class="el__kind">${it.kind ?? ""} <i>&rsaquo;</i></span>
+    </button>
+    <div class="el__detail"><div><div class="el__inner"></div></div></div>`;
+
+  const bar = el.querySelector(".el__bar");
+  bar.addEventListener("click", () => {
+    const open = "open" in el.dataset;
+    if (open) {
+      delete el.dataset.open;
+      bar.setAttribute("aria-expanded", "false");
+      return;
+    }
+    // Built on first open, then kept — reopening should be instant.
+    const inner = el.querySelector(".el__inner");
+    if (!inner.childElementCount) {
+      inner.innerHTML = detail(it);
+      mount(inner);
+    }
+    el.dataset.open = "";
+    bar.setAttribute("aria-expanded", "true");
+  });
+  return el;
+}
+
+/* Keyword search over each item's own fields, widened by aliases and a
+   small synonym map. Not embeddings — see the README. */
+const SYNONYMS = {
+  click: ["button", "press", "action"],
+  loading: ["spinner", "skeleton", "shimmer", "wait"],
+  animation: ["motion", "slide", "draw", "swap", "grow", "scale"],
+  motion: ["slide", "draw", "swap", "grow", "travel", "scale"],
+  form: ["input", "checkbox", "switch", "toggle", "selection", "field"],
+  size: ["small", "medium", "large", "sm", "md", "lg"],
+};
+
+// Every field optional on purpose: a half-finished entry should still
+// show up rather than take the page down with it.
+const hay = new Map(items.map((it) => [it.id, [
+  it.id, it.name, it.kind, it.note,
+  ...(it.tags ?? []), ...(it.aliases ?? []), ...(it.css ?? []),
+  ...(it.variants ?? []).map((v) => v.label),
+].filter(Boolean).join(" ").toLowerCase()]));
+
+function render() {
+  const raw = $("#q").value.trim().toLowerCase();
+  const terms = raw ? [raw, ...(SYNONYMS[raw] ?? [])] : [];
+  const shown = items.filter((it) => !terms.length || terms.some((t) => hay.get(it.id).includes(t)));
+
+  // Attach first, then mount — behaviours measure layout, and a detached
+  // element measures as zero.
+  $("#grid").replaceChildren(...shown.map(tile));
+  mount($("#grid"));
+
+  $("#empty").hidden = shown.length > 0;
+  $("#count").textContent = raw ? `${shown.length} / ${items.length}` : `${items.length} elements`;
+}
+
+$("#q").addEventListener("input", render);
+
+document.addEventListener("click", (e) => {
+  const s = e.target.closest("[data-accent-pick]");
+  if (!s) return;
+  const v = s.dataset.accentPick;
+  if (v) root.dataset.accent = v; else delete root.dataset.accent;
+  document.querySelectorAll("[data-accent-pick]").forEach((b) =>
+    b.setAttribute("aria-pressed", String(b === s)));
+  paintScale();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "/" && document.activeElement !== $("#q")) { e.preventDefault(); $("#q").focus(); }
+  if (e.key === "Escape" && document.activeElement === $("#q")) { $("#q").value = ""; render(); }
+});
+
+paintScale();
+render();
+</script>
+</body>
+</html>

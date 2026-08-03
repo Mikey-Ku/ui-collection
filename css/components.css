@@ -12,15 +12,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  height: var(--mk-control-h);
-  padding-inline: 1.4rem;
+  gap: var(--mk-ctl-gap);
+  height: var(--mk-ctl-h);
+  padding-inline: var(--mk-ctl-px);
   border: var(--mk-border-w) solid transparent;
   border-radius: var(--mk-radius);
   background: transparent;
   color: var(--mk-text);
   font-family: var(--mk-font-display);
-  font-size: var(--mk-text-sm);
+  font-size: var(--mk-ctl-fs);
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
@@ -63,29 +63,35 @@
 }
 .mk-btn--danger:hover:not(:disabled) { background: var(--mk-danger); color: #fff; border-color: var(--mk-danger); }
 
-.mk-btn--sm { height: var(--mk-control-h-sm); padding-inline: 0.9rem; font-size: var(--mk-text-xs); }
-.mk-btn--lg { height: var(--mk-control-h-lg); padding-inline: 1.9rem; font-size: var(--mk-text-base); }
-.mk-btn--icon { padding-inline: 0; width: var(--mk-control-h); gap: 0; }
+.mk-btn--icon { padding-inline: 0; width: var(--mk-ctl-h); gap: 0; }
 
 /* ---------- Form ---------- */
 .mk-field { display: flex; flex-direction: column; gap: var(--mk-2); }
 
 .mk-label { color: var(--mk-text-muted); font-weight: 600; }
 
+/* Inputs read the same size vocabulary as buttons, at 60% of the button's
+   side padding — a field needs less inset than a label does. */
 .mk-input,
 .mk-select,
 .mk-textarea {
   width: 100%;
-  height: var(--mk-control-h);
-  padding: 0 var(--mk-3);
+  height: var(--mk-ctl-h);
+  padding: 0 calc(var(--mk-ctl-px) * 0.6);
   background: var(--mk-surface);
   border: var(--mk-border-w) solid var(--mk-line);
   border-radius: var(--mk-radius);
   color: var(--mk-text);
-  font-size: var(--mk-text-sm);
-  transition: border-color var(--mk-dur) var(--mk-ease), background-color var(--mk-dur) var(--mk-ease);
+  font-size: var(--mk-ctl-fs);
+  transition: border-color var(--mk-dur-fast) var(--mk-ease), background-color var(--mk-dur-fast) var(--mk-ease);
 }
-.mk-textarea { height: auto; min-height: 88px; padding: var(--mk-3); resize: vertical; line-height: var(--mk-leading-snug); }
+.mk-textarea {
+  height: auto;
+  min-height: calc(var(--mk-ctl-h) * 2);
+  padding: calc(var(--mk-ctl-px) * 0.45) calc(var(--mk-ctl-px) * 0.6);
+  resize: vertical;
+  line-height: var(--mk-leading-snug);
+}
 .mk-input::placeholder, .mk-textarea::placeholder { color: var(--mk-text-faint); }
 .mk-input:hover, .mk-select:hover, .mk-textarea:hover { border-color: var(--mk-line-strong); }
 
@@ -172,17 +178,20 @@
 }
 
 /* ---------- Badge ---------- */
+/* A badge is a control's height at a third scale, so a badge sitting beside
+   a small button and one beside a large button stay in proportion. */
 .mk-badge {
   display: inline-flex;
   align-items: center;
   gap: var(--mk-1);
-  padding: 3px var(--mk-2);
+  height: calc(var(--mk-ctl-h) * 0.5);
+  padding-inline: calc(var(--mk-ctl-px) * 0.4);
   border-radius: var(--mk-radius-sm);
   background: var(--mk-surface-sunk);
   color: var(--mk-text-muted);
   border: var(--mk-border-w) solid transparent;
   font-family: var(--mk-font-mono);
-  font-size: var(--mk-text-xs);
+  font-size: calc(var(--mk-ctl-fs) * 0.85);
   font-weight: 500;
   letter-spacing: 0.03em;
   white-space: nowrap;

@@ -20,7 +20,7 @@ const LAYERS = [
   "css/components.css",
 ];
 
-const PAGES = ["board/index.html", "foundation/index.html"];
+const PAGES = ["index.html"];
 
 const parts = await Promise.all(
   LAYERS.map(async (rel) => `/* ---- ${rel} ---- */\n${await readFile(join(root, rel), "utf8")}`)
@@ -46,7 +46,7 @@ for (const page of PAGES) {
     continue; // page removed — not an error
   }
   const next = html.replace(
-    /(href="\.\.\/(?:tokens|css)\/[a-z0-9-]+\.css)(\?v=[a-f0-9]+)?"/g,
+    /(href="(?:\.\.?\/)?(?:tokens|css)\/[a-z0-9-]+\.css)(\?v=[a-f0-9]+)?"/g,
     `$1?v=${stamp}"`
   );
   if (next !== html) {

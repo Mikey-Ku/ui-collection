@@ -77,10 +77,6 @@
   --mk-dur-fast: 0.25s;
   --mk-dur: 0.4s;
   --mk-dur-slow: 0.6s;
-
-  --mk-control-h: 44px;
-  --mk-control-h-sm: 34px;
-  --mk-control-h-lg: 52px;
 }
 
 /* ---- accent swaps, straight off the site's own token comments ---- */
