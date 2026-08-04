@@ -571,28 +571,40 @@ button, input, select, textarea {
 .mk-table-wrap { overflow-x: auto; }
 
 /* ---------- Tabs ---------- */
+/* A different job from .mk-seg: tabs switch between views, a segmented
+   control filters one. Hence the underline rather than the inset pill —
+   a tab belongs to the content below it. */
 .mk-tabs {
-  display: inline-flex;
-  gap: 2px;
-  padding: 3px;
-  background: var(--mk-surface-sunk);
-  border: var(--mk-border-w) solid var(--mk-line);
-  border-radius: var(--mk-radius);
+  position: relative;
+  display: flex;
+  gap: var(--mk-5);
+  border-bottom: var(--mk-border-w) solid var(--mk-line);
+}
+.mk-tabs__ind {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  width: var(--w, 0px);
+  transform: translateX(var(--x, 0px));
+  background: var(--mk-accent);
+  transition: transform var(--mk-dur) var(--mk-ease), width var(--mk-dur) var(--mk-ease);
+  pointer-events: none;
 }
 .mk-tab {
-  padding: var(--mk-1) var(--mk-4);
-  height: 28px;
-  border: none;
-  border-radius: calc(var(--mk-radius) - 3px);
+  padding: var(--mk-3) 0;
+  border: 0;
   background: transparent;
   color: var(--mk-text-muted);
-  font-size: var(--mk-text-sm);
-  font-weight: 600;
+  font-family: var(--mk-font-display);
+  font-size: var(--mk-ctl-fs);
+  font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--mk-dur) var(--mk-ease), color var(--mk-dur) var(--mk-ease);
+  transition: color var(--mk-dur-fast) var(--mk-ease);
 }
 .mk-tab:hover { color: var(--mk-text); }
-.mk-tab[aria-selected="true"] { background: var(--mk-surface); color: var(--mk-text); box-shadow: var(--mk-shadow-1); }
+.mk-tab[aria-selected="true"] { color: var(--mk-text); }
 
 /* ---------- Dropzone ---------- */
 .mk-drop {
@@ -671,41 +683,6 @@ button, input, select, textarea {
 }
 @keyframes mk-shimmer { to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .mk-skeleton { animation: none; } }
-
-/* ---------- Topbar ---------- */
-.mk-topbar {
-  display: flex;
-  align-items: center;
-  gap: var(--mk-5);
-  height: 56px;
-  padding-inline: var(--mk-6);
-  border-bottom: var(--mk-border-w) solid var(--mk-line);
-  background: color-mix(in srgb, var(--mk-surface) 92%, transparent);
-  backdrop-filter: blur(14px) saturate(140%);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.mk-brand {
-  display: flex;
-  align-items: center;
-  gap: var(--mk-2);
-  font-family: var(--mk-font-display);
-  font-weight: 700;
-  letter-spacing: var(--mk-display-track);
-}
-.mk-brand__mark {
-  width: 22px; height: 22px;
-  border-radius: var(--mk-radius-sm);
-  background: var(--mk-accent);
-  color: var(--mk-accent-ink);
-  display: grid;
-  place-items: center;
-  font-family: var(--mk-font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  flex: none;
-}
 
 /* ---------- Segmented control ---------- */
 /* The indicator is one element that travels, not a background that jumps
@@ -830,3 +807,224 @@ button, input, select, textarea {
 /* ---------- Hover lift ---------- */
 .mk-lift { transition: transform var(--mk-dur) var(--mk-ease), box-shadow var(--mk-dur) var(--mk-ease); }
 .mk-lift:hover { transform: translateY(-2px); box-shadow: var(--mk-shadow-2); }
+
+/* ---------- Radio ---------- */
+.mk-radio { display: inline-flex; align-items: center; gap: var(--mk-3); cursor: pointer; font-size: var(--mk-ctl-fs); }
+.mk-radio input { position: absolute; opacity: 0; width: 0; height: 0; }
+.mk-radio__dot {
+  width: 20px; height: 20px; flex: none;
+  display: grid; place-items: center;
+  border: 1.5px solid var(--mk-line-strong);
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-surface);
+  transition: border-color var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-radio__dot::after {
+  content: "";
+  width: 9px; height: 9px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-accent);
+  transform: scale(0);
+  transition: transform var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-radio input:checked + .mk-radio__dot { border-color: var(--mk-accent); }
+.mk-radio input:checked + .mk-radio__dot::after { transform: scale(1); }
+.mk-radio input:focus-visible + .mk-radio__dot { box-shadow: var(--mk-focus-ring); }
+
+/* ---------- Slider ---------- */
+.mk-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-line);
+  cursor: pointer;
+}
+/* The two thumb selectors cannot be combined — an unrecognised selector
+   invalidates the whole rule, so they are written out separately. */
+.mk-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-accent);
+  border: 2px solid var(--mk-surface);
+  box-shadow: 0 0 0 1px var(--mk-line-strong);
+  transition: transform var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-slider::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-accent);
+  border: 2px solid var(--mk-surface);
+  box-shadow: 0 0 0 1px var(--mk-line-strong);
+  transition: transform var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-slider:hover::-webkit-slider-thumb { transform: scale(1.15); }
+.mk-slider:hover::-moz-range-thumb { transform: scale(1.15); }
+.mk-slider:focus-visible { box-shadow: var(--mk-focus-ring); }
+
+/* ---------- Search ---------- */
+.mk-search { position: relative; display: flex; align-items: center; width: 100%; }
+.mk-search > svg {
+  position: absolute;
+  left: calc(var(--mk-ctl-px) * 0.6);
+  width: 15px; height: 15px;
+  color: var(--mk-text-faint);
+  pointer-events: none;
+}
+.mk-search .mk-input { padding-left: calc(var(--mk-ctl-px) * 0.6 + 23px); }
+.mk-search__clear {
+  position: absolute; right: calc(var(--mk-ctl-px) * 0.4);
+  display: grid; place-items: center;
+  width: 20px; height: 20px; padding: 0;
+  border: 0; border-radius: var(--mk-radius-full);
+  background: var(--mk-surface-sunk); color: var(--mk-text-muted);
+  font-size: 11px; line-height: 1; cursor: pointer;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity var(--mk-dur-fast) var(--mk-ease), transform var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-search[data-filled] .mk-search__clear { opacity: 1; transform: none; }
+
+/* ---------- Avatar ---------- */
+.mk-avatar {
+  width: var(--mk-ctl-h); height: var(--mk-ctl-h); flex: none;
+  display: grid; place-items: center; overflow: hidden;
+  border-radius: var(--mk-radius-full);
+  background: var(--mk-surface-sunk);
+  border: var(--mk-border-w) solid var(--mk-line);
+  font-family: var(--mk-font-display);
+  font-size: var(--mk-ctl-fs); font-weight: 500;
+  color: var(--mk-text-muted);
+}
+.mk-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.mk-avatar--accent { background: var(--mk-accent); border-color: var(--mk-accent); color: var(--mk-accent-ink); }
+.mk-avatar--square { border-radius: var(--mk-radius); }
+/* The ring is the page colour, so a stack reads as overlapping discs
+   rather than as one blob. */
+.mk-avatars { display: flex; }
+.mk-avatars .mk-avatar + .mk-avatar { margin-left: -10px; box-shadow: 0 0 0 2px var(--mk-surface); }
+
+/* ---------- Divider ---------- */
+.mk-divider { border: 0; border-top: var(--mk-border-w) solid var(--mk-line); margin: 0; }
+.mk-divider--label {
+  display: flex; align-items: center; gap: var(--mk-4);
+  border: 0;
+  font-family: var(--mk-font-display);
+  font-size: var(--mk-text-xs); text-transform: uppercase; letter-spacing: 0.16em;
+  color: var(--mk-text-faint);
+}
+.mk-divider--label::before,
+.mk-divider--label::after { content: ""; flex: 1; height: 1px; background: var(--mk-line); }
+
+/* ---------- Accordion ---------- */
+.mk-acc { border-top: var(--mk-border-w) solid var(--mk-line); }
+.mk-acc__item { border-bottom: var(--mk-border-w) solid var(--mk-line); }
+.mk-acc__trigger {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--mk-4);
+  width: 100%; padding: var(--mk-4) 0;
+  border: 0; background: transparent; color: var(--mk-text);
+  font-family: var(--mk-font-display); font-size: var(--mk-ctl-fs); font-weight: 500;
+  text-align: left; cursor: pointer;
+  transition: color var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-acc__trigger:hover { color: var(--mk-accent); }
+.mk-acc__trigger i { font-style: normal; color: var(--mk-text-faint); transition: transform var(--mk-dur) var(--mk-ease); }
+.mk-acc__trigger[aria-expanded="true"] i { transform: rotate(90deg); }
+/* grid-template-rows animates to the panel's natural height without
+   anyone measuring a pixel or hardcoding a max-height. */
+.mk-acc__panel {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows var(--mk-dur) var(--mk-ease);
+}
+.mk-acc__trigger[aria-expanded="true"] + .mk-acc__panel { grid-template-rows: 1fr; }
+.mk-acc__panel > div { overflow: hidden; }
+.mk-acc__panel p { padding-bottom: var(--mk-4); color: var(--mk-text-muted); font-size: var(--mk-text-sm); }
+
+/* ---------- Tooltip ---------- */
+/* Delayed in, instant out. A tooltip that waits to appear is helpful; one
+   that waits to leave is in the way. */
+.mk-tip { position: relative; display: inline-flex; }
+.mk-tip__bubble {
+  position: absolute; bottom: calc(100% + 8px); left: 50%;
+  padding: 5px var(--mk-2);
+  border-radius: var(--mk-radius-sm);
+  background: var(--ink, #15171a); color: var(--paper, #fff);
+  font-size: var(--mk-text-xs); white-space: nowrap;
+  opacity: 0; translate: -50% 4px; pointer-events: none;
+  transition: opacity var(--mk-dur-fast) var(--mk-ease), translate var(--mk-dur-fast) var(--mk-ease);
+  z-index: 20;
+}
+.mk-tip:hover .mk-tip__bubble,
+.mk-tip:focus-within .mk-tip__bubble {
+  opacity: 1; translate: -50% 0;
+  transition-delay: 0.4s;
+}
+
+/* ---------- Popover ---------- */
+.mk-pop-wrap { position: relative; display: inline-flex; }
+.mk-pop {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  min-width: 180px; padding: var(--mk-2);
+  background: var(--mk-surface);
+  border: var(--mk-border-w) solid var(--mk-line);
+  border-radius: var(--mk-radius);
+  box-shadow: var(--mk-shadow-2);
+  opacity: 0; transform: translateY(-4px); pointer-events: none;
+  transition: opacity var(--mk-dur-fast) var(--mk-ease), transform var(--mk-dur-fast) var(--mk-ease);
+  z-index: 20;
+}
+.mk-pop-wrap[data-open] .mk-pop { opacity: 1; transform: none; pointer-events: auto; }
+.mk-pop__item {
+  display: block; width: 100%; padding: var(--mk-2) var(--mk-3);
+  border: 0; border-radius: var(--mk-radius-sm);
+  background: transparent; color: var(--mk-text);
+  font: inherit; font-size: var(--mk-text-sm); text-align: left; cursor: pointer;
+  transition: background-color var(--mk-dur-fast) var(--mk-ease), color var(--mk-dur-fast) var(--mk-ease);
+}
+.mk-pop__item:hover { background: var(--mk-surface-sunk); color: var(--mk-accent); }
+
+/* ---------- Modal & drawer ---------- */
+/* Built on <dialog>, which gives the focus trap, the inert background and
+   Escape-to-close for free. allow-discrete plus @starting-style is what
+   lets an element animate in and out of the top layer at all. */
+.mk-modal {
+  padding: 0; border: 0;
+  max-width: min(92vw, 440px);
+  background: var(--mk-surface); color: var(--mk-text);
+  border-radius: var(--mk-radius-lg);
+  box-shadow: var(--mk-shadow-2);
+  opacity: 0; transform: translateY(8px) scale(0.97);
+  transition: opacity var(--mk-dur) var(--mk-ease), transform var(--mk-dur) var(--mk-ease),
+              overlay var(--mk-dur) allow-discrete, display var(--mk-dur) allow-discrete;
+}
+.mk-modal[open] { opacity: 1; transform: none; }
+@starting-style { .mk-modal[open] { opacity: 0; transform: translateY(8px) scale(0.97); } }
+
+.mk-modal::backdrop {
+  background: rgba(21, 23, 26, 0);
+  transition: background var(--mk-dur) var(--mk-ease),
+              overlay var(--mk-dur) allow-discrete, display var(--mk-dur) allow-discrete;
+}
+.mk-modal[open]::backdrop { background: rgba(21, 23, 26, 0.38); }
+@starting-style { .mk-modal[open]::backdrop { background: rgba(21, 23, 26, 0); } }
+
+.mk-modal__body { padding: var(--mk-6); }
+.mk-modal__body h3 { font-size: var(--mk-text-md); margin-bottom: var(--mk-2); }
+.mk-modal__body p { color: var(--mk-text-muted); font-size: var(--mk-text-sm); }
+.mk-modal__foot {
+  display: flex; justify-content: flex-end; gap: var(--mk-2);
+  padding: var(--mk-4) var(--mk-6);
+  border-top: var(--mk-border-w) solid var(--mk-line);
+}
+
+/* Same element, anchored to an edge: the difference is where it comes
+   from, not what it is. */
+.mk-drawer {
+  max-width: min(92vw, 340px);
+  width: 100%;
+  height: 100dvh; max-height: 100dvh;
+  margin: 0 0 0 auto;
+  border-radius: 0;
+  transform: translateX(16px);
+}
+.mk-drawer[open] { transform: none; }
+@starting-style { .mk-drawer[open] { transform: translateX(16px); } }

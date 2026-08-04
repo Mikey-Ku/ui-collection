@@ -611,6 +611,610 @@
           "demo": "<div class='mk-stack mk-gap-2' style='width:100%'><div class='mk-row' style='justify-content:space-between'><span class='mk-eyebrow'>Confidence</span><span class='mk-num' style='font-size:var(--mk-text-xs)'>0.942</span></div><div class='mk-meter'><div class='mk-meter__fill' data-meter style='width:0%'></div></div><button class='mk-btn mk-btn--ghost mk-sm' data-behavior='meter'>Run</button></div>"
         }
       ]
+    },
+    {
+      "id": "card",
+      "name": "Card",
+      "kind": "family",
+      "group": "Display",
+      "tags": [
+        "card",
+        "surface",
+        "panel",
+        "container",
+        "hover",
+        "lift"
+      ],
+      "aliases": [
+        "tile",
+        "box",
+        "project",
+        "item"
+      ],
+      "note": "Rests flat inside a hairline and earns its shadow on hover — nothing in this system sits raised while idle. Add mk-card--interactive only when the whole card is clickable; a card that lifts but does nothing is a lie.",
+      "css": [
+        "mk-card",
+        "mk-card--interactive",
+        "mk-card__head",
+        "mk-card__body",
+        "mk-card__foot"
+      ],
+      "demo": "<div class='mk-card mk-card--interactive'><div class='mk-card__body'><strong>Ground Truth</strong><p class='mk-muted' style='font-size:var(--mk-text-sm)'>Image manipulation detection for insurance claims.</p></div></div>",
+      "variants": [
+        {
+          "label": "Plain",
+          "demo": "<div class='mk-card'><div class='mk-card__body'><strong>Scribblz</strong></div></div>"
+        },
+        {
+          "label": "Interactive",
+          "demo": "<div class='mk-card mk-card--interactive'><div class='mk-card__body'><strong>Hover me</strong></div></div>"
+        },
+        {
+          "label": "With header",
+          "demo": "<div class='mk-card'><div class='mk-card__head'><strong>Verdict</strong><span class='mk-badge mk-badge--ok'>Clear</span></div><div class='mk-card__body'>No manipulation found.</div></div>"
+        },
+        {
+          "label": "With footer",
+          "demo": "<div class='mk-card'><div class='mk-card__body'>Six photos analysed.</div><div class='mk-card__foot'><span class='mk-hint'>2 minutes ago</span></div></div>"
+        }
+      ],
+      "motion": [
+        {
+          "label": "Hover lift",
+          "value": "translateY(-4px) · 0.4s",
+          "note": "Twice the button's travel, because a card is a bigger object and should feel heavier."
+        },
+        {
+          "label": "Shadow",
+          "value": "0 18px 40px -24px · 0.4s",
+          "note": "Long and soft rather than tight and dark, so it reads as height, not as a border."
+        }
+      ],
+      "uses": [
+        {
+          "label": "Project card",
+          "note": "The whole card is the link, so it gets the interactive class.",
+          "demo": "<div class='mk-card mk-card--interactive'><div class='mk-card__body mk-stack mk-gap-2'><span class='mk-eyebrow'>Selected work</span><strong>Ground Truth</strong><p class='mk-muted' style='font-size:var(--mk-text-sm)'>Detecting edited photos in insurance claims.</p></div></div>"
+        },
+        {
+          "label": "Static panel",
+          "note": "Nothing to click, so nothing moves.",
+          "demo": "<div class='mk-card'><div class='mk-card__head'><strong>Run settings</strong></div><div class='mk-card__body mk-stack mk-gap-3'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Store artifacts</label></div></div>"
+        }
+      ]
+    },
+    {
+      "id": "accordion",
+      "name": "Accordion",
+      "kind": "motion",
+      "group": "Display",
+      "tags": [
+        "accordion",
+        "expand",
+        "collapse",
+        "disclosure",
+        "height",
+        "faq"
+      ],
+      "aliases": [
+        "details",
+        "toggle",
+        "show more",
+        "dropdown"
+      ],
+      "note": "Animates to the panel's natural height using grid-template-rows 0fr to 1fr. No measuring, no hardcoded max-height, and no jump at the end when the guess was wrong.",
+      "css": [
+        "mk-acc",
+        "mk-acc__item",
+        "mk-acc__trigger",
+        "mk-acc__panel"
+      ],
+      "behavior": "acc",
+      "demo": "<div class='mk-acc' data-behavior='acc'><div class='mk-acc__item'><button class='mk-acc__trigger' aria-expanded='true'>How does the height work? <i>&rsaquo;</i></button><div class='mk-acc__panel'><div><p>The panel animates between grid-template-rows 0fr and 1fr, so it finds its own height.</p></div></div></div><div class='mk-acc__item'><button class='mk-acc__trigger' aria-expanded='false'>Can two open at once? <i>&rsaquo;</i></button><div class='mk-acc__panel'><div><p>No. An accordion that opens everything is just a list.</p></div></div></div></div>",
+      "motion": [
+        {
+          "label": "Open",
+          "value": "grid-template-rows 0fr → 1fr · 0.4s",
+          "note": "The one CSS trick that animates to auto height. max-height guessing always overshoots or clips."
+        },
+        {
+          "label": "Chevron",
+          "value": "rotate(90deg) · 0.4s",
+          "note": "Turns with the panel, on the same curve, so they read as one movement."
+        }
+      ]
+    },
+    {
+      "id": "avatar",
+      "name": "Avatar",
+      "kind": "family",
+      "group": "Display",
+      "tags": [
+        "avatar",
+        "user",
+        "initials",
+        "profile",
+        "stack",
+        "group"
+      ],
+      "aliases": [
+        "person",
+        "photo",
+        "face",
+        "member"
+      ],
+      "note": "Takes its diameter from the control height, so an avatar beside a small button and one beside a large button stay in proportion. Falls back to initials, which is the case that actually happens.",
+      "css": [
+        "mk-avatar",
+        "mk-avatar--accent",
+        "mk-avatar--square",
+        "mk-avatars"
+      ],
+      "sizes": true,
+      "sizeDemo": "<span class='mk-avatar mk-avatar--accent'>MK</span>",
+      "demo": "<div class='mk-avatars'><span class='mk-avatar mk-avatar--accent'>MK</span><span class='mk-avatar'>JD</span><span class='mk-avatar'>+3</span></div>",
+      "variants": [
+        {
+          "label": "Initials",
+          "demo": "<span class='mk-avatar'>JD</span>"
+        },
+        {
+          "label": "Accent",
+          "demo": "<span class='mk-avatar mk-avatar--accent'>MK</span>"
+        },
+        {
+          "label": "Square",
+          "demo": "<span class='mk-avatar mk-avatar--square'>GT</span>"
+        },
+        {
+          "label": "Stacked",
+          "demo": "<div class='mk-avatars'><span class='mk-avatar mk-avatar--accent'>MK</span><span class='mk-avatar'>JD</span><span class='mk-avatar'>+3</span></div>"
+        }
+      ]
+    },
+    {
+      "id": "divider",
+      "name": "Divider",
+      "kind": "family",
+      "group": "Display",
+      "tags": [
+        "divider",
+        "rule",
+        "separator",
+        "hairline",
+        "hr"
+      ],
+      "aliases": [
+        "line",
+        "break",
+        "split"
+      ],
+      "note": "A hairline at the line token, never heavier. The labelled variant grows its rules from the text, so it works at any width without anyone setting one.",
+      "css": [
+        "mk-divider",
+        "mk-divider--label"
+      ],
+      "demo": "<div class='mk-stack mk-gap-5'><hr class='mk-divider'><div class='mk-divider--label'>or</div></div>",
+      "variants": [
+        {
+          "label": "Plain",
+          "demo": "<hr class='mk-divider'>"
+        },
+        {
+          "label": "Labelled",
+          "demo": "<div class='mk-divider--label'>or</div>"
+        }
+      ]
+    },
+    {
+      "id": "radio",
+      "name": "Radio group",
+      "kind": "family",
+      "group": "Forms",
+      "tags": [
+        "radio",
+        "choice",
+        "exclusive",
+        "one of",
+        "option"
+      ],
+      "aliases": [
+        "select one",
+        "pick",
+        "group",
+        "options"
+      ],
+      "note": "For one choice out of a few. The dot scales up from zero rather than appearing, which is the same idea as the checkbox drawing its tick — the state arrives, it does not blink into being.",
+      "css": [
+        "mk-radio",
+        "mk-radio__dot"
+      ],
+      "behavior": "radio",
+      "demo": "<div class='mk-stack mk-gap-3' data-behavior='radio'><label class='mk-radio'><input type='radio' checked><span class='mk-radio__dot'></span>Every run</label><label class='mk-radio'><input type='radio'><span class='mk-radio__dot'></span>Only failures</label><label class='mk-radio'><input type='radio'><span class='mk-radio__dot'></span>Never</label></div>",
+      "motion": [
+        {
+          "label": "Dot",
+          "value": "scale(0) → scale(1) · 0.25s",
+          "note": "Grows from the centre. Fading it in reads as uncertainty."
+        },
+        {
+          "label": "Ring",
+          "value": "border-color · 0.25s",
+          "note": "The outline takes the accent at the same time, so the two land together."
+        }
+      ]
+    },
+    {
+      "id": "slider",
+      "name": "Slider",
+      "kind": "family",
+      "group": "Forms",
+      "tags": [
+        "slider",
+        "range",
+        "threshold",
+        "drag",
+        "value"
+      ],
+      "aliases": [
+        "scrub",
+        "level",
+        "amount",
+        "percent"
+      ],
+      "note": "A native range input, restyled. Keeping the native element means keyboard, touch and screen readers all work without a line of code — the thumb selectors are split in two because one unrecognised selector would invalidate the whole rule.",
+      "css": [
+        "mk-slider"
+      ],
+      "behavior": "slider",
+      "demo": "<div class='mk-stack mk-gap-3'><input class='mk-slider' type='range' min='0' max='100' value='70' data-behavior='slider' aria-label='Threshold'><span class='mk-muted' style='font-size:var(--mk-text-xs)'>Threshold <b class='mk-num' data-slider-value>70</b></span></div>",
+      "motion": [
+        {
+          "label": "Thumb hover",
+          "value": "scale(1.15) · 0.25s",
+          "note": "Grows under the cursor so the grab target announces itself before you press."
+        }
+      ]
+    },
+    {
+      "id": "search",
+      "name": "Search",
+      "kind": "family",
+      "group": "Forms",
+      "tags": [
+        "search",
+        "filter",
+        "query",
+        "clear",
+        "input"
+      ],
+      "aliases": [
+        "find",
+        "lookup",
+        "magnifier"
+      ],
+      "note": "The clear button only exists once there is something to clear — it scales in rather than appearing, so the field does not flicker as you type the first character.",
+      "css": [
+        "mk-search",
+        "mk-search__clear",
+        "mk-input"
+      ],
+      "behavior": "search",
+      "sizes": true,
+      "sizeDemo": "<div class='mk-search'><svg width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'><circle cx='11' cy='11' r='7'/><path d='M20 20l-3.5-3.5'/></svg><input class='mk-input' placeholder='Search' data-behavior='search'><button class='mk-search__clear' aria-label='Clear'>&times;</button></div>",
+      "demo": "<div class='mk-search'><svg width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'><circle cx='11' cy='11' r='7'/><path d='M20 20l-3.5-3.5'/></svg><input class='mk-input' placeholder='Search projects' data-behavior='search'><button class='mk-search__clear' aria-label='Clear'>&times;</button></div>",
+      "motion": [
+        {
+          "label": "Clear in",
+          "value": "scale(0.8) → 1 + fade · 0.25s",
+          "note": "Appears on the first keystroke and leaves the moment the field empties."
+        }
+      ]
+    },
+    {
+      "id": "dropzone",
+      "name": "Dropzone",
+      "kind": "family",
+      "group": "Forms",
+      "tags": [
+        "upload",
+        "drop",
+        "drag",
+        "file",
+        "images"
+      ],
+      "aliases": [
+        "attach",
+        "import",
+        "browse",
+        "photos"
+      ],
+      "note": "A dashed target that takes the accent while a file is over it. The dragover state has to be driven by JS because CSS has no selector for it — :hover is not the same thing and lies during a drag.",
+      "css": [
+        "mk-drop"
+      ],
+      "behavior": "drop",
+      "demo": "<div class='mk-drop' tabindex='0' data-behavior='drop'><strong>Drop photos to analyze</strong><span class='mk-hint'>JPEG or PNG, up to 25 MB each</span></div>",
+      "motion": [
+        {
+          "label": "Drag over",
+          "value": "border + background · 0.4s",
+          "note": "Border and fill both take the accent, so the target is unmistakable mid-drag."
+        }
+      ]
+    },
+    {
+      "id": "alert",
+      "name": "Alert",
+      "kind": "family",
+      "group": "Feedback",
+      "tags": [
+        "alert",
+        "callout",
+        "inline",
+        "message",
+        "warning",
+        "error"
+      ],
+      "aliases": [
+        "banner",
+        "notice",
+        "info",
+        "flash"
+      ],
+      "note": "Inline and permanent, where a toast is floating and temporary. Use an alert when the message is about the thing next to it, and a toast when it is about something that just happened.",
+      "css": [
+        "mk-alert",
+        "mk-alert--ok",
+        "mk-alert--warn",
+        "mk-alert--danger"
+      ],
+      "demo": "<div class='mk-stack mk-gap-2'><div class='mk-alert mk-alert--warn'>Threshold is below the recommended 0.70.</div></div>",
+      "variants": [
+        {
+          "label": "Neutral",
+          "demo": "<div class='mk-alert'>Six photos queued for analysis.</div>"
+        },
+        {
+          "label": "Ok",
+          "demo": "<div class='mk-alert mk-alert--ok'>All photos cleared.</div>"
+        },
+        {
+          "label": "Warn",
+          "demo": "<div class='mk-alert mk-alert--warn'>Threshold is below the recommended 0.70.</div>"
+        },
+        {
+          "label": "Danger",
+          "demo": "<div class='mk-alert mk-alert--danger'>Upload failed: file exceeds 25 MB.</div>"
+        }
+      ],
+      "uses": [
+        {
+          "label": "Above a form",
+          "note": "Explains what went wrong before you reach the field it is about.",
+          "demo": "<div class='mk-stack mk-gap-4'><div class='mk-alert mk-alert--danger'>That claim number was not found.</div><div class='mk-field'><label class='mk-label' for='a1'>Claim number</label><input class='mk-input' id='a1' value='CT-00000'></div></div>"
+        }
+      ]
+    },
+    {
+      "id": "tabs",
+      "name": "Tabs",
+      "kind": "motion",
+      "group": "Navigation",
+      "tags": [
+        "tabs",
+        "underline",
+        "indicator",
+        "views",
+        "switch"
+      ],
+      "aliases": [
+        "sections",
+        "pages",
+        "nav",
+        "panels"
+      ],
+      "note": "A different job from the segmented control: tabs switch between views, a segmented control filters one. Hence the underline instead of the inset pill — a tab belongs to the content beneath it.",
+      "css": [
+        "mk-tabs",
+        "mk-tabs__ind",
+        "mk-tab"
+      ],
+      "behavior": "tabs",
+      "demo": "<div class='mk-tabs' data-behavior='tabs'><span class='mk-tabs__ind'></span><button class='mk-tab' aria-selected='true'>Overview</button><button class='mk-tab' aria-selected='false'>Evidence</button><button class='mk-tab' aria-selected='false'>History</button></div>",
+      "variants": [
+        {
+          "label": "Two tabs",
+          "demo": "<div class='mk-tabs' data-behavior='tabs'><span class='mk-tabs__ind'></span><button class='mk-tab' aria-selected='true'>Live</button><button class='mk-tab' aria-selected='false'>Archived</button></div>"
+        },
+        {
+          "label": "Uneven labels",
+          "demo": "<div class='mk-tabs' data-behavior='tabs'><span class='mk-tabs__ind'></span><button class='mk-tab' aria-selected='true'>All</button><button class='mk-tab' aria-selected='false'>Needs review</button><button class='mk-tab' aria-selected='false'>Done</button></div>"
+        }
+      ],
+      "motion": [
+        {
+          "label": "Underline travel",
+          "value": "translateX · 0.4s",
+          "note": "One underline moves between tabs rather than three fading in and out."
+        },
+        {
+          "label": "Width",
+          "value": "width · 0.4s",
+          "note": "Animated alongside, so uneven labels never snap at the end of the slide."
+        }
+      ],
+      "uses": [
+        {
+          "label": "Above a panel",
+          "note": "The underline sits on the border it shares with the content.",
+          "demo": "<div class='mk-stack mk-gap-4'><div class='mk-tabs' data-behavior='tabs'><span class='mk-tabs__ind'></span><button class='mk-tab' aria-selected='true'>Overview</button><button class='mk-tab' aria-selected='false'>Evidence</button></div><div class='mk-skeleton' style='height:40px'></div></div>"
+        }
+      ]
+    },
+    {
+      "id": "modal",
+      "name": "Modal",
+      "kind": "motion",
+      "group": "Overlays",
+      "tags": [
+        "modal",
+        "dialog",
+        "confirm",
+        "overlay",
+        "backdrop",
+        "focus trap"
+      ],
+      "aliases": [
+        "popup",
+        "sheet",
+        "alert",
+        "prompt"
+      ],
+      "note": "Built on the native dialog element, which gives the focus trap, the inert background and Escape-to-close for nothing. The only thing added is closing on a backdrop click — the element does not do that, because the backdrop is a pseudo element and clicks on it land on the dialog itself.",
+      "css": [
+        "mk-modal",
+        "mk-modal__body",
+        "mk-modal__foot"
+      ],
+      "behavior": "dialog",
+      "demo": "<button class='mk-btn mk-btn--secondary' data-behavior='dialog'>Open dialog</button><dialog class='mk-modal'><div class='mk-modal__body'><h3>Delete this project?</h3><p>Scribblz and its six photos will be removed. This cannot be undone.</p></div><div class='mk-modal__foot'><button class='mk-btn mk-btn--ghost' data-close>Cancel</button><button class='mk-btn mk-btn--danger' data-close>Delete</button></div></dialog>",
+      "motion": [
+        {
+          "label": "Enter",
+          "value": "translateY(8px) + scale(0.97) → 0 · 0.4s",
+          "note": "Rises and settles, matching the toast so overlays feel like one family."
+        },
+        {
+          "label": "Backdrop",
+          "value": "0 → 38% ink · 0.4s",
+          "note": "Fades with the dialog rather than snapping in first."
+        },
+        {
+          "label": "allow-discrete",
+          "value": "overlay + display",
+          "note": "Without it a dialog cannot animate out at all — it is removed from the top layer the instant close() is called."
+        }
+      ],
+      "uses": [
+        {
+          "label": "Destructive confirm",
+          "note": "Danger on the right, and the quiet way out on the left.",
+          "demo": "<button class='mk-btn mk-btn--danger' data-behavior='dialog'>Delete project</button><dialog class='mk-modal'><div class='mk-modal__body'><h3>Delete this project?</h3><p>This cannot be undone.</p></div><div class='mk-modal__foot'><button class='mk-btn mk-btn--ghost' data-close>Cancel</button><button class='mk-btn mk-btn--danger' data-close>Delete</button></div></dialog>"
+        }
+      ]
+    },
+    {
+      "id": "drawer",
+      "name": "Drawer",
+      "kind": "motion",
+      "group": "Overlays",
+      "tags": [
+        "drawer",
+        "sheet",
+        "side panel",
+        "slide",
+        "detail"
+      ],
+      "aliases": [
+        "sidebar",
+        "panel",
+        "flyout",
+        "off canvas"
+      ],
+      "note": "The same dialog as the modal, anchored to an edge. The difference is where it comes from, not what it is — which is why it is the modal's classes plus one.",
+      "css": [
+        "mk-modal",
+        "mk-drawer",
+        "mk-modal__body",
+        "mk-modal__foot"
+      ],
+      "behavior": "dialog",
+      "demo": "<button class='mk-btn mk-btn--secondary' data-behavior='dialog'>Open drawer</button><dialog class='mk-modal mk-drawer'><div class='mk-modal__body'><h3>IMG_4471.jpg</h3><p>Quantization mismatch. Score 0.961.</p></div><div class='mk-modal__foot'><button class='mk-btn mk-btn--ghost' data-close>Close</button></div></dialog>",
+      "motion": [
+        {
+          "label": "Enter",
+          "value": "translateX(16px) → 0 · 0.4s",
+          "note": "A short slide, not a full-width sweep. The backdrop already says it arrived."
+        }
+      ]
+    },
+    {
+      "id": "popover",
+      "name": "Popover",
+      "kind": "motion",
+      "group": "Overlays",
+      "tags": [
+        "popover",
+        "menu",
+        "dropdown",
+        "anchored",
+        "dismiss"
+      ],
+      "aliases": [
+        "context menu",
+        "options",
+        "more",
+        "actions"
+      ],
+      "note": "Anchored to its trigger rather than centred on the screen. Dismissal is the part people skip: it closes on Escape and on any click outside itself, not just on the trigger.",
+      "css": [
+        "mk-pop-wrap",
+        "mk-pop",
+        "mk-pop__item"
+      ],
+      "behavior": "pop",
+      "demo": "<div class='mk-pop-wrap'><button class='mk-btn mk-btn--secondary' data-behavior='pop' aria-expanded='false'>Options</button><div class='mk-pop'><button class='mk-pop__item'>Duplicate</button><button class='mk-pop__item'>Rename</button><button class='mk-pop__item'>Archive</button></div></div>",
+      "motion": [
+        {
+          "label": "Enter",
+          "value": "translateY(-4px) → 0 + fade · 0.25s",
+          "note": "Drops from the trigger, so the two read as connected."
+        },
+        {
+          "label": "Dismiss",
+          "value": "Escape, or a click outside",
+          "note": "Both, always. A menu that only closes on its own button is a trap."
+        }
+      ]
+    },
+    {
+      "id": "tooltip",
+      "name": "Tooltip",
+      "kind": "motion",
+      "group": "Overlays",
+      "tags": [
+        "tooltip",
+        "hint",
+        "hover",
+        "focus",
+        "delay",
+        "label"
+      ],
+      "aliases": [
+        "title",
+        "help",
+        "explain",
+        "popup"
+      ],
+      "note": "Delayed in, instant out. A tooltip that waits before appearing is helpful; one that waits before leaving is in the way. Opens on focus as well as hover, so it exists for the keyboard too.",
+      "css": [
+        "mk-tip",
+        "mk-tip__bubble"
+      ],
+      "demo": "<span class='mk-tip'><button class='mk-btn mk-btn--secondary'>Hover me</button><span class='mk-tip__bubble'>Runs the model again</span></span>",
+      "motion": [
+        {
+          "label": "In",
+          "value": "fade + translate 4px · 0.25s, after 0.4s",
+          "note": "The delay is the whole design. Without it, every passing cursor fires it."
+        },
+        {
+          "label": "Out",
+          "value": "0.25s, no delay",
+          "note": "Leaves the moment you do."
+        }
+      ]
     }
   ],
   "groups": [
@@ -618,6 +1222,7 @@
     "Forms",
     "Display",
     "Feedback",
-    "Navigation"
+    "Navigation",
+    "Overlays"
   ]
 }

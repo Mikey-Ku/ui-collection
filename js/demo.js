@@ -4,6 +4,8 @@
    element can be mounted many times over — tile, every variant, every
    size, every usage example — with no shared state and no ids. */
 
+let radioSeq = 0;
+
 export const behaviors = {
   seg(el) {
     const ind = el.querySelector(".mk-seg__ind");
@@ -54,6 +56,107 @@ export const behaviors = {
     };
     btn.addEventListener("click", run);
     run();
+  },
+
+  /* Same travelling-indicator technique as the segmented control, but the
+     indicator is an underline and the offsets are measured against the tab
+     strip rather than a padded track. */
+  tabs(el) {
+    const ind = el.querySelector(".mk-tabs__ind");
+    const tabs = [...el.querySelectorAll(".mk-tab")];
+    const move = (t) => {
+      if (!t || !t.offsetWidth) return;
+      ind.style.setProperty("--w", `${t.offsetWidth}px`);
+      ind.style.setProperty("--x", `${t.offsetLeft}px`);
+    };
+    tabs.forEach((t) => t.addEventListener("click", () => {
+      tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t)));
+      move(t);
+    }));
+    const sync = () => move(el.querySelector('[aria-selected="true"]'));
+    new ResizeObserver(sync).observe(el);
+    sync();
+  },
+
+  acc(el) {
+    for (const t of el.querySelectorAll(".mk-acc__trigger")) {
+      t.addEventListener("click", () => {
+        const open = t.getAttribute("aria-expanded") === "true";
+        // One panel at a time — an accordion that opens everything is a list.
+        el.querySelectorAll(".mk-acc__trigger").forEach((x) => x.setAttribute("aria-expanded", "false"));
+        t.setAttribute("aria-expanded", String(!open));
+      });
+    }
+  },
+
+  /* <dialog> handles the focus trap, the inert background and Escape.
+     All this adds is opening it, and closing on a backdrop click — which
+     the element does not give you, because the backdrop is a pseudo
+     element and clicks on it land on the dialog itself. */
+  dialog(btn) {
+    const dlg = btn.closest("[data-demo]").querySelector("dialog");
+    btn.addEventListener("click", () => dlg.showModal());
+    dlg.addEventListener("click", (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+    dlg.querySelectorAll("[data-close]").forEach((c) =>
+      c.addEventListener("click", () => dlg.close()));
+  },
+
+  pop(btn) {
+    const wrap = btn.closest(".mk-pop-wrap");
+    const close = () => {
+      delete wrap.dataset.open;
+      btn.setAttribute("aria-expanded", "false");
+    };
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const open = "open" in wrap.dataset;
+      if (open) return close();
+      wrap.dataset.open = "";
+      btn.setAttribute("aria-expanded", "true");
+    });
+    // Light dismiss. Both are needed: a click anywhere else, and Escape.
+    document.addEventListener("click", (e) => {
+      if (!wrap.contains(e.target)) close();
+    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+  },
+
+  slider(input) {
+    const out = input.closest("[data-demo]").querySelector("[data-slider-value]");
+    const sync = () => { if (out) out.textContent = input.value; };
+    input.addEventListener("input", sync);
+    sync();
+  },
+
+  search(input) {
+    const wrap = input.closest(".mk-search");
+    const clear = wrap.querySelector(".mk-search__clear");
+    const sync = () => {
+      if (input.value) wrap.dataset.filled = "";
+      else delete wrap.dataset.filled;
+    };
+    input.addEventListener("input", sync);
+    clear?.addEventListener("click", () => { input.value = ""; sync(); input.focus(); });
+    sync();
+  },
+
+  /* Radio `name` is global to the document, and every demo is mounted many
+     times over — tile, each variant, each usage. Without scoping, choosing
+     an option in one cell would clear the selection in another. */
+  radio(group) {
+    const name = `mk-radio-${++radioSeq}`;
+    group.querySelectorAll('input[type="radio"]').forEach((i) => { i.name = name; });
+  },
+
+  drop(zone) {
+    for (const ev of ["dragenter", "dragover"]) {
+      zone.addEventListener(ev, (e) => { e.preventDefault(); zone.classList.add("is-over"); });
+    }
+    for (const ev of ["dragleave", "drop"]) {
+      zone.addEventListener(ev, (e) => { e.preventDefault(); zone.classList.remove("is-over"); });
+    }
   },
 };
 

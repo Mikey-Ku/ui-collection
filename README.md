@@ -84,7 +84,8 @@ small, without touching a single child:
 
 ## Structure
 
-Elements carry a `group` (Actions, Forms, Display, Feedback, Navigation) which
+Elements carry a `group` (Actions, Forms, Display, Feedback, Navigation,
+Overlays) which
 drives both the section headings on the index and the left rail. The rail is
 built from the registry on every page, so adding an entry puts it in the
 navigation everywhere without a second list to maintain.

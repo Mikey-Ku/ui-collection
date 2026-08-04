@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Toast in / out — Mikey Ku Collection</title>
+<title>Avatar — Mikey Ku Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
     <button class="pg-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
     <button class="pg-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
   </div>
-  <span class="mk-eyebrow">motion</span>
+  <span class="mk-eyebrow">family</span>
 </header>
 
 <div class="pg-shell pg-shell--rail">
@@ -34,12 +34,12 @@
     <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
     <div class="dt-head">
-      <span class="mk-eyebrow">Feedback</span>
-      <h1>Toast in / out</h1>
-      <p>Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.</p>
+      <span class="mk-eyebrow">Display</span>
+      <h1>Avatar</h1>
+      <p>Takes its diameter from the control height, so an avatar beside a small button and one beside a large button stay in proportion. Falls back to initials, which is the case that actually happens.</p>
     </div>
 
-    <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div></div>
+    <div class="dt-hero" data-demo><div class='mk-avatars'><span class='mk-avatar mk-avatar--accent'>MK</span><span class='mk-avatar'>JD</span><span class='mk-avatar'>+3</span></div></div>
 
     <div id="body"></div>
   </main>
@@ -50,7 +50,7 @@
 <script type="module">
 import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"toast-in-out","name":"Toast in / out","kind":"motion","group":"Feedback","tags":["toast","notification","slide","scale","transient","enter","exit"],"aliases":["snackbar","popup","message","alert"],"note":"Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.","css":["mk-toast"],"behavior":"toast","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>","motion":[{"label":"Enter","value":"translateY(10px) + scale(0.97) → 0 · 0.6s","note":"Rises and settles rather than sliding flat."},{"label":"Hold","value":"2.2s","note":"Long enough to read a short sentence without rushing."},{"label":"Exit","value":"translateY(6px) + scale(0.98) · 0.4s","note":"Shorter than the entrance, and removed on animationend rather than a second timer."}],"uses":[{"label":"After an action","note":"Confirms something that already happened; never asks for a response.","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--primary' data-behavior='toast'>Save changes</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>"}]};
+const it = {"id":"avatar","name":"Avatar","kind":"family","group":"Display","tags":["avatar","user","initials","profile","stack","group"],"aliases":["person","photo","face","member"],"note":"Takes its diameter from the control height, so an avatar beside a small button and one beside a large button stay in proportion. Falls back to initials, which is the case that actually happens.","css":["mk-avatar","mk-avatar--accent","mk-avatar--square","mk-avatars"],"sizes":true,"sizeDemo":"<span class='mk-avatar mk-avatar--accent'>MK</span>","demo":"<div class='mk-avatars'><span class='mk-avatar mk-avatar--accent'>MK</span><span class='mk-avatar'>JD</span><span class='mk-avatar'>+3</span></div>","variants":[{"label":"Initials","demo":"<span class='mk-avatar'>JD</span>"},{"label":"Accent","demo":"<span class='mk-avatar mk-avatar--accent'>MK</span>"},{"label":"Square","demo":"<span class='mk-avatar mk-avatar--square'>GT</span>"},{"label":"Stacked","demo":"<div class='mk-avatars'><span class='mk-avatar mk-avatar--accent'>MK</span><span class='mk-avatar'>JD</span><span class='mk-avatar'>+3</span></div>"}]};
 const out = [];
 const section = (title, html) =>
   out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +

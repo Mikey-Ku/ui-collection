@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Toast in / out — Mikey Ku Collection</title>
+<title>Drawer — Mikey Ku Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -34,12 +34,12 @@
     <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
     <div class="dt-head">
-      <span class="mk-eyebrow">Feedback</span>
-      <h1>Toast in / out</h1>
-      <p>Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.</p>
+      <span class="mk-eyebrow">Overlays</span>
+      <h1>Drawer</h1>
+      <p>The same dialog as the modal, anchored to an edge. The difference is where it comes from, not what it is — which is why it is the modal's classes plus one.</p>
     </div>
 
-    <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div></div>
+    <div class="dt-hero" data-demo><button class='mk-btn mk-btn--secondary' data-behavior='dialog'>Open drawer</button><dialog class='mk-modal mk-drawer'><div class='mk-modal__body'><h3>IMG_4471.jpg</h3><p>Quantization mismatch. Score 0.961.</p></div><div class='mk-modal__foot'><button class='mk-btn mk-btn--ghost' data-close>Close</button></div></dialog></div>
 
     <div id="body"></div>
   </main>
@@ -50,7 +50,7 @@
 <script type="module">
 import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"toast-in-out","name":"Toast in / out","kind":"motion","group":"Feedback","tags":["toast","notification","slide","scale","transient","enter","exit"],"aliases":["snackbar","popup","message","alert"],"note":"Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.","css":["mk-toast"],"behavior":"toast","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>","motion":[{"label":"Enter","value":"translateY(10px) + scale(0.97) → 0 · 0.6s","note":"Rises and settles rather than sliding flat."},{"label":"Hold","value":"2.2s","note":"Long enough to read a short sentence without rushing."},{"label":"Exit","value":"translateY(6px) + scale(0.98) · 0.4s","note":"Shorter than the entrance, and removed on animationend rather than a second timer."}],"uses":[{"label":"After an action","note":"Confirms something that already happened; never asks for a response.","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--primary' data-behavior='toast'>Save changes</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>"}]};
+const it = {"id":"drawer","name":"Drawer","kind":"motion","group":"Overlays","tags":["drawer","sheet","side panel","slide","detail"],"aliases":["sidebar","panel","flyout","off canvas"],"note":"The same dialog as the modal, anchored to an edge. The difference is where it comes from, not what it is — which is why it is the modal's classes plus one.","css":["mk-modal","mk-drawer","mk-modal__body","mk-modal__foot"],"behavior":"dialog","demo":"<button class='mk-btn mk-btn--secondary' data-behavior='dialog'>Open drawer</button><dialog class='mk-modal mk-drawer'><div class='mk-modal__body'><h3>IMG_4471.jpg</h3><p>Quantization mismatch. Score 0.961.</p></div><div class='mk-modal__foot'><button class='mk-btn mk-btn--ghost' data-close>Close</button></div></dialog>","motion":[{"label":"Enter","value":"translateX(16px) → 0 · 0.4s","note":"A short slide, not a full-width sweep. The backdrop already says it arrived."}]};
 const out = [];
 const section = (title, html) =>
   out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +

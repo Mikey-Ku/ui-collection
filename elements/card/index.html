@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Toast in / out — Mikey Ku Collection</title>
+<title>Card — Mikey Ku Collection</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -24,7 +24,7 @@
     <button class="pg-swatch" data-accent-pick="indigo" style="background:#5b4bd6" aria-pressed="false" aria-label="Indigo"></button>
     <button class="pg-swatch" data-accent-pick="slate" style="background:#3f5366" aria-pressed="false" aria-label="Slate"></button>
   </div>
-  <span class="mk-eyebrow">motion</span>
+  <span class="mk-eyebrow">family</span>
 </header>
 
 <div class="pg-shell pg-shell--rail">
@@ -34,12 +34,12 @@
     <a class="dt-back" href="../../"><i>&lsaquo;</i> All elements</a>
 
     <div class="dt-head">
-      <span class="mk-eyebrow">Feedback</span>
-      <h1>Toast in / out</h1>
-      <p>Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.</p>
+      <span class="mk-eyebrow">Display</span>
+      <h1>Card</h1>
+      <p>Rests flat inside a hairline and earns its shadow on hover — nothing in this system sits raised while idle. Add mk-card--interactive only when the whole card is clickable; a card that lifts but does nothing is a lie.</p>
     </div>
 
-    <div class="dt-hero" data-demo><div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div></div>
+    <div class="dt-hero" data-demo><div class='mk-card mk-card--interactive'><div class='mk-card__body'><strong>Ground Truth</strong><p class='mk-muted' style='font-size:var(--mk-text-sm)'>Image manipulation detection for insurance claims.</p></div></div></div>
 
     <div id="body"></div>
   </main>
@@ -50,7 +50,7 @@
 <script type="module">
 import { mount, cell, wireCopy, wireAccent, measureSizes, sidebar, pageNav } from "../../js/demo.js";
 
-const it = {"id":"toast-in-out","name":"Toast in / out","kind":"motion","group":"Feedback","tags":["toast","notification","slide","scale","transient","enter","exit"],"aliases":["snackbar","popup","message","alert"],"note":"Rises and scales in, holds, then falls away. The exit is deliberately shorter than the entrance — arriving should announce itself, leaving should not.","css":["mk-toast"],"behavior":"toast","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--secondary' data-behavior='toast'>Show toast</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>","motion":[{"label":"Enter","value":"translateY(10px) + scale(0.97) → 0 · 0.6s","note":"Rises and settles rather than sliding flat."},{"label":"Hold","value":"2.2s","note":"Long enough to read a short sentence without rushing."},{"label":"Exit","value":"translateY(6px) + scale(0.98) · 0.4s","note":"Shorter than the entrance, and removed on animationend rather than a second timer."}],"uses":[{"label":"After an action","note":"Confirms something that already happened; never asks for a response.","demo":"<div class='mk-stack mk-gap-3' style='align-items:center'><button class='mk-btn mk-btn--primary' data-behavior='toast'>Save changes</button><div data-toast-slot style='min-height:46px;display:grid;place-items:center'></div></div>"}]};
+const it = {"id":"card","name":"Card","kind":"family","group":"Display","tags":["card","surface","panel","container","hover","lift"],"aliases":["tile","box","project","item"],"note":"Rests flat inside a hairline and earns its shadow on hover — nothing in this system sits raised while idle. Add mk-card--interactive only when the whole card is clickable; a card that lifts but does nothing is a lie.","css":["mk-card","mk-card--interactive","mk-card__head","mk-card__body","mk-card__foot"],"demo":"<div class='mk-card mk-card--interactive'><div class='mk-card__body'><strong>Ground Truth</strong><p class='mk-muted' style='font-size:var(--mk-text-sm)'>Image manipulation detection for insurance claims.</p></div></div>","variants":[{"label":"Plain","demo":"<div class='mk-card'><div class='mk-card__body'><strong>Scribblz</strong></div></div>"},{"label":"Interactive","demo":"<div class='mk-card mk-card--interactive'><div class='mk-card__body'><strong>Hover me</strong></div></div>"},{"label":"With header","demo":"<div class='mk-card'><div class='mk-card__head'><strong>Verdict</strong><span class='mk-badge mk-badge--ok'>Clear</span></div><div class='mk-card__body'>No manipulation found.</div></div>"},{"label":"With footer","demo":"<div class='mk-card'><div class='mk-card__body'>Six photos analysed.</div><div class='mk-card__foot'><span class='mk-hint'>2 minutes ago</span></div></div>"}],"motion":[{"label":"Hover lift","value":"translateY(-4px) · 0.4s","note":"Twice the button's travel, because a card is a bigger object and should feel heavier."},{"label":"Shadow","value":"0 18px 40px -24px · 0.4s","note":"Long and soft rather than tight and dark, so it reads as height, not as a border."}],"uses":[{"label":"Project card","note":"The whole card is the link, so it gets the interactive class.","demo":"<div class='mk-card mk-card--interactive'><div class='mk-card__body mk-stack mk-gap-2'><span class='mk-eyebrow'>Selected work</span><strong>Ground Truth</strong><p class='mk-muted' style='font-size:var(--mk-text-sm)'>Detecting edited photos in insurance claims.</p></div></div>"},{"label":"Static panel","note":"Nothing to click, so nothing moves.","demo":"<div class='mk-card'><div class='mk-card__head'><strong>Run settings</strong></div><div class='mk-card__body mk-stack mk-gap-3'><label class='mk-switch'><input type='checkbox' checked><span class='mk-switch__track'></span>Store artifacts</label></div></div>"}]};
 const out = [];
 const section = (title, html) =>
   out.push(`<div class="pg-sec" data-section="${title.toLowerCase().replace(/\W+/g, "-")}" data-title="${title}">` +

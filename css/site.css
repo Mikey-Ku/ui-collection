@@ -178,7 +178,18 @@
 .el-cell__view > .mk-textarea,
 .el-cell__view > .mk-field,
 .el-cell__view > .mk-stack,
-.el-cell__view > .mk-row { width: 100%; }
+.el-cell__view > .mk-row,
+.el-cell__view > .mk-card,
+.el-cell__view > .mk-acc,
+.el-cell__view > .mk-tabs,
+.el-cell__view > .mk-search,
+.el-cell__view > .mk-drop,
+.el-cell__view > .mk-alert,
+.el__view > .mk-card,
+.el__view > .mk-acc,
+.el__view > .mk-tabs,
+.el__view > .mk-search,
+.el__view > .mk-drop { width: 100%; }
 
 .el-cell__tag {
   display: flex; align-items: center; justify-content: space-between; gap: var(--mk-2);
