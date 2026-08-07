@@ -1,0 +1,80 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Pages needs these to publish; the deploy job below is the only consumer.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deploy at a time. Never cancel a running one: a half-finished deploy is a
+# broken site, which is worse than a slightly stale one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      # No dependencies to install. build.mjs imports node: builtins only, and
+      # the package has no runtime deps, which is the whole point of shipping a
+      # stylesheet rather than a framework.
+      - name: Build
+        run: node build.mjs
+
+      - name: The committed pages match the registry
+        # build.mjs generates elements/<id>/index.html from registry.json and
+        # stamps the stylesheet hash into every page. Those outputs are committed
+        # so the repo can be linked directly with no build step, which means they
+        # can silently drift the moment someone edits registry.json and forgets
+        # to rebuild. Nothing else would notice: the site would still deploy, it
+        # would just be missing the element that was added.
+        run: |
+          if ! git diff --quiet; then
+            echo "::error::Committed output is stale. Run 'node build.mjs' and commit the result."
+            git diff --stat
+            exit 1
+          fi
+          echo "Generated pages are in sync with registry.json."
+
+      - name: Assemble the site
+        # Published deliberately rather than uploading the repo root, so the
+        # React source, the registry and the tooling stay out of the artifact.
+        # Every page uses relative asset paths, so this works at a custom domain
+        # or under a /repo-name/ subpath without a base-path setting.
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+          cp -r css tokens js elements dist _site/
+          cp CNAME _site/CNAME
+          # Pages runs Jekyll over the artifact unless told not to, and Jekyll
+          # strips directories beginning with an underscore.
+          touch _site/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    # Pull requests build and get drift-checked, but only main publishes.
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
